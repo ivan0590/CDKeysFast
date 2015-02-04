@@ -12,3 +12,5 @@
  */
 
 Route::get('/', 'StoreFrontController@getIndex');
+
+Route::resource('session', 'SessionController', ['only' => ['store', 'destroy']]);
