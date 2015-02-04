@@ -5,6 +5,7 @@
     </head>
 
     <body class="container">
+        
         <header class="row">
             @include('client.includes.header')
         </header>
