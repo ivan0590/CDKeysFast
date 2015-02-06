@@ -9,7 +9,7 @@ class AdminSeeder extends DatabaseSeeder {
 
     public function run() {
 
-        for ($index = 0; $index < 5; $index++) {
+        for ($index = 1; $index <= 5; $index++) {
             Admin::create([]);
         }
     }
