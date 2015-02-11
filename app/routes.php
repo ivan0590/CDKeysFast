@@ -11,6 +11,22 @@
   |
  */
 
-Route::get('/', 'StoreFrontController@getIndex');
+
+Route::get('/{sort?}', [
+    'as' => 'index',
+    'uses' => 'StoreFrontController@getIndex'
+]);
 
 Route::resource('session', 'SessionController', ['only' => ['store', 'destroy']]);
+
+Route::resource('user', 'UserController', ['except' => ['index', 'update']]);
+
+Route::get('user/create/confirm/{confirmationCode}', [
+    'as' => 'confirmation_path',
+    'uses' => 'UserController@confirm'
+]);
+
+Route::get('/info', [
+    'as' => 'info',
+    'uses' => 'StoreFrontController@getInfo'
+]);
