@@ -16,13 +16,14 @@ class CreateGamesTable extends Migration {
             $table->increments('id');
             $table->text('name')->inique();
             $table->text('description');
-            $table->text('image_path');
-            $table->integer('id_agerate')->unsigned();
-            $table->integer('id_category')->unsigned();
+            $table->text('thumbnail_image_path');
+            $table->text('offer_image_path');
+            $table->integer('agerate_id')->unsigned();
+            $table->integer('category_id')->unsigned();
             $table->timestamps();
             
-            $table->foreign('id_agerate')->references('id')->on('agerates');
-            $table->foreign('id_category')->references('id')->on('categories');
+            $table->foreign('agerate_id')->references('id')->on('agerates');
+            $table->foreign('category_id')->references('id')->on('categories');
         });
     }
 

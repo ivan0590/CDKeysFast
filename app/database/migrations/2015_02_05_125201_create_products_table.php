@@ -13,23 +13,23 @@ class CreateProductsTable extends Migration {
     public function up() {
         Schema::create('products', function ($table) {
             $table->increments('id');
-            $table->decimal('price', 5, 2)->unsigned();
-            $table->decimal('discount', 2, 2)->unsigned();
+            $table->decimal('price', 7, 2)->unsigned();
+            $table->decimal('discount', 4, 2)->unsigned()->nullable();
             $table->integer('stock')->unsigned();
             $table->boolean('highlighted');
             $table->date('launch_date');
             $table->boolean('singleplayer');
             $table->boolean('multiplayer');
             $table->boolean('cooperative');
-            $table->integer('id_game')->unsigned();
-            $table->integer('id_platform')->unsigned();
-            $table->integer('id_publisher')->unsigned();
+            $table->integer('game_id')->unsigned();
+            $table->integer('platform_id')->unsigned();
+            $table->integer('publisher_id')->unsigned();
             $table->timestamps();
             
-            $table->unique(['id_game', 'id_platform']);
-            $table->foreign('id_game')->references('id')->on('games');
-            $table->foreign('id_platform')->references('id')->on('platforms');
-            $table->foreign('id_publisher')->references('id')->on('publishers');
+            $table->unique(['game_id', 'platform_id']);
+            $table->foreign('game_id')->references('id')->on('games');
+            $table->foreign('platform_id')->references('id')->on('platforms');
+            $table->foreign('publisher_id')->references('id')->on('publishers');
         });
     }
 
