@@ -8,14 +8,15 @@
 class GameSeeder extends DatabaseSeeder {
 
     public function run() {
-        for ($index = 1; $index <= 5; $index++) {
+        for ($index = 1; $index <= 20; $index++) {
 
             Game::create([
                 'name' => "gameTest$index",
                 'description' => "gameTest$index",
-                'image_path' => "gameTest$index",
-                'id_agerate' => $index,
-                'id_category' => $index]);
+                'thumbnail_image_path' => "http://placehold.it/242x200",
+                'offer_image_path' => "http://placehold.it/854x480",
+                'agerate_id' => $index,
+                'category_id' => $index]);
         }
     }
 

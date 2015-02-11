@@ -28,7 +28,9 @@ class UserSeeder extends DatabaseSeeder {
                         'email' => "userTest$index@userTest.com",
                         'password' => Hash::make("userTest$index"),
                         'name' => "userTest$index",
-                        'surname' => "userTest$index"
+                        'surname' => "userTest$index",
+                        'confirmed' => false,
+                        'confirmation_code' => str_random(30)
             ]);
 
             $userType->get()->find($id)->user()->save($user);
