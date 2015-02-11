@@ -17,10 +17,10 @@ class SessionController extends \BaseController {
 
         //Mensajes de error
         $messages = ['email.required' => 'Formato de email incorrecto.',
-                     'email.email' => 'Formato de email incorrecto.',
-                     'password.alphaNum' => 'La contraseña ha de ser alfanumérica.',
-                     'password.required' => 'La contraseña ha de tener al menos 6 caracteres.',
-                     'password.min' => 'La contraseña ha de tener al menos 6 caracteres.'];
+            'email.email' => 'Formato de email incorrecto.',
+            'password.alphaNum' => 'La contraseña ha de ser alfanumérica.',
+            'password.required' => 'La contraseña ha de tener al menos 6 caracteres.',
+            'password.min' => 'La contraseña ha de tener al menos 6 caracteres.'];
 
         //Validación de los campos del formulario
         $validator = Validator::make(Input::all(), $validationRules, $messages);
@@ -28,22 +28,20 @@ class SessionController extends \BaseController {
         //Los campos no son válidos
         if ($validator->fails()) {
             return Redirect::to('/')
-                            ->withErrors($validator)
+                            ->withErrors($validator, 'login')
                             ->withInput(Input::except('password'));
-
-        } else {
-
-            //Validación de las credenciales del usuario
-            if (Auth::attempt(Input::only('email', 'password'), true)) {
-                return Redirect::to('/');
-                
-            //No existe usuario con esas credenciales 
-            } else {
-                return Redirect::to('/')
-                            ->withErrors(['userNotExists' => 'El email o la contraseña son incorrectas.'])
-                            ->withInput(Input::except('password'));
-            }
         }
+
+        //Validación de las credenciales del usuario
+        if (Auth::attempt(Input::only('email', 'password'), true)) {
+            return Redirect::to('/');
+
+        }
+        
+        //No existe usuario con esas credenciales 
+        return Redirect::to('/')
+                        ->withErrors(['userNotExists' => 'El email o la contraseña son incorrectas.'], 'login')
+                        ->withInput(Input::except('password'));
     }
 
     /**
@@ -54,7 +52,7 @@ class SessionController extends \BaseController {
      */
     public function destroy($id) {
         Auth::logout();
-        
+
         return Redirect::to('/');
     }
 
