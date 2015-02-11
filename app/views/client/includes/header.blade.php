@@ -1,10 +1,10 @@
-<nav class="navbar navbar-default">
+<nav class="navbar-inverse">
     <div class="container-fluid">
 
         <!-- Logo -->
         <div class="navbar-header">
-            <a class="navbar-brand" href="#index">
-                {{ HTML::image('img/cdkeysfast.svg'); }}
+            <a href="{{ URL::route('index') }}">
+                {{ HTML::image('img/cdkeysfast.svg') }}
             </a>
         </div>
 
@@ -39,7 +39,15 @@
             <ul class="nav navbar-nav navbar-right">
 
                 <!-- Registro -->
-                <li><a href="#register">Registrarse</a></li>
+                <li>
+                    {{ Form::open(['route' => ['user.create'],
+                                        'method' => 'GET',
+                                        'class' => 'navbar-form',
+                                        'role' => 'register']) }}
+
+                    {{ Form::submit('Registrarse', ['class' => 'btn btn-link']) }}
+                    {{ Form::close() }}
+                </li>
 
                 <!-- Inicio de sesión -->
                 <li class="dropdown">

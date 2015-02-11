@@ -4,18 +4,24 @@
         @include('client.includes.head')
     </head>
 
-    <body class="container">
-        
-        <header class="row">
-            @include('client.includes.header')
-        </header>
+    <body>
+        <div class="container">
 
-        <div class="row">
-            @yield('content')
+            <header class="row">
+                @include('client.includes.header')
+            </header>
+
+            <nav>
+                @include('client.includes.nav')
+            </nav>
+
+            <div class="row">
+                @yield('content')
+            </div>
+
+            <footer class="row">
+                @include('client.includes.footer')
+            </footer>
         </div>
-        
-        <header class="row">
-            @include('client.includes.footer')
-        </header>
     </body>
 </html>
