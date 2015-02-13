@@ -1,24 +1,41 @@
 <nav class="navbar-inverse">
     <div class="container-fluid">
 
-        <!-- Logo -->
+        {{-- Logo --}}
         <div class="navbar-header">
             <a href="{{ URL::route('index') }}">
                 {{ HTML::image('img/cdkeysfast.svg') }}
             </a>
         </div>
 
-        <!-- Busqueda -->
-        {{ Form::open() }} 
-        <div class="navbar-form navbar-left">
+        <div class="col-md-6">            
+            {{-- Busqueda --}}
+            {{ Form::open(['route' => ['search.show'],
+                       'method' => 'GET',
+                       'class' => 'navbar-form text-center',
+                       'role' => 'search']) }} 
             <div class="form-group">
-                <input type="text" class="form-control" placeholder="Buscar productos">
-                <a href="#advanced_search"><small>Busqueda avanzada</small></a>
-            </div>
-        </div>
-        {{ Form::close() }}
 
-        @if (Auth::check()) <!-- Perfil y logout -->
+                <div class="input-group">
+                    {{ Form::text('name', null, ['placeholder' => 'Buscar productos', 'class' => 'form-control']) }}
+                    <div class="input-group-btn btn-group">
+                        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></button>
+                        <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="#advanced_search">Busqueda avanzada</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            {{ Form::close() }}
+        </div>
+
+        {{-- Perfil y logout --}}
+        @if (Auth::check())
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#edit">{{Auth::user()->name}}</a></li>
@@ -34,11 +51,12 @@
             </ul>
         </div>
 
-        @else <!-- Registro y login -->
+
+        {{-- Registro y login --}}
+        @else
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
 
-                <!-- Registro -->
                 <li>
                     {{ Form::open(['route' => ['user.create'],
                                         'method' => 'GET',
@@ -49,13 +67,13 @@
                     {{ Form::close() }}
                 </li>
 
-                <!-- Inicio de sesión -->
                 <li class="dropdown">
-                    <a data-placement="bottom" data-toggle="login" data-container="body">Iniciar sesión</a>
+                    <a data-placement="bottom" data-toggle="login" data-container="body" class='btn'>Iniciar sesión</a>
                     @include('client.includes.login')
                 </li>
             </ul>
         </div>
         @endif
+
     </div>
 </nav>

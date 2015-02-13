@@ -23,7 +23,19 @@
                 <a href="#product">
                     {{ HTML::image($product->game->offer_image_path, $product->game->name, ['class' => 'img-responsive center-block']) }}
                     <div class="carousel-caption">
-                        {{ $product->game->name }}
+                        <h2>
+                            {{ $product->game->name }}
+                            ({{ HTML::image($product->platform->icon_path, $product->game->name) }})
+                        </h2>
+                        
+                        @if(Auth::check())
+                        <h3>
+                            {{ floatval($product->price * ((100 - $product->discount) / 100)) }} € 
+                            <span class="label label-default">-{{ floatval($product->discount)}}%</span>
+                        </h3>
+                        @else
+                        <h3>{{ floatval($product->price) }} €</h3>
+                        @endif
                     </div>
                 </a>
             </div>
@@ -43,30 +55,12 @@
     </div>
 
     @if(Auth::check())
-    @include('client.includes.products_header', ['title' => 'Productos destacados con descuento'])
+    @include('client.includes.products', ['header_title' => 'Productos destacados con descuento',
+                                          'show_platform_icon' => true])
     @else
-    @include('client.includes.products_header', ['title' => 'Productos destacados'])
+    @include('client.includes.products', ['header_title' => 'Productos destacados',
+                                          'show_platform_icon' => true])
     @endif
     
-    <div class="col-md-12">
-        <div class="thumnails col-md-11">
-            @foreach ($highlightedProducts as $index => $product)
-            <div class="col-md-3 col-md-offset-1 thumbnail">
-                <a href="#product">
-                    {{ HTML::image($product->game->thumbnail_image_path, $product->game->name) }}
-                    <div class="caption">
-                        <p class="pull-right">{{ floatval($product->price) }} €</p>
-                        <p class="pull-left">{{ $product->platform->name }}</p>
-                    </div>
-                </a>
-            </div>
-            @endforeach
-        </div>
-
-        <div class="col-md-4 col-md-offset-4 text-center">
-            {{ $highlightedProducts->links() }}
-        </div>
-    </div>    
-
 </div>
 @stop
