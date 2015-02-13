@@ -7,56 +7,31 @@ class StoreFrontController extends \BaseController {
      *
      * @return index
      */
-    public function getIndex($sort = null) {
-
+    public function getIndex() {
 
         //Productos destacados
         $highlightedProducts = Product::join('games', 'products.game_id', '=', 'games.id')
                 ->where('highlighted', '=', true);
 
-        //Productos destacados con descuento para usuarios registrados
+        //Productos destacados y ofertas con descuento
         if (Auth::check()) {
             $highlightedProducts = $highlightedProducts->whereNotNull('discount');
-        
-        //Productos destacados sin descuento para invitados
+            $offerProducts = Product::whereNotNull('discount')->get()->sortByDesc('discount')->take(5);
+
+            //Productos destacados y ofertas sin descuento
         } else {
             $highlightedProducts = $highlightedProducts->whereNull('discount');
+            $offerProducts = Product::whereNull('discount')->get()->sortBy('price')->take(5);
         }
 
-        //Ordenación de los productos
-        switch ($sort) {
-            //Precio ascendente
-            case 'price-asc':
-                $column = 'products.price';
-                $direction = 'asc';
-                break;
-            
-            //Precio descendente
-            case 'price-desc':
-                $column = 'products.price';
-                $direction = 'desc';
-                break;
+        //Productos destacados, con o sin descuento, ordenados por nombre, precio o descuento
+        $highlightedProducts = $highlightedProducts
+                        ->orderBy(Input::get('sort', 'name'), Input::get('sort_dir', 'asc'))->paginate(15);
 
-            //Nombre ascendente
-            case 'name-desc':
-                $column = 'games.name';
-                $direction = 'desc';
-                break;
-            
-            //Nombre descendente
-            default:
-                $column = 'games.name';
-                $direction = 'asc';
-                break;
-        }
-        
-        //Los cinco productos destacados más baratos
-        $offerProducts = $highlightedProducts->orderBy('products.price', 'asc')->get()->take(5);
-        
         //Página de inicio con los productos destacados paginados de 15 en 15 y ordenados
         return View::make('client.pages.index')
-                ->with('highlightedProducts',$highlightedProducts->orderBy($column, $direction)->paginate(15))
-                    ->with('offerProducts', $offerProducts);
+                        ->with('products', $highlightedProducts)
+                        ->with('offerProducts', $offerProducts);
     }
 
     public function getInfo() {
