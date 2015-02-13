@@ -85,3 +85,41 @@ Route::filter('csrf', function()
 		throw new Illuminate\Session\TokenMismatchException;
 	}
 });
+
+/*
+|--------------------------------------------------------------------------
+| Other filters
+|--------------------------------------------------------------------------
+*/
+
+Route::filter('sort', function()
+{
+    
+        //Reglas de validación para los parámetros de ordenación
+        $validationRules = [
+            'sort' => 'in:price,name,discount',
+            'sort_dir' => 'in:asc,desc'
+        ];
+
+        //Validación
+        $validator = Validator::make(Input::only('sort', 'sort_dir'), $validationRules);
+
+        //No se pasa la validación y se redirige con valores de ordenación por defecto
+        if ($validator->fails() || (Input::get('sort') === 'discount' && !Auth::check())) {
+            
+            return Redirect::route(Route::currentRouteName(),
+                                   ['sort' => 'name', 'sort_dir' => 'asc']);
+        }
+        
+});
+
+
+/*
+|--------------------------------------------------------------------------
+| Composers
+|--------------------------------------------------------------------------
+*/
+
+View::composer('client.includes.nav', function($view) {
+    $view->with('platforms', Platform::all());
+});
