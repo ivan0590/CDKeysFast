@@ -1,5 +1,5 @@
 <div class="dropdown-menu" id="login">
-    {{ Form::open(['action' => 'session.store', 'role' => 'login']) }}
+    {{ Form::open(['action' => 'session.store']) }}
 
     <div class="form-group">
         <div class="form-group">
@@ -21,10 +21,15 @@
     </div>
 
     <div>
-        @foreach ($errors->login->all() as $error)
+        @foreach ($errors->login->all() as $key => $error)
         <div class="alert alert-danger login-error" role="alert">
             <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-            <small>{{ $error }}</small>
+            <small>
+                {{ $error }}
+                @if($errors->login->get('userNotConfirmed') === [$error])
+                {{ HTML::linkAction('send_verify', 'Volver a enviar email de confirmación', Input::old('email')) }}
+                @endif
+            </small>
         </div>        
         @endforeach
     </div>

@@ -1,6 +1,12 @@
 <?php
 
+use Repositories\User\UserRepositoryInterface as UserRepositoryInterface;
+
 class SessionController extends \BaseController {
+
+    public function __construct(UserRepositoryInterface $user) {
+        $this->user = $user;
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -27,19 +33,32 @@ class SessionController extends \BaseController {
 
         //Los campos no son válidos
         if ($validator->fails()) {
-            return Redirect::to('/')
+            return Redirect::route('index')
                             ->withErrors($validator, 'login')
                             ->withInput(Input::except('password'));
         }
 
-        //Validación de las credenciales del usuario
-        if (Auth::attempt(Input::only('email', 'password'), true)) {
-            return Redirect::to('/');
 
+
+        //Las credenciales del usuario son válidas
+        if (Auth::validate(Input::only('email', 'password'))) {
+
+            //El usuario todavía no ha confirmado su email
+            if (!$this->user->emailConfirmed(Input::get('email'))) {
+
+                return Redirect::route('index')
+                                ->withErrors(['userNotConfirmed' => 'Has de confirmar tu email antes de poder loguearte.'], 'login')
+                                ->withInput(Input::except('password'));
+            }
+
+            //Se intenta iniciar sesión
+            if (Auth::attempt(Input::only('email', 'password'), true)) {
+                return Redirect::route('index');
+            }
         }
-        
+
         //No existe usuario con esas credenciales 
-        return Redirect::to('/')
+        return Redirect::route('index')
                         ->withErrors(['userNotExists' => 'El email o la contraseña son incorrectas.'], 'login')
                         ->withInput(Input::except('password'));
     }
@@ -53,7 +72,7 @@ class SessionController extends \BaseController {
     public function destroy($id) {
         Auth::logout();
 
-        return Redirect::to('/');
+        return Redirect::route('index');
     }
 
 }

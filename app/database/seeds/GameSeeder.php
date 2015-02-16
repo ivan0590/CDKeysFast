@@ -13,8 +13,8 @@ class GameSeeder extends DatabaseSeeder {
             Game::create([
                 'name' => "gameTest$index",
                 'description' => "gameTest$index",
-                'thumbnail_image_path' => "http://placehold.it/242x200",
-                'offer_image_path' => "http://placehold.it/854x480",
+                'thumbnail_image_path' => "http://placehold.it/242x200&text=gameTest$index",
+                'offer_image_path' => "http://placehold.it/854x480&text=gameTest$index",
                 'agerate_id' => $index,
                 'category_id' => $index]);
         }

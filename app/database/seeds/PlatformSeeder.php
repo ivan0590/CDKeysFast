@@ -13,7 +13,7 @@ class PlatformSeeder extends DatabaseSeeder {
             Platform::create([
                 'name' => "platformTest$index",
                 'description' => "platformTest$index",
-                'icon_path' => "platformTest$index"]);
+                'icon_path' => "http://placehold.it/48x48&text=platformTest$index"]);
         }
     }
 

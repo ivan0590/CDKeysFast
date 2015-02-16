@@ -50,3 +50,4 @@ Temporary Items
 composer.phar
 composer.lock
 
+app/controllers/.LCKPlatformController.php~

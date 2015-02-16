@@ -1,11 +1,11 @@
 @extends('client.layouts.client')
 @section('content')
 <div>
-    @foreach ($errors->all() as $error)
-    <div class="alert alert-danger login-error" role="alert">
-        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+    @foreach($errors->confirm->all() as $error)
+    <div class="alert alert-warning">
+        <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
         {{ $error }}
-    </div>        
+    </div>
     @endforeach
     
     @if($message)
@@ -14,5 +14,6 @@
         {{ $message }}
     </div>
     @endif
+    
 </div>
 @stop

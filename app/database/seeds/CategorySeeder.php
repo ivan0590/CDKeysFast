@@ -11,8 +11,7 @@ class CategorySeeder extends DatabaseSeeder {
         for ($index = 1; $index <= 20; $index++) {
             Category::create([
                 'name' => "categoryTest$index",
-                'description' => "categoryTest$index",
-                'icon_path' => "categoryTest$index"]);
+                'description' => "categoryTest$index"]);
         }
     }
 

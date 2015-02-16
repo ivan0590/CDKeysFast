@@ -1,6 +1,12 @@
 <?php
 
+use Repositories\User\UserRepositoryInterface as UserRepositoryInterface;
+
 class UserController extends \BaseController {
+
+    public function __construct(UserRepositoryInterface $user) {
+        $this->user = $user;
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -8,7 +14,12 @@ class UserController extends \BaseController {
      * @return Response
      */
     public function create() {
-        return View::make('client.pages.register');
+
+        //Miga de pan
+        Breadcrumb::addBreadcrumb('Inicio', URL::route('index'));
+        Breadcrumb::addBreadcrumb('Registrarse');
+
+        return View::make('client.pages.register')->with('breadcrumbs', Breadcrumb::generate());
     }
 
     /**
@@ -43,35 +54,39 @@ class UserController extends \BaseController {
                             ->withErrors($validator, 'register')
                             ->withInput(Input::except('password'));
         }
-
-        $userExists = !User::where('email', Input::get('email'))->get()->isEmpty();
-
-
+        
         //Ya existe un usuario con ese email
-        if ($userExists) {
+        if ($this->user->emailExists(Input::get('email'))) {
             return Redirect::route('user.create')
                             ->withErrors(['userExists' => 'Ya existe un usuario con ese email.'], 'register')
                             ->withInput(Input::except('password'));
         }
 
-        //Código de confirmación
-        $confirmationCode = str_random(30);
-
-        //Se crea el usuario
-        $user = new User;
-        $user->email = Input::get('email');
-        $user->password = Hash::make(Input::get('password'));
-        $user->confirmed = false;
-        $user->confirmation_code = $confirmationCode;
-        $user->save();
+        $this->user->create(Input::get('email'), Input::get('password'));
 
         //Se envía el email
-        Mail::send('emails.verify', ['confirmation_code' => $confirmationCode], function($message) {
-            $message->to(Input::get('email'))
-                    ->subject('Verifica tu dirección de correo electrónico');
-        });
+        $this->sendConfirmationCode(Input::get('email'));
 
-        return Redirect::route('info')->with('message', '¡Gracias por registrate! Por favor, revisa tu correo.');
+        //Miga de pan
+        Breadcrumb::addBreadcrumb('Inicio', URL::route('index'));
+        Breadcrumb::addBreadcrumb('Aviso');
+
+        return Redirect::route('info')
+                        ->with('breadcrumbs', Breadcrumb::generate())
+                        ->with('message', '¡Gracias por registrate! Por favor, revisa tu correo.');
+    }
+
+    public function sendConfirmationCode($email) {
+
+        $confirmationCode = $this->user->getConfirmationCode($email);
+
+        if ($confirmationCode) {
+            Mail::send('emails.verify', ['confirmation_code' => $confirmationCode], function($message) use ($email) {
+                $message->to($email)->subject('Verifica tu dirección de correo electrónico');
+            });
+        }
+
+        return Redirect::back();
     }
 
     public function confirm($confirmationCode) {
@@ -81,17 +96,21 @@ class UserController extends \BaseController {
             return Redirect::route('info')->withErrors(['errorWithCode' => 'El código de confirmación no es correcto'], 'confirm');
         }
 
-        $user = User::where('confirmation_code', '=', $confirmationCode)->first();
+        $user = $this->user->getByConfirmationCode($confirmationCode);
 
         if (!$user) {
             return Redirect::route('info')->withErrors(['errorWithUser' => 'No hay ningún usuario para ese código de confirmación'], 'confirm');
         }
 
-        $user->confirmed = true;
-        $user->confirmation_code = null;
-        $user->save();
+        $this->user->confirmEmail($user->id);
+        
+        //Miga de pan
+        Breadcrumb::addBreadcrumb('Inicio', URL::route('index'));
+        Breadcrumb::addBreadcrumb('Aviso');
 
-        return Redirect::route('info')->with('message', 'El email se ha confirmado.');
+        return Redirect::route('info')
+                        ->with('breadcrumbs', Breadcrumb::generate())
+                        ->with('message', 'El email se ha confirmado.');
     }
 
     /**

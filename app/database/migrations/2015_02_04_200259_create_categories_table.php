@@ -15,7 +15,6 @@ class CreateCategoriesTable extends Migration {
             $table->increments('id');
             $table->text('name')->inique();
             $table->text('description');
-            $table->text('icon_path');
             $table->timestamps();
         });
     }

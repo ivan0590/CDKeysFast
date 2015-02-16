@@ -14,7 +14,9 @@
             <nav>
                 @include('client.includes.nav')
             </nav>
-
+            
+            {{ $breadcrumbs }}
+            
             <div class="row">
                 @yield('content')
             </div>

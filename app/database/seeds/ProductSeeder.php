@@ -19,7 +19,7 @@ class ProductSeeder extends DatabaseSeeder {
                         'discount' => $index <= 25 || ($index > 50 && $index <= 75) ? $index : null,
                         'stock' => $index,
                         'highlighted' => $index <= 50,
-                        'launch_date' => new DateTime('06/02/2015'),
+                        'launch_date' => new DateTime(" - $index days"),
                         'singleplayer' => true,
                         'multiplayer' => true,
                         'cooperative' => true,

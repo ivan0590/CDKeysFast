@@ -1,6 +1,12 @@
 <?php
 
+use Repositories\Product\ProductRepositoryInterface as ProductRepositoryInterface;
+
 class StoreFrontController extends \BaseController {
+
+    public function __construct(ProductRepositoryInterface $product) {
+        $this->product = $product;
+    }
 
     /**
      * Página principal
@@ -10,33 +16,39 @@ class StoreFrontController extends \BaseController {
     public function getIndex() {
 
         //Productos destacados
-        $highlightedProducts = Product::join('games', 'products.game_id', '=', 'games.id')
-                ->where('highlighted', '=', true);
+        $highlightedProducts = $this->product->paginateHighlighted(null, Auth::check(), Input::get('sort', 'name'), Input::get('sort_dir', 'asc'));
 
-        //Productos destacados y ofertas con descuento
+        //Los 5 productos con mayor descuento
         if (Auth::check()) {
-            $highlightedProducts = $highlightedProducts->whereNotNull('discount');
-            $offerProducts = Product::whereNotNull('discount')->get()->sortByDesc('discount')->take(5);
-
-            //Productos destacados y ofertas sin descuento
+            $offerProducts = $this->product->all(true, 'discount', 'desc');
+        //Los 5 productos más baratos
         } else {
-            $highlightedProducts = $highlightedProducts->whereNull('discount');
-            $offerProducts = Product::whereNull('discount')->get()->sortBy('price')->take(5);
+            $offerProducts = $this->product->all(false, 'price', 'asc');
         }
-
-        //Productos destacados, con o sin descuento, ordenados por nombre, precio o descuento
-        $highlightedProducts = $highlightedProducts
-                        ->orderBy(Input::get('sort', 'name'), Input::get('sort_dir', 'asc'))->paginate(15);
+                
+        //Miga de pan
+        Breadcrumb::addBreadcrumb('Inicio');
 
         //Página de inicio con los productos destacados paginados de 15 en 15 y ordenados
         return View::make('client.pages.index')
+                        ->with('breadcrumbs', Breadcrumb::generate())
                         ->with('products', $highlightedProducts)
                         ->with('offerProducts', $offerProducts);
     }
 
     public function getInfo() {
 
-        return View::make('client.pages.info')->with('message', Session::get('message'));
+        if (!Session::has('message') && !Session::has('errors')) {
+            return Redirect::route('index');
+        }
+
+        //Miga de pan
+        Breadcrumb::addBreadcrumb('Inicio', URL::route('index'));
+        Breadcrumb::addBreadcrumb('Aviso');
+
+        return View::make('client.pages.info')
+                        ->with('breadcrumbs', Breadcrumb::generate())
+                        ->with('message', Session::get('message'));
     }
 
 }
