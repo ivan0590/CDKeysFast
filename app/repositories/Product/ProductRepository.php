@@ -11,28 +11,22 @@ use \Product as Product;
  */
 class ProductRepository implements ProductRepositoryInterface {
 
-    public function paginateHighlighted($platformId = null,
-                                        $discounted = null,
-                                        $sort = 'name',
-                                        $sortDir = 'asc',
-                                        $pagination = 15) {
-
+    public function paginateHighlighted($platformId = null, $discounted = null, $sort = 'name', $sortDir = 'asc', $pagination = 15) {
 
         $products = Product::join('games', 'products.game_id', '=', 'games.id')
                 ->where('highlighted', '=', true);
 
-        if($platformId){
+        if ($platformId) {
             $products = $products->where('platform_id', '=', $platformId);
         }
-        
+
         if ($discounted) {
             $products = $products->whereNotNull('discount');
         } else if ($discounted === false) {
             $products = $products->whereNull('discount');
         }
-        
-        return $products->orderBy($sort, $sortDir)->paginate($pagination);
 
+        return $products->orderBy($sort, $sortDir)->paginate($pagination);
     }
 
     public function paginateSimpleSearch($name = null, $sort = 'name', $sortDir = 'asc', $pagination = 15) {
@@ -107,7 +101,16 @@ class ProductRepository implements ProductRepositoryInterface {
             $products = $products->where('launch_date', '>=', $data['launch_date']);
         }
 
-        return $products->orderBy($sort, $sortDir)->paginate(15);
+        return $products->orderBy($sort, $sortDir)->paginate($pagination);
+    }
+
+    public function paginateByPlatformAndCategory($platformId, $categoryId, $sort = 'name', $sortDir = 'asc', $pagination = 15) {
+
+        $products = Product::join('games', 'products.game_id', '=', 'games.id')
+                ->where('category_id', '=', $categoryId)
+                ->where('platform_id',  '=', $platformId);
+
+        return $products->orderBy($sort, $sortDir)->paginate($pagination);
     }
 
     public function all($discounted = null, $sort = 'price', $sortDir = 'asc') {
@@ -121,7 +124,6 @@ class ProductRepository implements ProductRepositoryInterface {
         }
 
         return $products->orderBy($sort, $sortDir)->get();
-
     }
 
 }

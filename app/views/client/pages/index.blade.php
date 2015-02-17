@@ -55,10 +55,12 @@
     </div>
 
     @if(Auth::check())
-    @include('client.includes.products', ['header_title' => 'Productos destacados con descuento',
+    @include('client.includes.products_list', ['header_title' => 'Productos destacados con descuento',
+                                          'header_icon_path'  => null,
                                           'show_platform_icon' => true])
     @else
-    @include('client.includes.products', ['header_title' => 'Productos destacados',
+    @include('client.includes.products_list', ['header_title' => 'Productos destacados',
+                                          'header_icon_path'  => null,
                                           'show_platform_icon' => true])
     @endif
     

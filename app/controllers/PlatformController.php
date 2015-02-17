@@ -40,8 +40,8 @@ class PlatformController extends \BaseController {
         if (!$platform) {
             return Redirect::route('index');
         }
-
-        $categories = $this->category->getByPlatformWhereHasProducts($platform->id, 6);
+                
+        $categories = $this->category->getByPlatformWhereHasProducts($platform->id);
         
         $products = $this->product->paginateHighlighted($platform->id, Auth::check(), Input::get('sort', 'name'), Input::get('sort_dir', 'asc'));
         
@@ -50,7 +50,7 @@ class PlatformController extends \BaseController {
         Breadcrumb::addBreadcrumb($platform->name);
 
         return View::make('client.pages.platform')
-                        ->with('platformName', $platform->name)
+                        ->with('platform', $platform)
                         ->with('categories', $categories)
                         ->with('products', $products)
                         ->with('breadcrumbs', Breadcrumb::generate());

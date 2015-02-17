@@ -33,7 +33,7 @@ class SessionController extends \BaseController {
 
         //Los campos no son válidos
         if ($validator->fails()) {
-            return Redirect::route('index')
+            return Redirect::back()
                             ->withErrors($validator, 'login')
                             ->withInput(Input::except('password'));
         }
@@ -46,19 +46,19 @@ class SessionController extends \BaseController {
             //El usuario todavía no ha confirmado su email
             if (!$this->user->emailConfirmed(Input::get('email'))) {
 
-                return Redirect::route('index')
+                return Redirect::back()
                                 ->withErrors(['userNotConfirmed' => 'Has de confirmar tu email antes de poder loguearte.'], 'login')
                                 ->withInput(Input::except('password'));
             }
 
             //Se intenta iniciar sesión
             if (Auth::attempt(Input::only('email', 'password'), true)) {
-                return Redirect::route('index');
+                return Redirect::back();
             }
         }
 
         //No existe usuario con esas credenciales 
-        return Redirect::route('index')
+        return Redirect::back()
                         ->withErrors(['userNotExists' => 'El email o la contraseña son incorrectas.'], 'login')
                         ->withInput(Input::except('password'));
     }

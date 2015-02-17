@@ -15,10 +15,24 @@ interface ProductRepositoryInterface {
                                         $sortDir = 'asc',
                                         $pagination = 15);
     
-    public function paginateSimpleSearch($name = null, $sort = 'name', $sortDir = 'asc', $pagination = 15);
+    public function paginateSimpleSearch($name = null,
+                                         $sort = 'name',
+                                         $sortDir = 'asc',
+                                         $pagination = 15);
     
-    public function paginateAdvancedSearch($data = [], $sort = 'name', $sortDir = 'asc', $pagination = 15);
+    public function paginateAdvancedSearch($data = [], 
+                                           $sort = 'name',
+                                           $sortDir = 'asc',
+                                           $pagination = 15);
     
-    public function all($discounted = null, $sort = 'name', $sortDir = 'asc');
+    public function paginateByPlatformAndCategory($platformId,
+                                                  $categoryId,
+                                                  $sort = 'name',
+                                                  $sortDir = 'asc',
+                                                  $pagination = 15);
+    
+    public function all($discounted = null,
+                        $sort = 'name',
+                        $sortDir = 'asc');
     
 }

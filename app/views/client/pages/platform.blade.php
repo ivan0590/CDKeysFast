@@ -4,28 +4,26 @@
 <div>
     <div class="panel panel-default">
         <div class="panel-heading clearfix">
-            <h3 class="navbar-text">Categorías en {{ $platformName }}</h3>
+            <h3 class="navbar-text">Categorías en {{ $platform->name }}</h3>
         </div>
 
         <div class="panel-body">
 
-            @foreach ($categories as $chunk)
-                <ul class="nav">
-                @foreach ($chunk as $category)
+            <ul class="nav">
+                @foreach ($categories as $category)
                 <li class=" nav-pills text-left col-md-2">
-                        <a href="#category" >
-                            {{ Form::label(null, $category->name) }}
-                        </a>
-                    </li>
+                    <a href="{{ URL::route('platform.category.show', ['platform_id' => $platform->id, 'category_id' => $category->id]) }}" >
+                        {{ Form::label(null, $category->name) }}
+                    </a>
+                </li>
                 @endforeach
-                </ul>
-            @endforeach
+            </ul>
         </div>
     </div>        
 </div>
 
-@include('client.includes.products',['header_title' => "Productos destacados en $platformName",
+@include('client.includes.products_list',['header_title' => "Productos destacados en $platform->name",
+                                     'header_icon_path'  => null,
                                      'show_platform_icon' => false])
-@stop
 
 @stop

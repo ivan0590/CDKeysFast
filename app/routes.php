@@ -37,6 +37,9 @@ Route::resource('user', 'UserController', ['except' => ['index', 'update']]);
 //Plataforma
 Route::resource('platform', 'PlatformController', ['except' => ['index', 'create', 'edit']]);
 
+//Categoría
+Route::resource('platform.category', 'CategoryController', ['except' => ['index', 'create', 'edit']]);
+
 //Enviar emails
 Route::group(['prefix' => 'send'], function () {
    

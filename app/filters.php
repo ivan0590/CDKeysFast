@@ -112,6 +112,33 @@ View::composer('client.includes.nav', function($view) {
     $view->with('platforms', Platform::all());
 });
 
+//Para generar las opciones de ordenación de products
+View::composer(['client.includes.products_list'], function($view) {
+
+    //Opciones que siempre están
+    $permanent = [
+        ['label' => 'Juego A-Z', 'parameters' => ['sort' => 'name', 'sort_dir' => 'asc', 'page' => '1']],
+        ['label' => 'Juego Z-A', 'parameters' => ['sort' => 'name', 'sort_dir' => 'desc', 'page' => '1']]
+    ];
+
+    //Ordenar por descuento en caso estar logueado
+    if (Auth::check()) {
+        $dinamic = [
+            ['label' => 'Menores descuentos', 'parameters' => ['sort' => 'discount', 'sort_dir' => 'asc', 'page' => '1']],
+            ['label' => 'Mayores descuentos', 'parameters' => ['sort' => 'discount', 'sort_dir' => 'desc', 'page' => '1']]
+        ];
+        
+    //Ordenar por precio en caso contrario
+    } else {
+        $dinamic = [
+            ['label' => 'Precio ascendente', 'parameters' => ['sort' => 'price', 'sort_dir' => 'asc', 'page' => '1']],
+            ['label' => 'Precio descendente', 'parameters' => ['sort' => 'price', 'sort_dir' => 'desc', 'page' => '1']]
+        ];
+    }
+    
+    $view->with('orderBy', array_merge($permanent, $dinamic));
+});
+
 View::composer('client.pages.advanced_search', function($view) {
 
     $models = ['platforms' => 'Platform',

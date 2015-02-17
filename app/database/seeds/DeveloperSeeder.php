@@ -9,7 +9,7 @@ class DeveloperSeeder extends DatabaseSeeder {
 
     public function run() {
 
-        for ($index = 1; $index <= 20; $index++) {
+        for ($index = 1; $index <= 40; $index++) {
             Developer::create(['name' => "developerTest$index"]);
         }
     }

@@ -8,6 +8,8 @@ namespace Repositories\Category;
  */
 interface CategoryRepositoryInterface {
 
-    public function getByPlatformWhereHasProducts($platformId, $chunk);
+    public function find($id);
+    
+    public function getByPlatformWhereHasProducts($platformId);
     
 }
