@@ -40,6 +40,9 @@ Route::resource('platform', 'PlatformController', ['except' => ['index', 'create
 //Categoría
 Route::resource('platform.category', 'CategoryController', ['except' => ['index', 'create', 'edit']]);
 
+//Producto
+Route::resource('platform.category.product', 'ProductController', ['except' => ['index', 'create', 'edit']]);
+
 //Enviar emails
 Route::group(['prefix' => 'send'], function () {
    

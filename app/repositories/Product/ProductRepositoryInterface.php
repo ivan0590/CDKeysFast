@@ -9,6 +9,8 @@ namespace Repositories\Product;
  */
 interface ProductRepositoryInterface {
     
+    public function exists($id, $platformId = null, $categoryId = null);
+            
     public function paginateHighlighted($platformId = null,
                                         $discounted = null,
                                         $sort = 'name',

@@ -4,7 +4,7 @@ use Repositories\Platform\PlatformRepositoryInterface as PlatformRepositoryInter
 use Repositories\Category\CategoryRepositoryInterface as CategoryRepositoryInterface;
 use Repositories\Product\ProductRepositoryInterface   as ProductRepositoryInterface;
 
-class PlatformController extends \BaseController {
+class ProductController extends \BaseController {
 
     public function __construct(PlatformRepositoryInterface $platform,
                                 CategoryRepositoryInterface $category,
@@ -26,37 +26,32 @@ class PlatformController extends \BaseController {
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $platformId
      * @return Response
      */
-    public function show($id) {
+    public function show($platformId, $categoryId, $productId) {
 
-        //Plataforma no existente para ese id
-        if (!$this->platform->exists($id)) {
+        //Producto no existente para ese id, plataforma y categoría
+        if (!$this->product->exists($productId, $platformId, $categoryId)) {
             return Redirect::route('index');
         }
 
-        //Se añade el id de la plataforma al input
-        Input::replace(array_merge(['platform_id' => $id], Input::all()));
+        //Se añaden los ids de la plataforma, la categoría y el producto  al input
+        Input::replace(array_merge(['platform_id' => $platformId, 'category_id' => $categoryId, 'product_id' => $productId],
+                                   Input::all()));
         
-        //Plataforma
-        $platform = $this->platform->find($id);
-                
-        //Categorías
-        $categories = $this->category->getByPlatformWhereHasProducts($platform->id);
-        
-        //Productos destacados de la plataforma
-        $products = $this->product->paginateHighlighted($platform->id, Auth::check(), Input::get('sort', 'name'), Input::get('sort_dir', 'asc'));
+        //Producto
+        $product = $this->product->find($productId);
         
         //Miga de pan
         Breadcrumb::addBreadcrumb('Inicio', URL::route('index'));
-        Breadcrumb::addBreadcrumb($platform->name);
+        Breadcrumb::addBreadcrumb($product->platform->name, URL::route('platform.show', ['platform_id' => $productId]));
+        Breadcrumb::addBreadcrumb($product->game->category->name, URL::route('platform.category.show', ['platform_id' => $platformId, 'category_id' => $categoryId]));
+        Breadcrumb::addBreadcrumb($product->game->name);
 
-        return View::make('client.pages.platform')
-                        ->with('platform', $platform)
-                        ->with('categories', $categories)
-                        ->with('products', $products)
-                        ->with('breadcrumbs', Breadcrumb::generate());
+        return View::make('client.pages.product')
+                ->with('product', $product)
+                ->with('breadcrumbs', Breadcrumb::generate());
     }
 
     /**

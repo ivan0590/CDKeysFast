@@ -3,7 +3,6 @@
 namespace Repositories\Platform;
 
 use \Platform as Platform;
-use \Category as Category;
 
 /**
  * Description of PlatformRepository
@@ -11,6 +10,10 @@ use \Category as Category;
  * @author Ivan
  */
 class PlatformRepository implements PlatformRepositoryInterface {
+
+    public function exists($id) {
+        return !Platform::where('id', '=', $id)->get()->isEmpty();
+    }
 
     public function find($id) {
         return Platform::find($id);

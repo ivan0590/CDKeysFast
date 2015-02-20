@@ -3,6 +3,8 @@
 namespace Repositories\User;
 
 use \User as User;
+use \Client as Client;
+use \Admin as Admin;
 use \Hash as Hash;
 
 /**
@@ -12,16 +14,21 @@ use \Hash as Hash;
  */
 class UserRepository implements UserRepositoryInterface {
 
-    public function create($email, $password) {
+    public function createClient($email, $password) {
 
-        //Se crea el usuario
+        //Rol de cliente
+        $client = new Client;
+        $client->save();
+        
+        //Datos de perfil de usuario
         $user = new User;
         $user->email = $email;
         $user->password = Hash::make($password);
         $user->confirmed = false;
         $user->confirmation_code = str_random(30);
 
-        return $user->save();
+        //Se crea el usuario con el rol de cliente
+        return $client->user()->save($user);
     }
 
     public function emailExists($email) {

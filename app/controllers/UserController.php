@@ -62,7 +62,7 @@ class UserController extends \BaseController {
                             ->withInput(Input::except('password'));
         }
 
-        $this->user->create(Input::get('email'), Input::get('password'));
+        $this->user->createClient(Input::get('email'), Input::get('password'));
 
         //Se envía el email
         $this->sendConfirmationCode(Input::get('email'));

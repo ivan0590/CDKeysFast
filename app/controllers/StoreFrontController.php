@@ -20,10 +20,10 @@ class StoreFrontController extends \BaseController {
 
         //Los 5 productos con mayor descuento
         if (Auth::check()) {
-            $offerProducts = $this->product->all(true, 'discount', 'desc');
+            $offerProducts = $this->product->all(true, 'discount', 'desc')->take(5);
         //Los 5 productos más baratos
         } else {
-            $offerProducts = $this->product->all(false, 'price', 'asc');
+            $offerProducts = $this->product->all(false, 'price', 'asc')->take(5);
         }
                 
         //Miga de pan

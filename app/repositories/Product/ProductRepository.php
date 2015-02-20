@@ -11,6 +11,27 @@ use \Product as Product;
  */
 class ProductRepository implements ProductRepositoryInterface {
 
+    public function exists($id, $platformId = null, $categoryId = null) {
+        
+        $product = Product::where('id', '=', $id);
+        
+        if($platformId){
+            $product = $product->where('platform_id', '=', $platformId);
+        }
+        
+        if($categoryId){
+            $product = $product->whereHas('game', function ($query) use ($categoryId) {
+                $query->where('category_id', '=', $categoryId);
+            });
+        }
+                
+        return !$product->get()->isEmpty();
+    }
+    
+    public function find($id) {
+        return Product::find($id);
+    }
+    
     public function paginateHighlighted($platformId = null, $discounted = null, $sort = 'name', $sortDir = 'asc', $pagination = 15) {
 
         $products = Product::join('games', 'products.game_id', '=', 'games.id')

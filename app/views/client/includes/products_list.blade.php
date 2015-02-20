@@ -47,27 +47,36 @@
                 <ul class="thumnails col-md-11">
                     @foreach ($products as $index => $product)
                     <li class="col-md-3 col-md-offset-1 thumbnail">
-                        <a href="#product">
+                        <a href="{{ URL::route('platform.category.product.show',
+                                                   ['platform_id' => $product->platform->id,
+                                                    'category_id' => $product->game->category_id,
+                                                    'product_id'  => $product->id
+                                                   ]) }}">
                             {{ HTML::image($product->game->thumbnail_image_path, $product->game->name) }}
                         </a>
 
                         <div class="caption">
                             @if($show_platform_icon)
-                            <a href="#platform" class="pull-left">
+                            <a href="{{ URL::route('platform.show',
+                                                   ['platform_id' => $product->platform->id
+                                                   ]) }}" class="pull-left">
                                 {{ HTML::image($product->platform->icon_path, $product->platform->name) }}
                             </a>
                             @endif
-                            <a href="#product">
+                            <a href="{{ URL::route('platform.category.product.show',
+                                                   ['platform_id' => $product->platform->id,
+                                                    'category_id' => $product->game->category_id,
+                                                    'product_id'  => $product->id
+                                                   ]) }}">
                                 <div class="text-center">
-
-                                    @if(Auth::check() && $product->discount)
                                     <h3>
+                                    @if(Auth::check() && $product->discount)
                                         {{ floatval($product->price * ((100 - $product->discount) / 100)) }} € 
                                         <span class="label label-default">-{{ floatval($product->discount)}}%</span>
-                                    </h3>
                                     @else
-                                    <h3>{{ floatval($product->price) }} €</h3>
+                                        {{ floatval($product->price) }} €
                                     @endif
+                                    </h3>
                                 </div>
                             </a>
                         </div>

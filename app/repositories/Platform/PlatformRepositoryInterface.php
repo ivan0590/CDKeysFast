@@ -8,6 +8,7 @@ namespace Repositories\Platform;
  */
 interface PlatformRepositoryInterface {
 
+    public function exists($id);
     
     public function find($id);
     

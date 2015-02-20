@@ -20,11 +20,11 @@ class Product extends Eloquent {
     }
 
     public function textLanguages() {
-        return $this->belongsToMany('Language')->withPivot('type', 'text');
+        return $this->belongsToMany('Language')->withPivot('type')->having('type', '=', 'text');
     }
 
     public function audioLanguages() {
-        return $this->belongsToMany('Language')->withPivot('type', 'audio');
+        return $this->belongsToMany('Language')->withPivot('type')->having('type', '=', 'audio');
     }
 
     public function developers() {

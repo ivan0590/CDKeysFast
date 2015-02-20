@@ -8,7 +8,7 @@ namespace Repositories\User;
  */
 interface UserRepositoryInterface {
     
-    public function create($email, $password);
+    public function createClient($email, $password);
     
     public function emailExists($email);
     

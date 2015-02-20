@@ -31,27 +31,31 @@ class CategoryController extends \BaseController {
      */
     public function show($platformId, $categoryId) {
 
-        
-        $platform = $this->platform->find($platformId);
-        $category = $this->category->find($categoryId);
-
-        //Id no existente
-        if (!$platform || !$category) {
+        //Categoría no existente para ese id y plataforma
+        if (!$this->category->exists($categoryId, $platformId)) {
             return Redirect::route('index');
         }
-        
-        //Se añade el id al input
+       
+        //Se añade el id de la plataforma y de la categoría al input
         Input::replace(array_merge(['platform_id' => $platformId, 'category_id' => $categoryId],
                                    Input::all()));
+        
+        
+        //Plataforma
+        $platform = $this->platform->find($platformId);
+        
+        //Categoría
+        $category = $this->category->find($categoryId);
 
-        $products = $this->product->paginateByPlatformAndCategory($platform->id,
-                                                                  $category->id,
+        //Productos para esa plataforma y categoría
+        $products = $this->product->paginateByPlatformAndCategory($platformId,
+                                                                  $categoryId,
                                                                   Input::get('sort', 'name'), 
                                                                   Input::get('sort_dir', 'asc'));
         
         //Miga de pan
         Breadcrumb::addBreadcrumb('Inicio', URL::route('index'));
-        Breadcrumb::addBreadcrumb($platform->name, URL::route('platform.show', ['platform_id' => $platform->id]));
+        Breadcrumb::addBreadcrumb($platform->name, URL::route('platform.show', ['platform_id' => $platformId]));
         Breadcrumb::addBreadcrumb($category->name);
 
         return View::make('client.pages.category')
