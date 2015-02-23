@@ -8,16 +8,29 @@ namespace Repositories\User;
  */
 interface UserRepositoryInterface {
     
-    public function createClient($email, $password);
+    public function create($email, $password, $role);
+    
+    public function updateClientPersonalData($id, $name, $surname, $birthdate, $dni);
     
     public function emailExists($email);
     
     public function emailConfirmed($id);
     
-    public function getConfirmationCode($email);
+    public function getByEmail($email);
     
     public function getByConfirmationCode($confirmationCode);
     
-    public function confirmEmail($id);
+    public function setChangeEmail($id, $email);
     
+    public function setChangePassword ($id, $password);
+    
+    public function setUnsuscribe($id);
+    
+    public function confirm($id);
+    
+    public function confirmChangeEmail($id);
+    
+    public function confirmChangePassword($id);
+
+    public function confirmUnsuscribe($id);
 }

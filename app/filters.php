@@ -108,11 +108,12 @@ Route::filter('sort', function() {
   |--------------------------------------------------------------------------
  */
 
+//Para cargar todas las plataformas
 View::composer('client.includes.nav', function($view) {
     $view->with('platforms', Platform::all());
 });
 
-//Para generar las opciones de ordenación de products
+//Para generar las opciones de ordenación de productos
 View::composer(['client.includes.products_list'], function($view) {
 
     //Opciones que siempre están
@@ -139,6 +140,7 @@ View::composer(['client.includes.products_list'], function($view) {
     $view->with('orderBy', array_merge($permanent, $dinamic));
 });
 
+//Para cargar los valores de las listas cerradas en el formulario de búsqueda
 View::composer('client.pages.advanced_search', function($view) {
 
     $models = ['platforms' => 'Platform',

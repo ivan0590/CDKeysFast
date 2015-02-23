@@ -31,8 +31,8 @@ Route::group(['prefix' => 'search', 'before' => 'sort'], function () {
     Route::get('/advanced', ['as' => 'search.advanced', 'uses' => 'SearchController@advanced']);
 });
 
-//Usuarios
-Route::resource('user', 'UserController', ['except' => ['index', 'update']]);
+//Usuario
+Route::resource('user', 'UserController', ['except' => ['index', 'show', 'update', 'destroy']]);
 
 //Plataforma
 Route::resource('platform', 'PlatformController', ['except' => ['index', 'create', 'edit']]);
@@ -45,7 +45,7 @@ Route::resource('platform.category.product', 'ProductController', ['except' => [
 
 //Enviar emails
 Route::group(['prefix' => 'send'], function () {
-   
+
     //Email de confirmación
     Route::get('/verify/{email}', [
         'as' => 'send_verify',
@@ -53,12 +53,59 @@ Route::group(['prefix' => 'send'], function () {
     ]);
 });
 
-//Confirmar email de usuario
-Route::get('user/create/confirm/{confirmationCode}', [
-    'as' => 'confirmation_path',
-    'uses' => 'UserController@confirm'
+Route::group(['prefix' => 'update'], function () {
+
+    //Actualizar email
+    Route::post('/{id}/email', [
+        'as' => 'update_email',
+        'uses' => 'UserController@updateEmail'
+    ]);
+
+    //Actualizar contraseña
+    Route::post('/{id}/password', [
+        'as' => 'update_password',
+        'uses' => 'UserController@updatePassword'
+    ]);
+
+    //Actualizar datos personales
+    Route::post('/{id}/personal', [
+        'as' => 'update_personal',
+        'uses' => 'UserController@updatePersonal'
+    ]);
+});
+
+//Darse de baja
+Route::post('unsuscribe/{id}', [
+    'as' => 'unsuscribe',
+    'uses' => 'UserController@unsuscribe'
 ]);
 
+Route::group(['prefix' => 'confirm'], function () {
+
+    //Confirmar usuario
+    Route::get('/{id}/user/{confirmationCode}', [
+        'as' => 'confirm_user',
+        'uses' => 'UserController@confirm'
+    ]);
+
+    //Confirmar cambio de email
+    Route::get('/{id}/email/{confirmationCode}', [
+        'as' => 'confirm_email',
+        'uses' => 'UserController@confirmEmail'
+    ]);
+
+    //Confirmar cambio de contraseña
+    Route::get('/{id}/password/{confirmationCode}', [
+        'as' => 'confirm_password',
+        'uses' => 'UserController@confirmPassword'
+    ]);
+
+    //Confirmar baja
+    Route::get('/{id}/unsuscribe/{confirmationCode}', [
+        'as' => 'confirm_unsuscribe',
+        'uses' => 'UserController@confirmUnsuscribe'
+    ]);
+});
 
 //Mostrar mensaje
 Route::get('/info', [

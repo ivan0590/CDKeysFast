@@ -29,26 +29,27 @@ class ProductController extends \BaseController {
      * @param  int  $platformId
      * @return Response
      */
-    public function show($platformId, $categoryId, $productId) {
+    public function show($platformId, $categoryId, $gameId) {
 
         //Producto no existente para ese id, plataforma y categoría
-        if (!$this->product->exists($productId, $platformId, $categoryId)) {
+        if (!$this->product->exists($gameId, $platformId, $categoryId)) {
             return Redirect::route('index');
         }
 
         //Se añaden los ids de la plataforma, la categoría y el producto  al input
-        Input::replace(array_merge(['platform_id' => $platformId, 'category_id' => $categoryId, 'product_id' => $productId],
+        Input::replace(array_merge(['platform_id' => $platformId, 'category_id' => $categoryId, 'product_id' => $gameId],
                                    Input::all()));
         
         //Producto
-        $product = $this->product->find($productId);
-        
+        $product = $this->product->find($gameId);
+                
         //Miga de pan
         Breadcrumb::addBreadcrumb('Inicio', URL::route('index'));
-        Breadcrumb::addBreadcrumb($product->platform->name, URL::route('platform.show', ['platform_id' => $productId]));
+        Breadcrumb::addBreadcrumb($product->platform->name, URL::route('platform.show', ['platform_id' => $platformId]));
         Breadcrumb::addBreadcrumb($product->game->category->name, URL::route('platform.category.show', ['platform_id' => $platformId, 'category_id' => $categoryId]));
         Breadcrumb::addBreadcrumb($product->game->name);
 
+        
         return View::make('client.pages.product')
                 ->with('product', $product)
                 ->with('breadcrumbs', Breadcrumb::generate());

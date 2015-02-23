@@ -30,7 +30,12 @@ class UserSeeder extends DatabaseSeeder {
                         'name' => "userTest$index",
                         'surname' => "userTest$index",
                         'confirmed' => false,
-                        'confirmation_code' => str_random(30)
+                        'confirmation_code' => str_random(30),
+                        'change_email_code' => '',
+                        'change_email' => null,
+                        'change_password_code' => '',
+                        'change_password' => '',
+                        'unsuscribe_code' => ''
             ]);
 
             $userType->get()->find($id)->user()->save($user);

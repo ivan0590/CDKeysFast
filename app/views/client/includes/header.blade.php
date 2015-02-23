@@ -38,7 +38,9 @@
         <div class="col-md-4">
             <ul class="nav navbar-nav navbar-right">
                 @if (Auth::check())
-                <li>{{ HTML::link('#edit', Auth::user()->name ?: Auth::user()->email) }}</li>
+                <li>{{ HTML::linkRoute('user.edit',
+                                       Auth::user()->name ?: Auth::user()->email,
+                                       Auth::id()) }}</li>
                 <li>
                     {{ Form::open(['route' => ['session.destroy', Auth::id()],
                                         'method' => 'DELETE',

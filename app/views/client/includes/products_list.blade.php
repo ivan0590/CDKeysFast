@@ -56,6 +56,7 @@
                         </a>
 
                         <div class="caption">
+                            
                             @if($show_platform_icon)
                             <a href="{{ URL::route('platform.show',
                                                    ['platform_id' => $product->platform->id
@@ -71,7 +72,7 @@
                                 <div class="text-center">
                                     <h3>
                                     @if(Auth::check() && $product->discount)
-                                        {{ floatval($product->price * ((100 - $product->discount) / 100)) }} € 
+                                        {{ round($product->price * ((100 - $product->discount) / 100), 2, PHP_ROUND_HALF_UP ) }} € 
                                         <span class="label label-default">-{{ floatval($product->discount)}}%</span>
                                     @else
                                         {{ floatval($product->price) }} €

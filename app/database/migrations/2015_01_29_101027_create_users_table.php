@@ -17,9 +17,14 @@ class CreateUsersTable extends Migration {
             $table->string('password');
             $table->string('name', 100)->nullable();
             $table->string('surname', 100)->nullable();
+            $table->morphs('userable');
             $table->boolean('confirmed');
             $table->string('confirmation_code', 30);
-            $table->morphs('userable');
+            $table->string('change_email_code', 30);
+            $table->string('change_email')->unique()->nullable();
+            $table->string('change_password_code', 30);
+            $table->string('change_password')->nullable();
+            $table->string('unsuscribe_code', 30);
             $table->rememberToken();
             $table->timestamps();
         });

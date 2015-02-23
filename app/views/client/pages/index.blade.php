@@ -20,7 +20,11 @@
             @else
             <div class="item ">
             @endif            
-                <a href="#product">
+                <a href="{{ URL::route('platform.category.product.show',
+                                                   ['platform_id' => $product->platform->id,
+                                                    'category_id' => $product->game->category_id,
+                                                    'product_id'  => $product->id
+                                                   ]) }}">
                     {{ HTML::image($product->game->offer_image_path, $product->game->name, ['class' => 'img-responsive center-block']) }}
                     <div class="carousel-caption">
                         <h2>
