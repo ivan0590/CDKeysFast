@@ -34,10 +34,9 @@
             {{ Form::close() }}
         </div>
 
+        {{-- Perfil y logout --}}
         <div class="col-md-4">
             <ul class="nav navbar-nav navbar-right">
-                
-                {{-- Perfil y logout --}}
                 @if (Auth::check())
                 <li>{{ HTML::linkRoute('user.edit',
                                        Auth::user()->name ?: Auth::user()->email,

@@ -60,14 +60,25 @@
             <div class="form-group row">
                 <div class="col-md-6">
                     <div class="input-group">
+
+                        <div class="input-group-addon">
+                            {{ Form::label('as-developer', 'Desarrolladora')}}
+                        </div>
+                        {{ Form::select('as-developer', $developers, null, ['class' => 'form-control']) }}
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="input-group">
                         <div class="input-group-addon">
                             {{ Form::label('as-publisher', 'Distribuidora')}}
                         </div>
                         {{ Form::select('as-publisher', $publishers, null, ['class' => 'form-control']) }}
                     </div>
                 </div>
-                
+            </div>
 
+            <div class="form-group row">
                 <div class="col-md-6">
                     <div class="input-group">
                         <div class="input-group-addon">
@@ -76,10 +87,8 @@
                         {{ Form::select('as-agerate', $agerates, null, ['class' => 'form-control']) }}
                     </div>
                 </div>
-            </div>
 
-            <div class="form-group row">
-                <div class="col-md-6 col-md-offset-3">
+                <div class="col-md-6">
                     <div class="input-group ">
                         <div class="input-group-addon">
                             {{ Form::label('as-launch_date', 'Lanzado después del')}}

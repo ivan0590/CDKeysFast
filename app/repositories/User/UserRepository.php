@@ -27,7 +27,7 @@ class UserRepository implements UserRepositoryInterface {
             $userRole = new Client;
         }
 
-        //Rol
+        //Rol de cliente
         $userRole->save();
 
         //Datos de perfil de usuario
@@ -81,7 +81,7 @@ class UserRepository implements UserRepositoryInterface {
     public function getByConfirmationCode($confirmationCode) {
         return User::where('confirmation_code', '=', $confirmationCode)->first();
     }
-    
+
     public function confirm($id) {
 
         $user = User::find($id);
@@ -175,7 +175,7 @@ class UserRepository implements UserRepositoryInterface {
             return false;
         }
 
-        return $user->userable->delete() && $user->delete();
+        return $user->delete();
     }
 
 }

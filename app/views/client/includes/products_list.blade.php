@@ -73,9 +73,9 @@
                                     <h3>
                                     @if(Auth::check() && $product->discount)
                                         {{ round($product->price * ((100 - $product->discount) / 100), 2, PHP_ROUND_HALF_UP ) }} € 
-                                        <span class="label label-default">-{{ round($product->discount, 2, PHP_ROUND_HALF_UP ) }}%</span>
+                                        <span class="label label-default">-{{ floatval($product->discount)}}%</span>
                                     @else
-                                        {{ round($product->price, 2, PHP_ROUND_HALF_UP ) }} €
+                                        {{ floatval($product->price) }} €
                                     @endif
                                     </h3>
                                 </div>

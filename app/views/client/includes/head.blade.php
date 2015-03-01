@@ -16,4 +16,4 @@
 {{ HTML::script('vendor/bootstrap-3.3.2-dist/js/bootstrap.min.js') }}
 -->
 
-{{ HTML::script('js/client-common.js') }}
+{{ HTML::script('js/common.js') }}

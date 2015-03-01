@@ -15,8 +15,8 @@ class CreatePlatformsTable extends Migration {
         Schema::create('platforms', function ($table) {
             $table->increments('id');
             $table->text('name')->inique();
-            $table->text('description')->nullable();
-            $table->text('icon_path')->nullable();
+            $table->text('description');
+            $table->text('icon_path');
             $table->timestamps();
         });
     }

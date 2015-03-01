@@ -11,23 +11,6 @@ use \Product as Product;
  */
 class ProductRepository implements ProductRepositoryInterface {
 
-    public function create($data) {
-
-        \Eloquent::unguard();
-
-        $product = new Product($data);
-        $result = $product->save();
-
-        \Eloquent::reguard();
-
-        return $result;
-    }
-
-    public function erase($id) {
-        
-        return Product::find($id)->delete();
-    }
-
     public function exists($productId, $platformId = null, $categoryId = null) {
 
         $product = Product::where('id', '=', $productId);
@@ -48,24 +31,6 @@ class ProductRepository implements ProductRepositoryInterface {
 
     public function find($id) {
         return Product::find($id);
-    }
-
-    public function paginateForEditionTable($sort = 'name', $sortDir = 'asc', $pagination = 15) {
-
-        $products = Product::
-                leftJoin('games', 'products.game_id', '=', 'games.id')
-                ->leftJoin('categories', function ($query) {
-                    $query->on('categories.id', '=', 'games.category_id');
-                })
-                ->leftJoin('platforms', 'products.platform_id', '=', 'platforms.id')
-                ->leftJoin('publishers', 'products.publisher_id', '=', 'publishers.id')
-                ->select(['products.id as id',
-            'games.name as game_name',
-            'platforms.name as platform_name',
-            'categories.name as category_name',
-            'publishers.name as punlisher_name']);
-
-        return $products->orderBy($sort, $sortDir)->paginate($pagination);
     }
 
     public function paginateHighlighted($platformId = null, $discounted = null, $sort = 'name', $sortDir = 'asc', $pagination = 15) {
@@ -106,6 +71,10 @@ class ProductRepository implements ProductRepositoryInterface {
                     $query->on('agerates.id', '=', 'games.agerate_id');
                 })
                 ->join('platforms', 'products.platform_id', '=', 'platforms.id')
+                ->join('developer_product as dp', 'products.id', '=', 'dp.product_id')
+                ->join('developers', function ($query) {
+                    $query->on('developers.id', '=', 'dp.developer_id');
+                })
                 ->join('publishers', 'products.publisher_id', '=', 'publishers.id');
 
         //Buscar por nombre
@@ -127,6 +96,7 @@ class ProductRepository implements ProductRepositoryInterface {
         $closedValues = [
             'platforms' => 'platform',
             'categories' => 'category',
+            'developers' => 'developer',
             'publishers' => 'publisher',
             'agerates' => 'agerate'
         ];
