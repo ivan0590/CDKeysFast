@@ -18,8 +18,8 @@ class CreateLanguageProductTable extends Migration {
             $table->enum('type', ['audio', 'text']);
             
             $table->unique(['product_id', 'language_id', 'type']);
-            $table->foreign('product_id')->references('id')->on('products');
-            $table->foreign('language_id')->references('id')->on('languages');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
+            $table->foreign('language_id')->references('id')->on('languages')->onDelete('cascade');
         });
     }
 

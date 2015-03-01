@@ -21,15 +21,15 @@ class CreateProductsTable extends Migration {
             $table->boolean('singleplayer');
             $table->boolean('multiplayer');
             $table->boolean('cooperative');
-            $table->integer('game_id')->unsigned();
-            $table->integer('platform_id')->unsigned();
-            $table->integer('publisher_id')->unsigned();
+            $table->integer('game_id')->unsigned()->nullable();
+            $table->integer('platform_id')->unsigned()->nullable();
+            $table->integer('publisher_id')->unsigned()->nullable();
             $table->timestamps();
             
             $table->unique(['game_id', 'platform_id']);
-            $table->foreign('game_id')->references('id')->on('games');
-            $table->foreign('platform_id')->references('id')->on('platforms');
-            $table->foreign('publisher_id')->references('id')->on('publishers');
+            $table->foreign('game_id')->references('id')->on('games')->onDelete('set null');
+            $table->foreign('platform_id')->references('id')->on('platforms')->onDelete('set null');
+            $table->foreign('publisher_id')->references('id')->on('publishers')->onDelete('set null');
         });
     }
 

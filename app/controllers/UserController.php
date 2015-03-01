@@ -9,7 +9,7 @@ class UserController extends \BaseController {
     }
 
     /**
-     * Show the form for creating a new resource.
+     * 
      *
      * @return Response
      */
@@ -23,7 +23,7 @@ class UserController extends \BaseController {
     }
 
     /**
-     * Store a newly created resource in storage.
+     * 
      *
      * @return Response
      */
@@ -81,7 +81,7 @@ class UserController extends \BaseController {
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * 
      *
      * @param  int  $id
      * @return Response
@@ -234,7 +234,7 @@ class UserController extends \BaseController {
         });
 
         return Redirect::back()
-                        ->with(['password_success' => 'Se ha enviado un email para confirmar la baja.']);
+                        ->with(['unsuscribe_success' => 'Se ha enviado un email para confirmar la baja.']);
     }
 
     
@@ -251,7 +251,8 @@ class UserController extends \BaseController {
         $user = $this->user->getById($id);
 
         if (!$user || !$confirmationCode || $user->confirmation_code !== $confirmationCode) {
-            return Redirect::route('info')->withErrors(['errorWithCode' => 'Error de confirmación'], 'confirm');
+            return Redirect::route('info')
+                    ->withErrors(['errorWithCode' => 'Error de confirmación'], 'confirm');
         }
 
         $this->user->confirm($user->id);

@@ -9,10 +9,10 @@
 
         <h3 class="navbar-text pull-right">
             @if(Auth::check() && $product->discount)
-            {{ floatval($product->price * ((100 - $product->discount) / 100)) }} € 
-            <span class="label label-default">-{{ floatval($product->discount)}}%</span>
+                {{ round($product->price * ((100 - $product->discount) / 100), 2, PHP_ROUND_HALF_UP ) }} € 
+                <span class="label label-default">-{{ round($product->discount, 2, PHP_ROUND_HALF_UP ) }}%</span>
             @else
-            {{ floatval($product->price) }} €
+                {{ round($product->price, 2, PHP_ROUND_HALF_UP ) }} €
             @endif
         </h3>
     </div>

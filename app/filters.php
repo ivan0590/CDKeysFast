@@ -80,10 +80,11 @@ Route::filter('csrf', function() {
 
 /*
   |--------------------------------------------------------------------------
-  | Other filters
+  | My filters
   |--------------------------------------------------------------------------
  */
 
+//Filtro de ordenación
 Route::filter('sort', function() {
 
     //Reglas de validación para los parámetros de ordenación
@@ -94,10 +95,34 @@ Route::filter('sort', function() {
 
     //Validación
     $validator = Validator::make(Input::only('sort', 'sort_dir', 'page'), $validationRules);
-
+Route::currentRouteName();
     //No se pasa la validación y se redirige a la misma página sin parámetros
     if ($validator->fails() || (Input::get('sort') === 'discount' && !Auth::check())) {
         return Redirect::route(Route::currentRouteName());
+    }
+});
+
+//Filtro administrativo
+Route::filter('admin', function() {
+
+    if (!Auth::check() || Auth::user()->userable_type !== 'Admin') {
+        return Redirect::route('index');
+    }
+});
+
+//Filtro para acceder solo si se está logueado
+Route::filter('login-needed', function() {
+
+    if (!Auth::check()) {
+        return Redirect::route('index');
+    }
+});
+
+//Filtro para evitar determinadas rutas estando logueado
+Route::filter('login-avoid', function() {
+
+    if (Auth::check()) {
+        return Redirect::route('index');
     }
 });
 
@@ -141,19 +166,48 @@ View::composer(['client.includes.products_list'], function($view) {
 });
 
 //Para cargar los valores de las listas cerradas en el formulario de búsqueda
-View::composer('client.pages.advanced_search', function($view) {
+View::composer(['client.pages.advanced_search',
+                'admin.pages.create.product',
+                'admin.pages.create.game'], function($view) {
 
-    $models = ['platforms' => 'Platform',
+    $models = [
+        'platforms' => 'Platform',
+        'games' => 'Game',
         'categories' => 'Category',
         'developers' => 'Developer',
         'publishers' => 'Publisher',
         'agerates' => 'Agerate'
     ];
-
+    
     foreach ($models as $key => $model) {
-        $data[$key] = array_combine($model::lists('id'), $model::lists('name'));
-        $data[$key] = [null => 'Cualquiera'] + $data[$key];
+        $data[$key] = array_combine($model::orderBy('id', 'asc')->lists('id'),
+                                    $model::orderBy('id', 'asc')->lists('name'));
+        
+        if($view->getName() === 'client.pages.advanced_search'){
+            $data[$key] = [null => 'Cualquiera'] + $data[$key];
+        }
     }
 
     $view->with($data);
+});
+
+//Para cargar los valores de las listas cerradas en el formulario de búsqueda
+View::composer('admin.includes.tabs', function($view) {
+    
+});
+
+//Etiquetas de las pestañas de edición y creación
+View::composer(['admin.pages.edition',
+                'admin.pages.create.*'], function($view) {
+        
+    $tabs = [
+        'product'   => 'Productos',
+        'game'      => 'Juegos',
+        'platform'  => 'Platformas',
+        'category'  => 'Categorías',
+        'developer' => 'Desarrolladoras',
+        'publisher' => 'Distribuidoras'
+    ];
+    
+    $view->with(['tabs' => $tabs]);
 });
