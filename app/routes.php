@@ -19,29 +19,68 @@ Route::get('/', [
 ]);
 
 //Login y logout
-Route::resource('session', 'SessionController', ['only' => ['store', 'destroy']]);
+Route::resource('session', 'SessionController', ['only' => ['store']]);
 
-//Búsquedas
-Route::group(['prefix' => 'search', 'before' => 'sort'], function () {
+//Administración
+Route::group(['before' => 'admin'], function () {
 
-    //Búsqueda simple
-    Route::get('/simple', ['as' => 'search.simple', 'uses' => 'SearchController@simple']);
+    //Importar
+    Route::get('import', ['as' => 'import', 'uses' => 'AdministrationController@getImport', 'before' => 'admin']);
 
-    //Búsqueda avanzada
-    Route::get('/advanced', ['as' => 'search.advanced', 'uses' => 'SearchController@advanced']);
+    //Operaciones CRUD
+    Route::resource('product', 'ProductController', ['except' => ['show', 'index']]);
+    Route::resource('game', 'GameController', ['except' => ['show', 'index']]);
+    Route::resource('platform', 'PlatformController', ['except' => ['show', 'index']]);
+    Route::resource('category', 'CategoryController', ['except' => ['show', 'index']]);
+    Route::resource('developer', 'DeveloperController', ['except' => ['show', 'index']]);
+    Route::resource('publisher', 'PublisherController', ['except' => ['show', 'index']]);
+
+    //Pagínas de edición
+    Route::get('product/edition', ['as' => 'product.edition', 'uses' => 'ProductController@edition']);
+    Route::get('game/edition', ['as' => 'game.edition', 'uses' => 'GameController@edition']);
+    Route::get('platform/edition', ['as' => 'platform.edition', 'uses' => 'PlatformController@edition']);
+    Route::get('category/edition', ['as' => 'category.edition', 'uses' => 'CategoryController@edition']);
+    Route::get('developer/edition', ['as' => 'developer.edition', 'uses' => 'DeveloperController@edition']);
+    Route::get('publisher/edition', ['as' => 'publisher.edition', 'uses' => 'PublisherController@edition']);
+});
+
+//Login administrativo
+Route::get('admin/login', ['as' => 'admin.login', 'uses' => 'AdministrationController@getLogin', 'before' => 'login-avoid']);
+
+//Para aplicar el filtro de ordenación
+Route::group(['before' => 'sort'], function () {
+
+    //Plataforma
+    Route::resource('platform', 'PlatformController', ['only' => ['show']]);
+
+    //Categoría
+    Route::resource('platform.category', 'CategoryController', ['only' => ['show']]);
+
+    //Producto
+    Route::resource('platform.category.product', 'ProductController', ['only' => ['show']]);
+
+    //Búsquedas
+    Route::group(['prefix' => 'search'], function () {
+
+        //Búsqueda simple
+        Route::get('/simple', ['as' => 'search.simple', 'uses' => 'SearchController@simple']);
+
+        //Búsqueda avanzada
+        Route::get('/advanced', ['as' => 'search.advanced', 'uses' => 'SearchController@advanced']);
+    });
 });
 
 //Usuario
-Route::resource('user', 'UserController', ['except' => ['index', 'show', 'update', 'destroy']]);
+Route::resource('user', 'UserController', ['only' => ['create', 'store']]);
 
-//Plataforma
-Route::resource('platform', 'PlatformController', ['except' => ['index', 'create', 'edit']]);
 
-//Categoría
-Route::resource('platform.category', 'CategoryController', ['except' => ['index', 'create', 'edit']]);
 
-//Producto
-Route::resource('platform.category.product', 'ProductController', ['except' => ['index', 'create', 'edit']]);
+//Para evitar accesos sin estar logueado
+Route::group(['before' => 'login-needed'], function() {
+
+    Route::resource('user', 'UserController', ['only' => ['edit']]);
+    Route::resource('session', 'SessionController', ['only' => ['destroy']]);
+});
 
 //Enviar emails
 Route::group(['prefix' => 'send'], function () {
@@ -53,6 +92,7 @@ Route::group(['prefix' => 'send'], function () {
     ]);
 });
 
+//Actualizaciones
 Route::group(['prefix' => 'update'], function () {
 
     //Actualizar email
@@ -80,6 +120,7 @@ Route::post('unsuscribe/{id}', [
     'uses' => 'UserController@unsuscribe'
 ]);
 
+//Confirmaciones de actualización o baja
 Route::group(['prefix' => 'confirm'], function () {
 
     //Confirmar usuario

@@ -9,8 +9,16 @@ namespace Repositories\Product;
  */
 interface ProductRepositoryInterface {
     
+    public function create($data);
+    
+    public function erase($id);
+    
     public function exists($id, $platformId = null, $categoryId = null);
             
+    public function paginateForEditionTable($sort = 'name',
+                             $sortDir = 'asc',
+                             $pagination = 15);
+    
     public function paginateHighlighted($platformId = null,
                                         $discounted = null,
                                         $sort = 'name',

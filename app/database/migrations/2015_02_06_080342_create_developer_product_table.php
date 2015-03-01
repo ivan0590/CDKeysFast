@@ -18,8 +18,8 @@ class CreateDeveloperProductTable extends Migration {
             $table->integer('developer_id')->unsigned();
 
             $table->unique(['product_id', 'developer_id']);
-            $table->foreign('product_id')->references('id')->on('products');
-            $table->foreign('developer_id')->references('id')->on('developers');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
+            $table->foreign('developer_id')->references('id')->on('developers')->onDelete('cascade');
         });
     }
 

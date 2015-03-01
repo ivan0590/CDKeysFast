@@ -122,7 +122,7 @@ return array(
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
                 'Mj\Breadcrumb\BreadcrumbServiceProvider',
-
+                'Felixkiss\UniqueWithValidator\UniqueWithValidatorServiceProvider',
 	),
 
 	/*

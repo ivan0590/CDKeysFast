@@ -6,7 +6,8 @@
 	"type": "project",
 	"require": {
 		"laravel/framework": "4.2.*",
-                "mj/breadcrumb": "dev-master"
+                "mj/breadcrumb": "dev-master",
+		"felixkiss/uniquewith-validator": "1.*"
 	},
 	"autoload": {
 		"classmap": [

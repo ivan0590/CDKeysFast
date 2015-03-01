@@ -9,7 +9,7 @@ class SessionController extends \BaseController {
     }
 
     /**
-     * Store a newly created resource in storage.
+     * 
      *
      * @return Response
      */
@@ -43,9 +43,10 @@ class SessionController extends \BaseController {
         //Las credenciales del usuario son válidas
         if (Auth::validate(Input::only('email', 'password'))) {
 
-            //El usuario todavía no ha confirmado su email
-            if (!$this->user->emailConfirmed(Input::get('email'))) {
+            $role = $this->user->getByEmail(Input::get('email'))->userable_type;
 
+            //El cliente todavía no ha confirmado su email
+            if ($role === 'Client' && !$this->user->emailConfirmed(Input::get('email'))) {
                 return Redirect::back()
                                 ->withErrors(['userNotConfirmed' => 'Has de confirmar tu email antes de poder loguearte.'], 'login')
                                 ->withInput(Input::except('password'));
@@ -53,7 +54,9 @@ class SessionController extends \BaseController {
 
             //Se intenta iniciar sesión
             if (Auth::attempt(Input::only('email', 'password'), true)) {
-                return Redirect::back();
+                return $role === 'Admin' ?
+                        Redirect::route('product.edition') : //Admin
+                        Redirect::back(); //Cliente
             }
         }
 
@@ -64,7 +67,7 @@ class SessionController extends \BaseController {
     }
 
     /**
-     * Remove the specified resource from storage.
+     * 
      *
      * @param  int  $id
      * @return Response

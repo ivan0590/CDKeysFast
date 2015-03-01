@@ -11,6 +11,23 @@ use \Category as Category;
  */
 class CategoryRepository implements CategoryRepositoryInterface {
 
+    public function create($data) {
+                
+        \Eloquent::unguard();
+        
+        $category = new Category($data);
+        $result = $category->save();
+        
+        \Eloquent::reguard();
+        
+        return $result;
+    }
+    
+    public function erase($id) {
+        
+        return Category::find($id)->delete();
+    }
+    
     public function exists($id, $platformId = null) {
         $category = Category::where('id', '=', $id);
 
@@ -36,6 +53,13 @@ class CategoryRepository implements CategoryRepositoryInterface {
                         $productsQuery->where('platform_id', '=', $platformId)->orderBy('name', 'asc');
                     });
                 })->get();
+    }
+
+    public function paginateForEditionTable($sort = 'name', $sortDir = 'asc', $pagination = 15) {
+
+        $categories = Category::select(['id', 'name']);
+
+        return $categories->orderBy($sort, $sortDir)->paginate($pagination);
     }
 
 }

@@ -15,15 +15,15 @@ class CreateGamesTable extends Migration {
         Schema::create('games', function ($table) {
             $table->increments('id');
             $table->text('name')->inique();
-            $table->text('description');
-            $table->text('thumbnail_image_path');
-            $table->text('offer_image_path');
-            $table->integer('agerate_id')->unsigned();
-            $table->integer('category_id')->unsigned();
+            $table->text('description')->nullable();
+            $table->text('thumbnail_image_path')->nullable();
+            $table->text('offer_image_path')->nullable();
+            $table->integer('agerate_id')->unsigned()->nullable();
+            $table->integer('category_id')->unsigned()->nullable();
             $table->timestamps();
             
-            $table->foreign('agerate_id')->references('id')->on('agerates');
-            $table->foreign('category_id')->references('id')->on('categories');
+            $table->foreign('agerate_id')->references('id')->on('agerates')->onDelete('set null');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('set null');
         });
     }
 

@@ -2,7 +2,7 @@
 <meta name="description" content="">
 <meta name="author" content="Iván Quintas">
 
-<title>CDKeysFast - Your cdkeys store.</title>
+<title>CDKeysFast Administration</title>
 
 <!-- jQuery -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
@@ -16,4 +16,4 @@
 {{ HTML::script('vendor/bootstrap-3.3.2-dist/js/bootstrap.min.js') }}
 -->
 
-{{ HTML::script('js/client-common.js') }}
+{{ HTML::script('js/admin-common.js') }}
