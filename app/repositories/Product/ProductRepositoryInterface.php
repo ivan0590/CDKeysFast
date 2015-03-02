@@ -9,13 +9,17 @@ namespace Repositories\Product;
  */
 interface ProductRepositoryInterface {
     
+    public function find($id);
+    
     public function create($data);
+    
+    public function update($id, $data);
     
     public function erase($id);
     
     public function exists($id, $platformId = null, $categoryId = null);
             
-    public function paginateForEditionTable($sort = 'name',
+    public function paginateForIndexTable($sort = 'name',
                              $sortDir = 'asc',
                              $pagination = 15);
     

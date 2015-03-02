@@ -21,11 +21,11 @@ class StoreFrontController extends \BaseController {
         //Los 5 productos con mayor descuento
         if (Auth::check()) {
             $offerProducts = $this->product->all(true, 'discount', 'desc')->take(5);
-        //Los 5 productos más baratos
+            //Los 5 productos más baratos
         } else {
             $offerProducts = $this->product->all(false, 'price', 'asc')->take(5);
         }
-                
+
         //Miga de pan
         Breadcrumb::addBreadcrumb('Inicio');
 
@@ -36,6 +36,11 @@ class StoreFrontController extends \BaseController {
                         ->with('offerProducts', $offerProducts);
     }
 
+    /**
+     * Página de mensaje
+     *
+     * @return index
+     */
     public function getInfo() {
 
         if (!Session::has('message') && !Session::has('errors')) {
@@ -47,8 +52,7 @@ class StoreFrontController extends \BaseController {
         Breadcrumb::addBreadcrumb('Aviso');
 
         return View::make('client.pages.info')
-                        ->with('breadcrumbs', Breadcrumb::generate())
-                        ->with('message', Session::get('message'));
+                        ->with('message', Session::get('message'))
+                        ->with('breadcrumbs', Breadcrumb::generate());
     }
-
 }

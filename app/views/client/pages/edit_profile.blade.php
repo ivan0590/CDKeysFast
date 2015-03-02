@@ -49,14 +49,14 @@
                                'method' => 'POST']) }}
                 <div class="form-group col-md-8 col-md-offset-2">
                     <div class="form-group">
-                        <div class="input-group ">
+                        <div class="input-group">
                             <div class="input-group-addon">
                                 {{ Form::label('email', 'Email')}}
                             </div>
                             {{ Form::text('email', null, ['class' => 'form-control']) }}
                         </div>
 
-                        <div class="input-group ">
+                        <div class="input-group">
                             <div class="input-group-addon">
                                 {{ Form::label('email_confirmation', 'Repetir email')}}
                             </div>

@@ -95,7 +95,7 @@ Route::filter('sort', function() {
 
     //Validación
     $validator = Validator::make(Input::only('sort', 'sort_dir', 'page'), $validationRules);
-Route::currentRouteName();
+
     //No se pasa la validación y se redirige a la misma página sin parámetros
     if ($validator->fails() || (Input::get('sort') === 'discount' && !Auth::check())) {
         return Redirect::route(Route::currentRouteName());
@@ -167,8 +167,8 @@ View::composer(['client.includes.products_list'], function($view) {
 
 //Para cargar los valores de las listas cerradas en el formulario de búsqueda
 View::composer(['client.pages.advanced_search',
-                'admin.pages.create.product',
-                'admin.pages.create.game'], function($view) {
+                'admin.pages.create',
+                'admin.pages.edit'], function($view) {
 
     $models = [
         'platforms' => 'Platform',
@@ -191,14 +191,9 @@ View::composer(['client.pages.advanced_search',
     $view->with($data);
 });
 
-//Para cargar los valores de las listas cerradas en el formulario de búsqueda
-View::composer('admin.includes.tabs', function($view) {
-    
-});
-
 //Etiquetas de las pestañas de edición y creación
-View::composer(['admin.pages.edition',
-                'admin.pages.create.*'], function($view) {
+View::composer(['admin.pages.index',
+                'admin.pages.create'], function($view) {
         
     $tabs = [
         'product'   => 'Productos',
@@ -209,5 +204,5 @@ View::composer(['admin.pages.edition',
         'publisher' => 'Distribuidoras'
     ];
     
-    $view->with(['tabs' => $tabs]);
+    $view->with('tabs', $tabs);
 });

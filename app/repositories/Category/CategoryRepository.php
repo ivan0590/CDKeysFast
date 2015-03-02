@@ -11,23 +11,38 @@ use \Category as Category;
  */
 class CategoryRepository implements CategoryRepositoryInterface {
 
+    public function find($id) {
+        return Category::find($id);
+    }
+
     public function create($data) {
-                
+
         \Eloquent::unguard();
-        
+
         $category = new Category($data);
         $result = $category->save();
-        
+
         \Eloquent::reguard();
-        
+
         return $result;
     }
-    
+
+    public function update($id, $data) {
+
+        \Eloquent::unguard();
+
+        $result = Category::find($id)->update($data);
+
+        \Eloquent::reguard();
+
+        return $result;
+    }
+
     public function erase($id) {
-        
+
         return Category::find($id)->delete();
     }
-    
+
     public function exists($id, $platformId = null) {
         $category = Category::where('id', '=', $id);
 
@@ -42,10 +57,6 @@ class CategoryRepository implements CategoryRepositoryInterface {
         return !$category->get()->isEmpty();
     }
 
-    public function find($id) {
-        return Category::find($id);
-    }
-
     public function getByPlatformWhereHasProducts($platformId) {
 
         return Category::whereHas('games', function ($gamesQuery) use($platformId) {
@@ -55,7 +66,7 @@ class CategoryRepository implements CategoryRepositoryInterface {
                 })->get();
     }
 
-    public function paginateForEditionTable($sort = 'name', $sortDir = 'asc', $pagination = 15) {
+    public function paginateForIndexTable($sort = 'name', $sortDir = 'asc', $pagination = 15) {
 
         $categories = Category::select(['id', 'name']);
 

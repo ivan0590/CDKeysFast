@@ -25,7 +25,7 @@
                     </div>                
                 </div>  
                 <div class="col-md-4">
-                    <div class="input-group ">
+                    <div class="input-group">
                         <div class="input-group-addon">
                             {{ Form::label('as-price', 'Precio hasta')}}
                         </div>
@@ -80,7 +80,7 @@
 
             <div class="form-group row">
                 <div class="col-md-6 col-md-offset-3">
-                    <div class="input-group ">
+                    <div class="input-group">
                         <div class="input-group-addon">
                             {{ Form::label('as-launch_date', 'Lanzado después del')}}
                         </div>

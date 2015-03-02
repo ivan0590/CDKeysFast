@@ -7,15 +7,20 @@ class DeveloperController extends \BaseController {
     public function __construct(DeveloperRepositoryInterface $developer) {
         $this->developer = $developer;
     }
-    
+
     /**
      * 
      *
      * @return Response
      */
     public function create() {
-        return View::make('admin.pages.create.developer')
-                        ->with(['restful' => 'developer']);
+
+        //Miga de pan
+        Breadcrumb::addBreadcrumb('Creación');
+
+        return View::make('admin.pages.create')
+                        ->with('restful', 'developer')
+                        ->with('breadcrumbs', Breadcrumb::generate());
     }
 
     /**
@@ -41,11 +46,11 @@ class DeveloperController extends \BaseController {
                             ->withErrors($validator, 'create')
                             ->withInput($fields);
         }
-        
+
         //Éxito al guardar
         if ($this->developer->create($fields)) {
 
-            return Redirect::back()->with(['save_success' => 'Desarrolladora creada correctamente.']);
+            return Redirect::back()->with('save_success', 'Desarrolladora creada correctamente.');
         }
 
         //Error de SQL
@@ -61,7 +66,24 @@ class DeveloperController extends \BaseController {
      * @return Response
      */
     public function edit($id) {
-        
+
+        $validator = Validator::make(['id' => $id], ['id' => 'exists:developers']);
+
+        //El id no existe
+        if ($validator->fails()) {
+            return Redirect::back();
+        }
+
+        $developer = $this->developer->find($id);
+
+        //Miga de pan
+        Breadcrumb::addBreadcrumb('Edición de desarrolladoras', URL::route('admin.developer.index'));
+        Breadcrumb::addBreadcrumb($developer->name);
+
+        return View::make('admin.pages.edit')
+                        ->with('restful', 'developer')
+                        ->with('model', $developer)
+                        ->with('breadcrumbs', Breadcrumb::generate());
     }
 
     /**
@@ -71,7 +93,35 @@ class DeveloperController extends \BaseController {
      * @return Response
      */
     public function update($id) {
-        //
+
+        //Campos del formulario
+        $fields = Input::only(['name']);
+
+        //Reglas de validación
+        $validationRules = [
+            'name' => "required|unique:developers,name,$id"
+        ];
+
+        //Validación de los campos del formulario
+        $validator = Validator::make($fields, $validationRules);
+
+        //Los campos no son válidos
+        if ($validator->fails()) {
+            return Redirect::back()
+                            ->withErrors($validator, 'update')
+                            ->withInput($fields);
+        }
+
+        //Éxito al guardar
+        if ($this->developer->update($id, $fields)) {
+
+            return Redirect::back()->with('save_success', 'Desarrolladora modificada correctamente.');
+        }
+
+        //Error de SQL
+        return Redirect::back()
+                        ->withErrors(['error' => 'Error al intentar modificar la desarrolladora.'], 'update')
+                        ->withInput(Input::all());
     }
 
     /**
@@ -87,24 +137,30 @@ class DeveloperController extends \BaseController {
         if ($validator->fails()) {
             return Redirect::back();
         }
-        
+
         //Éxito al eliminar
-        if($this->developer->erase($id)){
+        if ($this->developer->erase($id)) {
             return Redirect::back();
-            
-        //Error de SQL
-        } else {
-            return Redirect::back()
-                            ->withErrors(['error' => 'Error al intentar borrar la desarrolladora.'], 'create');          
         }
+
+        //Error de SQL
+        return Redirect::back()
+                        ->withErrors(['error' => 'Error al intentar borrar la desarrolladora.'], 'erase');
     }
 
-    public function edition() {
-        $developers = $this->developer->paginateForEditionTable('name', 'asc', 20);
-        
-        return View::make('admin.pages.edition')
-                ->with(['data' => $developers,
-                        'header' => ['ID', 'Desarrolladora'],
-                        'restful' => 'developer']); 
+    public function index() {
+
+        $developers = $this->developer->paginateForIndexTable('name', 'asc', 20);
+
+        //Miga de pan
+        Breadcrumb::addBreadcrumb('Edición');
+
+        return View::make('admin.pages.index')
+                        ->with([
+                            'data' => $developers,
+                            'header' => ['ID', 'Desarrolladora'],
+                            'restful' => 'developer'])
+                        ->with('breadcrumbs', Breadcrumb::generate());
     }
+
 }

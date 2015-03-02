@@ -11,6 +11,8 @@
                 @include('admin.includes.header')
             </header>
             
+            {{ $breadcrumbs }}
+            
             <div class="row">
                 @yield('content')
             </div>

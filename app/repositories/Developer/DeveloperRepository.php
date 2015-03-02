@@ -10,7 +10,11 @@ use \Developer as Developer;
  * @author Ivan
  */
 class DeveloperRepository implements DeveloperRepositoryInterface {
-
+    
+    public function find($id) {
+        return Developer::find($id);
+    }
+    
     public function create($data) {
 
         \Eloquent::unguard();
@@ -23,12 +27,23 @@ class DeveloperRepository implements DeveloperRepositoryInterface {
         return $result;
     }
 
+    public function update($id, $data) {
+
+        \Eloquent::unguard();
+
+        $result = Developer::find($id)->update($data);
+
+        \Eloquent::reguard();
+
+        return $result;
+    }
+
     public function erase($id) {
         
         return Developer::find($id)->delete();
     }
     
-    public function paginateForEditionTable($sort = 'name', $sortDir = 'asc', $pagination = 15) {
+    public function paginateForIndexTable($sort = 'name', $sortDir = 'asc', $pagination = 15) {
 
         $categories = Developer::select(['id', 'name']);
 

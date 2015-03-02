@@ -5,16 +5,29 @@
 <ul class="nav nav-tabs">
     @foreach($tabs as $resource => $label)
     <li role="presentation" class="{{ $restful === $resource ? 'active' : '' }}">
-        {{ HTML::linkRoute("$resource.create", $label) }}
+        {{ HTML::linkRoute("admin.$resource.create", $label) }}
     </li>
     @endforeach
 </ul>
 
 {{-- Formulario de creación --}}
 <div class="panel panel-default">
-    @yield('panel_content')
+
 
     <div class="panel-body">
+
+        {{ Form::open(['route' => "admin.$restful.store", 'files' => true, 'method' => 'POST']) }}
+       
+        @include("admin.includes.forms.$restful")    
+
+        <div class="form-group">
+            <div class="input-group  col-md-12">
+                {{ Form::submit('Guardar', ['class' => 'btn btn-primary  col-md-2 col-md-offset-5']) }}
+            </div>
+        </div>
+
+        {{ Form::close() }}
+
         @foreach($errors->create->all() as $error)
         <div class="alert alert-danger">
             <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>

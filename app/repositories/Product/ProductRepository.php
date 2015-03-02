@@ -11,6 +11,10 @@ use \Product as Product;
  */
 class ProductRepository implements ProductRepositoryInterface {
 
+    public function find($id) {
+        return Product::find($id);
+    }
+
     public function create($data) {
 
         \Eloquent::unguard();
@@ -23,8 +27,19 @@ class ProductRepository implements ProductRepositoryInterface {
         return $result;
     }
 
-    public function erase($id) {
+    public function update($id, $data) {
         
+        \Eloquent::unguard();
+        
+        $result = Product::find($id)->update($data);
+        
+        \Eloquent::reguard();
+        
+        return $result;
+    }
+
+    public function erase($id) {
+
         return Product::find($id)->delete();
     }
 
@@ -46,11 +61,7 @@ class ProductRepository implements ProductRepositoryInterface {
         return !$product->get()->isEmpty();
     }
 
-    public function find($id) {
-        return Product::find($id);
-    }
-
-    public function paginateForEditionTable($sort = 'name', $sortDir = 'asc', $pagination = 15) {
+    public function paginateForIndexTable($sort = 'name', $sortDir = 'asc', $pagination = 15) {
 
         $products = Product::
                 leftJoin('games', 'products.game_id', '=', 'games.id')

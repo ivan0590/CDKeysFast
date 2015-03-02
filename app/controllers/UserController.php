@@ -139,7 +139,7 @@ class UserController extends \BaseController {
         });
 
         return Redirect::back()
-                        ->with(['email_success' => 'Se ha enviado un email para confirmar el cambio.']);
+                        ->with('email_success', 'Se ha enviado un email para confirmar el cambio.');
     }
 
     public function updatePassword($id) {
@@ -181,7 +181,7 @@ class UserController extends \BaseController {
         });
 
         return Redirect::back()
-                        ->with(['password_success' => 'Se ha enviado un email para confirmar el cambio.']);
+                        ->with('password_success', 'Se ha enviado un email para confirmar el cambio.');
     }
 
     public function updatePersonal($id) {
@@ -217,7 +217,7 @@ class UserController extends \BaseController {
                                                     Input::get('dni') ?: Auth::user()->userable->dni);
         
         return Redirect::back()
-                        ->with(['personal_success' => 'Se han guardado los cambios.']);
+                        ->with('personal_success', 'Se han guardado los cambios.');
     }
 
     public function unsuscribe($id) {
@@ -234,7 +234,7 @@ class UserController extends \BaseController {
         });
 
         return Redirect::back()
-                        ->with(['unsuscribe_success' => 'Se ha enviado un email para confirmar la baja.']);
+                        ->with('unsuscribe_success', 'Se ha enviado un email para confirmar la baja.');
     }
 
     

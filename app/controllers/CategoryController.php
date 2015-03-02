@@ -18,8 +18,13 @@ class CategoryController extends \BaseController {
      * @return Response
      */
     public function create() {
-        return View::make('admin.pages.create.category')
-                        ->with(['restful' => 'category']);
+
+        //Miga de pan
+        Breadcrumb::addBreadcrumb('Creación');
+
+        return View::make('admin.pages.create')
+                        ->with('restful', 'category')
+                        ->with('breadcrumbs', Breadcrumb::generate());
     }
 
     /**
@@ -46,11 +51,11 @@ class CategoryController extends \BaseController {
                             ->withErrors($validator, 'create')
                             ->withInput($fields);
         }
-        
+
         //Éxito al guardar
         if ($this->category->create($fields)) {
 
-            return Redirect::back()->with(['save_success' => 'Categoría creada correctamente.']);
+            return Redirect::back()->with('save_success', 'Categoría creada correctamente.');
         }
 
         //Error de SQL
@@ -66,7 +71,24 @@ class CategoryController extends \BaseController {
      * @return Response
      */
     public function edit($id) {
-        
+
+        $validator = Validator::make(['id' => $id], ['id' => 'exists:categories']);
+
+        //El id no existe
+        if ($validator->fails()) {
+            return Redirect::back();
+        }
+
+        $category = $this->category->find($id);
+
+        //Miga de pan
+        Breadcrumb::addBreadcrumb('Edición de categorías', URL::route('admin.category.index'));
+        Breadcrumb::addBreadcrumb($category->name);
+
+        return View::make('admin.pages.edit')
+                        ->with('restful', 'category')
+                        ->with('model', $category)
+                        ->with('breadcrumbs', Breadcrumb::generate());
     }
 
     /**
@@ -114,7 +136,36 @@ class CategoryController extends \BaseController {
      * @return Response
      */
     public function update($id) {
-        //
+        
+        //Campos del formulario
+        $fields = Input::only(['name', 'description']);
+
+        //Reglas de validación
+        $validationRules = [
+            'name' => "required|unique:categories,name,$id",
+            'description' => 'string',
+        ];
+
+        //Validación de los campos del formulario
+        $validator = Validator::make($fields, $validationRules);
+
+        //Los campos no son válidos
+        if ($validator->fails()) {
+            return Redirect::back()
+                            ->withErrors($validator, 'update')
+                            ->withInput($fields);
+        }
+
+        //Éxito al guardar
+        if ($this->category->update($id, $fields)) {
+
+            return Redirect::back()->with('save_success', 'Categoría modificada correctamente.');
+        }
+
+        //Error de SQL
+        return Redirect::back()
+                        ->withErrors(['error' => 'Error al intentar modificar la categoría.'], 'update')
+                        ->withInput(Input::all());
     }
 
     /**
@@ -130,26 +181,30 @@ class CategoryController extends \BaseController {
         if ($validator->fails()) {
             return Redirect::back();
         }
-        
+
         //Éxito al eliminar
-        if($this->category->erase($id)){
+        if ($this->category->erase($id)) {
             return Redirect::back();
-            
-        //Error de SQL
-        } else {
-            return Redirect::back()
-                            ->withErrors(['error' => 'Error al intentar borrar la categoría.'], 'create');          
         }
+        
+        //Error de SQL
+        return Redirect::back()
+                        ->withErrors(['error' => 'Error al intentar borrar la categoría.'], 'erase');
     }
 
-    public function edition() {
+    public function index() {
 
-        $categories = $this->category->paginateForEditionTable('name', 'asc', 20);
+        $categories = $this->category->paginateForIndexTable('name', 'asc', 20);
 
-        return View::make('admin.pages.edition')
-                        ->with(['data' => $categories,
+        //Miga de pan
+        Breadcrumb::addBreadcrumb('Edición');
+
+        return View::make('admin.pages.index')
+                        ->with([
+                            'data' => $categories,
                             'header' => ['ID', 'Categoría'],
-                            'restful' => 'category']); 
+                            'restful' => 'category'])
+                        ->with('breadcrumbs', Breadcrumb::generate());
     }
 
 }

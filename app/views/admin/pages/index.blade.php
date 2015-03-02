@@ -9,7 +9,7 @@
                 <h4 class="modal-title">Errores al borrar</h4>
             </div>
             <div class="modal-body">
-                @foreach($errors->create->all() as $error)
+                @foreach($errors->erase->all() as $error)
                 <div class="alert alert-danger">
                     <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
                     {{ $error }}
@@ -24,7 +24,7 @@
 <ul class="nav nav-tabs">
     @foreach($tabs as $resource => $label)
     <li role="presentation" class="{{ $restful === $resource ? 'active' : '' }}">
-        {{ HTML::linkRoute("$resource.edition", $label) }}
+        {{ HTML::linkRoute("admin.$resource.index", $label) }}
     </li>
     @endforeach
 </ul>
@@ -49,7 +49,7 @@
                     <td>{{ $td }}</td>
                     @endforeach
                     <td>
-                        <a href = "{{ URL::route("$restful.edit", ['id' => $tr['id']]) }}">
+                        <a href = "{{ URL::route("admin.$restful.edit", ['id' => $tr['id']]) }}">
                             <span class = "glyphicon glyphicon-pencil"></span>
                         </a>
                     </td>
@@ -71,7 +71,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="pull-left btn btn-default" data-dismiss="modal">Cancelar</button>
-                                        {{ Form::open(['route' => ["$restful.destroy", $tr['id']], 'class' => 'pull-right', 'method' => 'DELETE']) }}
+                                        {{ Form::open(['route' => ["admin.$restful.destroy", $tr['id']], 'class' => 'pull-right', 'method' => 'DELETE']) }}
                                         <button type="submit" class="btn btn-danger">Borrar</button>
                                         {{ Form::close() }}
                                     </div>

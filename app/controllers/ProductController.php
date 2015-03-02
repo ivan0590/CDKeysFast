@@ -18,28 +18,33 @@ class ProductController extends \BaseController {
      * @return Response
      */
     public function create() {
-        return View::make('admin.pages.create.product')
-                ->with(['restful' => 'product']);
+
+        //Miga de pan
+        Breadcrumb::addBreadcrumb('Creación');
+
+        return View::make('admin.pages.create')
+                        ->with('restful', 'product')
+                        ->with('breadcrumbs', Breadcrumb::generate());
     }
-    
+
     /**
      * 
      *
      * @return Response
      */
     public function store() {
-        
+
         //Cuando el checkbox del producto destacado está desmarcado su valor es null y se necesita un false
-        Input::get('highlighted') !== null ?: Input::merge(['highlighted' => false]);
-        
+        Input::get('highlighted') !== null ? : Input::merge(['highlighted' => false]);
+
         //Campos del formulario
         $fields = Input::only([
-            'game_id', 'platform_id', 'publisher_id', 'price', 'discount',
-            'stock', 'launch_date', 'highlighted', 'singleplayer', 'multiplayer',
-            'cooperative',
+                    'game_id', 'platform_id', 'publisher_id', 'price', 'discount',
+                    'stock', 'launch_date', 'highlighted', 'singleplayer', 'multiplayer',
+                    'cooperative',
         ]);
-        
-         //Reglas de validación
+
+        //Reglas de validación
         $validationRules = [
             'game_id' => 'exists:games,id|unique_with:products,platform_id',
             'platform_id' => 'exists:platforms,id',
@@ -63,20 +68,18 @@ class ProductController extends \BaseController {
                             ->withErrors($validator, 'create')
                             ->withInput($fields);
         }
-        
+
         //Éxito al guardar
-        if($this->product->create($fields)){
-            return Redirect::back()->with(['save_success' => 'Producto creado correctamente.']);
-            
-        //Error de SQL
-        } else {
-            return Redirect::back()
-                            ->withErrors(['error' => 'Error al intentar crear el producto.'], 'create')
-                            ->withInput(Input::all());          
+        if ($this->product->create($fields)) {
+            return Redirect::back()->with('save_success', 'Producto creado correctamente.');
         }
-        
+
+        //Error de SQL
+        return Redirect::back()
+                        ->withErrors(['error' => 'Error al intentar crear el producto.'], 'create')
+                        ->withInput(Input::all());
     }
-    
+
     /**
      * 
      *
@@ -84,7 +87,24 @@ class ProductController extends \BaseController {
      * @return Response
      */
     public function edit($id) {
-        
+
+        $validator = Validator::make(['id' => $id], ['id' => 'exists:products']);
+
+        //El id no existe
+        if ($validator->fails()) {
+            return Redirect::back();
+        }
+
+        $product = $this->product->find($id);
+
+        //Miga de pan
+        Breadcrumb::addBreadcrumb('Edición de productos', URL::route('admin.product.index'));
+        Breadcrumb::addBreadcrumb("ID: $product->id");
+
+        return View::make('admin.pages.edit')
+                        ->with('restful', 'product')
+                        ->with('model', $product)
+                        ->with('breadcrumbs', Breadcrumb::generate());
     }
 
     /**
@@ -93,18 +113,18 @@ class ProductController extends \BaseController {
      * @param  int  $platformId
      * @return Response
      */
-    public function show($platformId, $categoryId, $gameId) {
+    public function show($platformId, $categoryId, $productId) {
 
         //Producto no existente para ese id, plataforma y categoría
-        if (!$this->product->exists($gameId, $platformId, $categoryId)) {
+        if (!$this->product->exists($productId, $platformId, $categoryId)) {
             return Redirect::route('index');
         }
 
         //Se añaden los ids de la plataforma, la categoría y el producto  al input
-        Input::replace(array_merge(['platform_id' => $platformId, 'category_id' => $categoryId, 'product_id' => $gameId], Input::all()));
+        Input::replace(array_merge(['platform_id' => $platformId, 'category_id' => $categoryId, 'product_id' => $productId], Input::all()));
 
         //Producto
-        $product = $this->product->find($gameId);
+        $product = $this->product->find($productId);
 
         //Miga de pan
         Breadcrumb::addBreadcrumb('Inicio', URL::route('index'));
@@ -125,7 +145,51 @@ class ProductController extends \BaseController {
      * @return Response
      */
     public function update($id) {
-        //
+
+        //Cuando el checkbox del producto destacado está desmarcado su valor es null y se necesita un false
+        Input::get('highlighted') !== null ? : Input::merge(['highlighted' => false]);
+
+        //Campos del formulario
+        $fields = Input::only([
+                    'game_id', 'platform_id', 'publisher_id', 'price', 'discount',
+                    'stock', 'launch_date', 'highlighted', 'singleplayer', 'multiplayer',
+                    'cooperative',
+        ]);
+
+        //Reglas de validación
+        $validationRules = [
+            'game_id' => "exists:games,id|unique_with:products,platform_id,$id",
+            'platform_id' => 'exists:platforms,id',
+            'publisher_id' => 'exists:publishers,id',
+            'price' => 'numeric|min:1',
+            'discount' => 'numeric|min:0|max:100',
+            'stock' => 'integer|min:0|max:100',
+            'launch_date' => 'date',
+            'highlighted' => 'boolean',
+            'singleplayer' => 'boolean',
+            'multiplayer' => 'boolean',
+            'cooperative' => 'boolean',
+        ];
+
+        //Validación de los campos del formulario
+        $validator = Validator::make($fields, $validationRules);
+
+        //Los campos no son válidos
+        if ($validator->fails()) {
+            return Redirect::back()
+                            ->withErrors($validator, 'update')
+                            ->withInput($fields);
+        }
+
+        //Éxito al guardar
+        if ($this->product->update($id, $fields)) {
+            return Redirect::back()->with('save_success', 'Producto modificado correctamente.');
+        }
+
+        //Error de SQL
+        return Redirect::back()
+                        ->withErrors(['error' => 'Error al intentar modificar el producto.'], 'update')
+                        ->withInput(Input::all());
     }
 
     /**
@@ -135,34 +199,37 @@ class ProductController extends \BaseController {
      * @return Response
      */
     public function destroy($id) {
-                
+
         $validator = Validator::make(['id' => $id], ['id' => 'exists:products']);
 
         //El id no existe
         if ($validator->fails()) {
             return Redirect::back();
         }
-        
+
         //Éxito al eliminar
-        if($this->product->erase($id)){
+        if ($this->product->erase($id)) {
             return Redirect::back();
-            
-        //Error de SQL
-        } else {
-            return Redirect::back()
-                            ->withErrors(['error' => 'Error al intentar borrar el producto.'], 'create');          
         }
         
+        //Error de SQL
+        return Redirect::back()
+                        ->withErrors(['error' => 'Error al intentar borrar el producto.'], 'erase');
     }
 
-    public function edition() {
-        
-        $products = $this->product->paginateForEditionTable('games.name', 'asc', 20);
-        
-        return View::make('admin.pages.edition')
-                ->with(['data' => $products,
-                        'header' => ['ID', 'Juego', 'Plataforma', 'Categoría', 'Distribuidora'],
-                        'restful' => 'product']); 
+    public function index() {
+
+        $products = $this->product->paginateForIndexTable('games.name', 'asc', 20);
+
+        //Miga de pan
+        Breadcrumb::addBreadcrumb('Edición');
+
+        return View::make('admin.pages.index')
+                        ->with([
+                            'data' => $products,
+                            'header' => ['ID', 'Juego', 'Plataforma', 'Categoría', 'Distribuidora'],
+                            'restful' => 'product'])
+                        ->with('breadcrumbs', Breadcrumb::generate());
     }
 
 }

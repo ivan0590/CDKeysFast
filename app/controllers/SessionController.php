@@ -8,6 +8,18 @@ class SessionController extends \BaseController {
         $this->user = $user;
     }
 
+        
+    /**
+     * 
+     *
+     * @return Response
+     */
+    public function getAdminLogin() {
+        
+        return View::make('admin.pages.login');
+    }
+     
+    
     /**
      * 
      *
@@ -55,7 +67,7 @@ class SessionController extends \BaseController {
             //Se intenta iniciar sesión
             if (Auth::attempt(Input::only('email', 'password'), true)) {
                 return $role === 'Admin' ?
-                        Redirect::route('product.edition') : //Admin
+                        Redirect::route('admin.product.index') : //Admin
                         Redirect::back(); //Cliente
             }
         }

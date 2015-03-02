@@ -21,31 +21,23 @@ Route::get('/', [
 //Login y logout
 Route::resource('session', 'SessionController', ['only' => ['store']]);
 
-//Administración
-Route::group(['before' => 'admin'], function () {
-
-    //Importar
-    Route::get('import', ['as' => 'import', 'uses' => 'AdministrationController@getImport', 'before' => 'admin']);
-
-    //Operaciones CRUD
-    Route::resource('product', 'ProductController', ['except' => ['show', 'index']]);
-    Route::resource('game', 'GameController', ['except' => ['show', 'index']]);
-    Route::resource('platform', 'PlatformController', ['except' => ['show', 'index']]);
-    Route::resource('category', 'CategoryController', ['except' => ['show', 'index']]);
-    Route::resource('developer', 'DeveloperController', ['except' => ['show', 'index']]);
-    Route::resource('publisher', 'PublisherController', ['except' => ['show', 'index']]);
-
-    //Pagínas de edición
-    Route::get('product/edition', ['as' => 'product.edition', 'uses' => 'ProductController@edition']);
-    Route::get('game/edition', ['as' => 'game.edition', 'uses' => 'GameController@edition']);
-    Route::get('platform/edition', ['as' => 'platform.edition', 'uses' => 'PlatformController@edition']);
-    Route::get('category/edition', ['as' => 'category.edition', 'uses' => 'CategoryController@edition']);
-    Route::get('developer/edition', ['as' => 'developer.edition', 'uses' => 'DeveloperController@edition']);
-    Route::get('publisher/edition', ['as' => 'publisher.edition', 'uses' => 'PublisherController@edition']);
-});
-
 //Login administrativo
-Route::get('admin/login', ['as' => 'admin.login', 'uses' => 'AdministrationController@getLogin', 'before' => 'login-avoid']);
+Route::get('admin/login', ['as' => 'admin.login', 'uses' => 'SessionController@getAdminLogin', 'before' => 'login-avoid']);
+
+//Administración
+Route::group(['prefix' => 'admin', 'before' => 'admin'], function () {
+    
+    //Carga masiva
+    Route::resource('massive_upload', 'MassiveUploadController', ['only' => ['create', 'store']]);
+
+    //Formularios y operaciones CRUD
+    Route::resource('product', 'ProductController', ['except' => ['show']]);
+    Route::resource('game', 'GameController', ['except' => ['show']]);
+    Route::resource('platform', 'PlatformController', ['except' => ['show']]);
+    Route::resource('category', 'CategoryController', ['except' => ['show']]);
+    Route::resource('developer', 'DeveloperController', ['except' => ['show']]);
+    Route::resource('publisher', 'PublisherController', ['except' => ['show']]);
+});
 
 //Para aplicar el filtro de ordenación
 Route::group(['before' => 'sort'], function () {

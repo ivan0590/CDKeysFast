@@ -11,6 +11,10 @@ use \Publisher as Publisher;
  */
 class PublisherRepository implements PublisherRepositoryInterface {
 
+    public function find($id) {
+        return Publisher::find($id);
+    }
+
     public function create($data) {
 
         \Eloquent::unguard();
@@ -23,12 +27,23 @@ class PublisherRepository implements PublisherRepositoryInterface {
         return $result;
     }
 
+    public function update($id, $data) {
+
+        \Eloquent::unguard();
+
+        $result = Publisher::find($id)->update($data);
+
+        \Eloquent::reguard();
+
+        return $result;
+    }
+
     public function erase($id) {
         
         return Publisher::find($id)->delete();
     }
     
-    public function paginateForEditionTable($sort = 'name', $sortDir = 'asc', $pagination = 15) {
+    public function paginateForIndexTable($sort = 'name', $sortDir = 'asc', $pagination = 15) {
 
         $categories = Publisher::select(['id', 'name']);
 
