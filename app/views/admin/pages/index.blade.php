@@ -1,9 +1,9 @@
 @extends('admin.layouts.admin')
 @section('content')
 
-<div class="modal fade" id="modal-erase-results" tabindex="-1" role="dialog" aria-labelledby="Errores al borrar" aria-hidden="true">
+<div class="modal fade" id="modal-results" tabindex="-1" role="dialog" aria-labelledby="Errores al borrar" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content col-md-8 col-md-offset-2">
+        <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">Errores al borrar</h4>

@@ -37,7 +37,7 @@ class GameController extends \BaseController {
         ]);
 
         //Reglas de validación
-        $validationRules = [
+        $rules = [
             'name' => 'required|unique:games',
             'category_id' => 'exists:categories,id',
             'agerate_id' => 'exists:agerates,id',
@@ -51,7 +51,7 @@ class GameController extends \BaseController {
         $offer = Input::file('offer_image_path');
 
         //Validación de los campos del formulario
-        $validator = Validator::make($fields + ['thumbnail' => $thumbnail, 'offer' => $offer], $validationRules);
+        $validator = Validator::make($fields + ['thumbnail' => $thumbnail, 'offer' => $offer], $rules);
 
         //Los campos no son válidos
         if ($validator->fails()) {
@@ -132,7 +132,7 @@ class GameController extends \BaseController {
         ]);
 
         //Reglas de validación
-        $validationRules = [
+        $rules = [
             'name' => "required|unique:games,name,$id",
             'category_id' => 'exists:categories,id',
             'agerate_id' => 'exists:agerates,id',
@@ -146,7 +146,7 @@ class GameController extends \BaseController {
         $offer = Input::file('offer_image_path');
 
         //Validación de los campos del formulario
-        $validator = Validator::make($fields + ['thumbnail' => $thumbnail, 'offer' => $offer], $validationRules);
+        $validator = Validator::make($fields + ['thumbnail' => $thumbnail, 'offer' => $offer], $rules);
 
         //Los campos no son válidos
         if ($validator->fails()) {

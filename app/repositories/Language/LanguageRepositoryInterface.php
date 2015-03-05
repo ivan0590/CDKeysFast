@@ -1,12 +1,12 @@
 <?php
 
-namespace Repositories\Game;
+namespace Repositories\Language;
 
 /**
  *
  * @author Ivan
  */
-interface GameRepositoryInterface {
+interface LanguageRepositoryInterface {
 
     public function find($id);
     
@@ -17,6 +17,4 @@ interface GameRepositoryInterface {
     public function update($id, $data);
 
     public function getByName($name);
-
-    public function paginateForIndexTable($sort = 'name', $sortDir = 'asc', $pagination = 15);
 }

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    
+	<xs:element name="carga-masiva">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="grupo-categorias" maxOccurs="1" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="categoria" type="categorias-categoria" maxOccurs="unbounded" minOccurs="1">
+								
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+					<xs:unique name="unique-categorias-categoria">
+						<xs:selector xpath="./categoria"/>
+						<xs:field xpath="@nombre"/>
+					</xs:unique>
+				</xs:element>
+				
+				<xs:element name="grupo-juegos" maxOccurs="1" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="categoria" type="juegos-categoria" maxOccurs="unbounded" minOccurs="1">
+								
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+					<xs:unique name="unique-juegos-categoria">
+						<xs:selector xpath="./categoria"/>
+						<xs:field xpath="@nombre"/>
+					</xs:unique>
+					<xs:unique name="unique-juegos-juego">
+						<xs:selector xpath="./categoria/juego"/>
+						<xs:field xpath="nombre"/>
+					</xs:unique>
+				</xs:element>
+				
+				<xs:element name="grupo-productos"  maxOccurs="1" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="plataforma" type="productos-plataforma" maxOccurs="unbounded" minOccurs="1">
+								<xs:unique name="unique-productos-juego">
+									<xs:selector xpath="./producto"/>
+									<xs:field xpath="@juego"/>
+								</xs:unique>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+					<xs:unique name="unique-productos-plataforma">
+						<xs:selector xpath="./plataforma"/>
+						<xs:field xpath="@nombre"/>
+					</xs:unique>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<!-- TIPOS DEL GRUPO DE CATEGORIAS -->
+	<xs:complexType name="categorias-categoria">
+		<xs:all>
+			<xs:element type="xs:string"  name="descripcion"  minOccurs="1" maxOccurs="1"/>
+		</xs:all>
+		<xs:attribute type="xs:string" name="nombre" use="required"/>
+	</xs:complexType>
+	
+	<!-- TIPOS DEL GRUPO DE JUEGOS -->
+	<xs:complexType name="juegos-categoria">
+		<xs:sequence>
+			<xs:element name="juego" type="juegos-juego" maxOccurs="unbounded" minOccurs="1">
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute type="xs:string" name="nombre" use="required"/>
+	</xs:complexType>
+	
+	<xs:complexType name="juegos-juego">
+		<xs:all>
+			<xs:element type="xs:string"  name="descripcion"  minOccurs="1" maxOccurs="1"/>
+			<xs:element type="xs:string"  name="calificacion-edad"  minOccurs="1" maxOccurs="1"/>
+		</xs:all>
+		<xs:attribute type="xs:string" name="nombre" use="required"/>
+	</xs:complexType>
+	
+	
+	<!-- TIPOS DEL GRUPO DE PRODUCTOS -->
+	<xs:complexType name="productos-plataforma">
+		<xs:sequence>
+			<xs:element name="producto" type="productos-producto" maxOccurs="unbounded" minOccurs="1">
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute type="xs:string" name="nombre" use="required"/>
+	</xs:complexType>
+	
+	<xs:complexType name="productos-producto">
+		<xs:all>
+			<xs:element type="xs:decimal" name="precio" minOccurs="1" maxOccurs="1"/>
+			<xs:element type="xs:decimal" name="descuento" minOccurs="1" maxOccurs="1"/>
+			<xs:element type="xs:decimal" name="stock"  minOccurs="1" maxOccurs="1"/>
+			<xs:element type="xs:date"    name="fecha-lanzamiento"  minOccurs="1" maxOccurs="1"/>
+			<xs:element type="xs:string"  name="distribuidora"  minOccurs="1" maxOccurs="1"/>
+			<xs:element name="grupo-desarrolladoras"  minOccurs="1" maxOccurs="1">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element type="xs:string" name="desarrolladora"  minOccurs="1" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="audio" minOccurs="1" maxOccurs="1">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element type="xs:string" name="idioma" maxOccurs="unbounded" minOccurs="1"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="texto" minOccurs="1" maxOccurs="1">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element type="xs:string" name="idioma" maxOccurs="unbounded" minOccurs="1"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:all>
+		<xs:attribute type="xs:string" name="juego" use="required"/>
+		<xs:attribute type="xs:boolean" name="destacado" use="required"/>
+		<xs:attribute type="xs:boolean" name="un_jugador" use="required"/>
+		<xs:attribute type="xs:boolean" name="multijugador" use="required"/>
+		<xs:attribute type="xs:boolean" name="cooperativo" use="required"/>
+	</xs:complexType>
+</xs:schema>

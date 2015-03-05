@@ -45,7 +45,7 @@ class ProductController extends \BaseController {
         ]);
 
         //Reglas de validación
-        $validationRules = [
+        $rules = [
             'game_id' => 'exists:games,id|unique_with:products,platform_id',
             'platform_id' => 'exists:platforms,id',
             'publisher_id' => 'exists:publishers,id',
@@ -60,7 +60,7 @@ class ProductController extends \BaseController {
         ];
 
         //Validación de los campos del formulario
-        $validator = Validator::make($fields, $validationRules);
+        $validator = Validator::make($fields, $rules);
 
         //Los campos no son válidos
         if ($validator->fails()) {
@@ -157,13 +157,13 @@ class ProductController extends \BaseController {
         ]);
 
         //Reglas de validación
-        $validationRules = [
+        $rules = [
             'game_id' => "exists:games,id|unique_with:products,platform_id,$id",
             'platform_id' => 'exists:platforms,id',
             'publisher_id' => 'exists:publishers,id',
             'price' => 'numeric|min:1',
             'discount' => 'numeric|min:0|max:100',
-            'stock' => 'integer|min:0|max:100',
+            'stock' => 'integer|min:0',
             'launch_date' => 'date',
             'highlighted' => 'boolean',
             'singleplayer' => 'boolean',
@@ -172,7 +172,7 @@ class ProductController extends \BaseController {
         ];
 
         //Validación de los campos del formulario
-        $validator = Validator::make($fields, $validationRules);
+        $validator = Validator::make($fields, $rules);
 
         //Los campos no son válidos
         if ($validator->fails()) {

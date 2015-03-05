@@ -33,12 +33,12 @@ class PublisherController extends \BaseController {
         $fields = Input::only(['name']);
 
         //Reglas de validación
-        $validationRules = [
+        $rules = [
             'name' => 'required|unique:publishers'
         ];
 
         //Validación de los campos del formulario
-        $validator = Validator::make($fields, $validationRules);
+        $validator = Validator::make($fields, $rules);
 
         //Los campos no son válidos
         if ($validator->fails()) {
@@ -96,12 +96,12 @@ class PublisherController extends \BaseController {
         $fields = Input::only(['name']);
 
         //Reglas de validación
-        $validationRules = [
+        $rules = [
             'name' => "required|unique:publishers,name,$id"
         ];
 
         //Validación de los campos del formulario
-        $validator = Validator::make($fields, $validationRules);
+        $validator = Validator::make($fields, $rules);
 
         //Los campos no son válidos
         if ($validator->fails()) {

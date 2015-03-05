@@ -10,6 +10,8 @@ interface UserRepositoryInterface {
     
     public function create($email, $password, $role);
     
+    public function updateAdminPersonalData($id, $name, $surname);
+    
     public function updateClientPersonalData($id, $name, $surname, $birthdate, $dni);
     
     public function emailExists($email);

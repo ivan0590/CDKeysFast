@@ -1,5 +1,5 @@
 $(function () {
-    if($('#modal-erase-results .modal-body div').length) {
-        $('#modal-erase-results').modal('show');        
+    if($('#modal-results .modal-body div').length) {
+        $('#modal-results').modal('show');        
     }
 });

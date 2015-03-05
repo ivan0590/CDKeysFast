@@ -37,13 +37,13 @@ class CategoryController extends \BaseController {
         $fields = Input::only(['name', 'description']);
 
         //Reglas de validación
-        $validationRules = [
+        $rules = [
             'name' => 'required|unique:categories',
             'description' => 'string',
         ];
 
         //Validación de los campos del formulario
-        $validator = Validator::make($fields, $validationRules);
+        $validator = Validator::make($fields, $rules);
 
         //Los campos no son válidos
         if ($validator->fails()) {
@@ -141,13 +141,13 @@ class CategoryController extends \BaseController {
         $fields = Input::only(['name', 'description']);
 
         //Reglas de validación
-        $validationRules = [
+        $rules = [
             'name' => "required|unique:categories,name,$id",
             'description' => 'string',
         ];
 
         //Validación de los campos del formulario
-        $validator = Validator::make($fields, $validationRules);
+        $validator = Validator::make($fields, $rules);
 
         //Los campos no son válidos
         if ($validator->fails()) {

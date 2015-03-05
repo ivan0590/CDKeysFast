@@ -9,36 +9,6 @@
 
     <div class="panel-body">
 
-        {{-- Datos actuales --}}
-        <div class="panel">
-            <div class="panel-body">
-                <dl class="col-md-4 col-md-offset-4">
-                    <dt class="pull-left">Email:</dt>
-                    <dd>{{ Auth::user()->email }}</dd>
-
-                    @if(Auth::user()->name)
-                    <dt class="pull-left">Nombre:</dt>
-                    <dd>{{ Auth::user()->name }}</dd>
-                    @endif
-
-                    @if(Auth::user()->surname)
-                    <dt class="pull-left">Apellidos:</dt>
-                    <dd>{{ Auth::user()->surname }}</dd>
-                    @endif
-
-                    @if(Auth::user()->userable->birthdate)
-                    <dt class="pull-left">Fecha de nacimiento:</dt>
-                    <dd>{{ Auth::user()->userable->birthdate }}</dd>
-                    @endif
-                    
-                    @if(Auth::user()->userable->dni)
-                    <dt class="pull-left">DNI:</dt>
-                    <dd>{{ Auth::user()->userable->dni }}</dd>
-                    @endif
-                </dl>
-            </div>
-        </div>
-
         {{-- Cambiar email --}}
         <div class="panel col-md-6">
             <div class="panel-body">
@@ -53,7 +23,7 @@
                             <div class="input-group-addon">
                                 {{ Form::label('email', 'Email')}}
                             </div>
-                            {{ Form::text('email', null, ['class' => 'form-control']) }}
+                            {{ Form::text('email', Auth::user()->email, ['class' => 'form-control']) }}
                         </div>
 
                         <div class="input-group">
@@ -160,7 +130,7 @@
                             <div class="input-group-addon">
                                 {{ Form::label('name', 'Nombre')}}
                             </div>
-                            {{ Form::text('name', null, ['class' => 'form-control']) }}
+                            {{ Form::text('name',  Auth::user()->name, ['class' => 'form-control']) }}
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -168,16 +138,17 @@
                             <div class="input-group-addon">
                                 {{ Form::label('surname', 'Apellidos')}}
                             </div>
-                            {{ Form::text('surname', null, ['class' => 'form-control']) }}
+                            {{ Form::text('surname',  Auth::user()->surname, ['class' => 'form-control']) }}
                         </div>
                     </div>
 
+                    @if(Auth::user()->userable_type !== 'Admin')
                     <div class="col-md-4">
                         <div class="input-group">
                             <div class="input-group-addon">
                                 {{ Form::label('birthdate', 'Fecha de nacimiento') }}
                             </div>
-                            {{ Form::input('date', 'birthdate', null, ['min' => '1930-01-01', 'max' => date('Y-m-d'), 'class' => 'form-control']) }}
+                            {{ Form::input('date', 'birthdate', Auth::user()->userable->birthdate, ['min' => '1930-01-01', 'max' => date('Y-m-d'), 'class' => 'form-control']) }}
                         </div>
                     </div>
 
@@ -186,9 +157,10 @@
                             <div class="input-group-addon">
                                 {{ Form::label('dni', 'DNI')}}
                             </div>
-                            {{ Form::text('dni', null, ['class' => 'form-control']) }}
+                            {{ Form::text('dni', Auth::user()->userable->dni, ['class' => 'form-control']) }}
                         </div>
                     </div>
+                    @endif
                 </div>
 
                 <div class="form-group">
@@ -218,7 +190,7 @@
                 {{ Form::close() }}
             </div>
         </div>
-        
+
         {{-- Darse de baja --}}
         <div class="panel">
             <div class="panel-body col-md-12">
@@ -227,7 +199,7 @@
 
                 {{ Form::open(['route' => ['unsuscribe', Auth::id()],
                                'method' => 'POST'])  }}
-                
+
                 <div class="form-group">
                     <div class="input-group col-md-12">
                         {{ Form::submit('Enviar email de confirmación', ['class' => 'btn btn-danger  col-md-4 col-md-offset-4']) }}

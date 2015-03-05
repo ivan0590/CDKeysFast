@@ -1,25 +1,25 @@
 <?php
 
-namespace Repositories\Game;
+namespace Repositories\Agerate;
 
-use \Game as Game;
+use \Agerate as Agerate;
 
 /**
- * Description of GameRepository
+ * Description of AgerateRepository
  *
  * @author Ivan
  */
-class GameRepository implements GameRepositoryInterface {
+class AgerateRepository implements AgerateRepositoryInterface {
 
     public function find($id) {
-        return Game::find($id);
+        return Agerate::find($id);
     }
 
     public function create($data) {
 
         \Eloquent::unguard();
 
-        $game = new Game($data);
+        $game = new Agerate($data);
         $result = $game->save();
 
         \Eloquent::reguard();
@@ -31,7 +31,7 @@ class GameRepository implements GameRepositoryInterface {
 
         \Eloquent::unguard();
 
-        $result = Game::find($id)->update($data);
+        $result = Agerate::find($id)->update($data);
 
         \Eloquent::reguard();
 
@@ -39,16 +39,16 @@ class GameRepository implements GameRepositoryInterface {
     }
 
     public function erase($id) {
-        return Game::find($id)->delete();
+        return Agerate::find($id)->delete();
     }
 
     public function getByName($name) {
-        return Game::where('name', '=', $name)->first();
+        return Agerate::where('name', '=', $name)->first();
     }
 
     public function paginateForIndexTable($sort = 'name', $sortDir = 'asc', $pagination = 15) {
 
-        $games = Game::
+        $games = Agerate::
                 leftJoin('categories', 'games.category_id', '=', 'categories.id')
                 ->leftJoin('agerates', 'games.agerate_id', '=', 'agerates.id')
                 ->select(['games.id as id',

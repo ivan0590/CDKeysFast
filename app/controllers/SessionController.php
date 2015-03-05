@@ -28,7 +28,7 @@ class SessionController extends \BaseController {
     public function store() {
 
         //Reglas de validación
-        $validationRules = [
+        $rules = [
             'email' => 'required|email', //Email requerido
             'password' => 'required|alphaNum|min:6' //Contraseña alfanumérica de 6 caracteres requerida
         ];
@@ -41,7 +41,7 @@ class SessionController extends \BaseController {
             'password.min' => 'La contraseña ha de tener al menos 6 caracteres.'];
 
         //Validación de los campos del formulario
-        $validator = Validator::make(Input::all(), $validationRules, $messages);
+        $validator = Validator::make(Input::all(), $rules, $messages);
 
         //Los campos no son válidos
         if ($validator->fails()) {

@@ -16,6 +16,8 @@ interface PlatformRepositoryInterface {
 
     public function erase($id);
 
+    public function getByName($name);
+    
     public function exists($id);
 
     public function paginateForIndexTable($sort = 'name', $sortDir = 'asc', $pagination = 15);

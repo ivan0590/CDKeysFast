@@ -17,6 +17,14 @@ interface ProductRepositoryInterface {
     
     public function erase($id);
     
+    public function addDeveloper($id, $developer);
+    
+    public function addAudio($id, $language);
+    
+    public function addText($id, $language);
+    
+    public function getByGameAndPlatform($gameId, $platformId);
+    
     public function exists($id, $platformId = null, $categoryId = null);
             
     public function paginateForIndexTable($sort = 'name',

@@ -43,6 +43,19 @@ class CategoryRepository implements CategoryRepositoryInterface {
         return Category::find($id)->delete();
     }
 
+    public function getByName($name) {
+        return Category::where('name', '=', $name)->first();
+    }
+    
+    public function getByPlatformWhereHasProducts($platformId) {
+
+        return Category::whereHas('games', function ($gamesQuery) use($platformId) {
+                    $gamesQuery->whereHas('products', function ($productsQuery) use ($platformId) {
+                        $productsQuery->where('platform_id', '=', $platformId)->orderBy('name', 'asc');
+                    });
+                })->get();
+    }
+
     public function exists($id, $platformId = null) {
         $category = Category::where('id', '=', $id);
 
@@ -55,15 +68,6 @@ class CategoryRepository implements CategoryRepositoryInterface {
         }
 
         return !$category->get()->isEmpty();
-    }
-
-    public function getByPlatformWhereHasProducts($platformId) {
-
-        return Category::whereHas('games', function ($gamesQuery) use($platformId) {
-                    $gamesQuery->whereHas('products', function ($productsQuery) use ($platformId) {
-                        $productsQuery->where('platform_id', '=', $platformId)->orderBy('name', 'asc');
-                    });
-                })->get();
     }
 
     public function paginateForIndexTable($sort = 'name', $sortDir = 'asc', $pagination = 15) {

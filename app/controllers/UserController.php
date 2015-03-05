@@ -30,7 +30,7 @@ class UserController extends \BaseController {
     public function store() {
 
         //Reglas de validación
-        $validationRules = [
+        $rules = [
             'email' => 'required|email|confirmed', //Email requerido
             'password' => 'required|alphaNum|min:6|confirmed' //Contraseña alfanumérica de 6 caracteres requerida'
         ];
@@ -46,7 +46,7 @@ class UserController extends \BaseController {
         ];
 
         //Validación de los campos del formulario
-        $validator = Validator::make(Input::all(), $validationRules, $messages);
+        $validator = Validator::make(Input::all(), $rules, $messages);
 
         //Los campos no son válidos
         if ($validator->fails()) {
@@ -91,9 +91,16 @@ class UserController extends \BaseController {
         //Miga de pan
         Breadcrumb::addBreadcrumb('Inicio', URL::route('index'));
         Breadcrumb::addBreadcrumb('Editar perfil');
+        
+        $userData = ['email' => Auth::user()->email,
+                     'name' => Auth::user()->name,
+                     'surname' => Auth::user()->surname,
+                     'birthdate' => Auth::user()->userable->birthdate,
+                     'dni' => Auth::user()->userable->dni];
 
         return View::make('client.pages.edit_profile')
-                        ->with('breadcrumbs', Breadcrumb::generate());
+                        ->with('breadcrumbs', Breadcrumb::generate())
+                        ->withInput($userData);
     }
 
     
@@ -112,7 +119,7 @@ class UserController extends \BaseController {
         $fields = Input::only(['email', 'email_confirmation']);
 
         //Reglas de validación
-        $validationRules = ['email' => 'required|email|confirmed|unique:users'];
+        $rules = ['email' => 'required|email|confirmed|unique:users'];
 
         //Mensajes de error
         $messages = [
@@ -122,7 +129,7 @@ class UserController extends \BaseController {
             'email.unique' => 'El email es el mismo o ya existe otro usuario con ese email.'];
 
         //Validación de los campos del formulario
-        $validator = Validator::make($fields, $validationRules, $messages);
+        $validator = Validator::make($fields, $rules, $messages);
 
         //Los campos no son válidos
         if ($validator->fails()) {
@@ -152,7 +159,7 @@ class UserController extends \BaseController {
         $fields = Input::only(['password', 'password_confirmation']);
 
         //Reglas de validación
-        $validationRules = ['password' => 'required|alphaNum|min:6|confirmed|unique:users,password,NULL,id,id,' . Auth::id()];
+        $rules = ['password' => 'required|alphaNum|min:6|confirmed|unique:users,password,NULL,id,id,' . Auth::id()];
 
         //Mensajes de error
         $messages = [
@@ -164,7 +171,7 @@ class UserController extends \BaseController {
         ];
 
         //Validación de los campos del formulario
-        $validator = Validator::make($fields, $validationRules, $messages);
+        $validator = Validator::make($fields, $rules, $messages);
 
         //Los campos no son válidos
         if ($validator->fails()) {
@@ -194,14 +201,14 @@ class UserController extends \BaseController {
         $fields = Input::only(['name', 'surname', 'birthdate', 'dni']);
 
         //Reglas de validación
-        $validationRules = ['date' => 'date'];
+        $rules = ['date' => 'date'];
 
         //Mensajes de error
         $messages = [
             'birthdate.date' => 'Fecha incorrecta'];
 
         //Validación de los campos del formulario
-        $validator = Validator::make($fields, $validationRules, $messages);
+        $validator = Validator::make($fields, $rules, $messages);
 
         //Los campos no son válidos
         if ($validator->fails()) {
@@ -210,11 +217,17 @@ class UserController extends \BaseController {
                             ->withInput($fields);
         }
 
-        $this->user->updateClientPersonalData(Auth::id(),
-                                                    Input::get('name') ?: Auth::user()->name,
-                                                    Input::get('surname') ?: Auth::user()->surname,
-                                                    Input::get('birthdate') ?: Auth::user()->userable->birthdate,
-                                                    Input::get('dni') ?: Auth::user()->userable->dni);
+        if(Auth::user()->userable_type === 'Admin'){
+            $this->user->updateAdminPersonalData(Auth::id(),
+                                                        Input::get('name') ?: Auth::user()->name,
+                                                        Input::get('surname') ?: Auth::user()->surname);
+        } else {
+            $this->user->updateClientPersonalData(Auth::id(),
+                                                        Input::get('name') ?: Auth::user()->name,
+                                                        Input::get('surname') ?: Auth::user()->surname,
+                                                        Input::get('birthdate') ?: Auth::user()->userable->birthdate,
+                                                        Input::get('dni') ?: Auth::user()->userable->dni);
+        }
         
         return Redirect::back()
                         ->with('personal_success', 'Se han guardado los cambios.');
@@ -282,7 +295,7 @@ class UserController extends \BaseController {
 
         return Redirect::route('info')
                         ->with('breadcrumbs', Breadcrumb::generate())
-                        ->with('message', 'El cambio de contraseña se ha confirmado.');
+                        ->with('message', 'El cambio de email se ha confirmado.');
     }
 
     public function confirmPassword($id, $changePasswordCode) {
@@ -301,7 +314,7 @@ class UserController extends \BaseController {
 
         return Redirect::route('info')
                         ->with('breadcrumbs', Breadcrumb::generate())
-                        ->with('message', 'El cambio de email se ha confirmado.');
+                        ->with('message', 'El cambio de contraseña se ha confirmado.');
     }
 
     public function confirmUnsuscribe($id, $unsuscribeCode) {

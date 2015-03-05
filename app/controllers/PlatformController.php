@@ -37,7 +37,7 @@ class PlatformController extends \BaseController {
         $fields = Input::only(['name', 'icon_path', 'description']);
 
         //Reglas de validación
-        $validationRules = [
+        $rules = [
             'name' => 'required|unique:platforms',
             'icon' => 'image',
             'description' => 'string',
@@ -47,7 +47,7 @@ class PlatformController extends \BaseController {
         $icon = Input::file('icon_path');
         
         //Validación de los campos del formulario
-        $validator = Validator::make($fields + ['icon' => $icon], $validationRules);
+        $validator = Validator::make($fields + ['icon' => $icon], $rules);
 
         //Los campos no son válidos
         if ($validator->fails()) {
@@ -150,7 +150,7 @@ class PlatformController extends \BaseController {
         $fields = Input::only(['name', 'icon_path', 'description']);
 
         //Reglas de validación
-        $validationRules = [
+        $rules = [
             'name' => "required|unique:platforms,name,$id",
             'icon' => 'image',
             'description' => 'string',
@@ -160,7 +160,7 @@ class PlatformController extends \BaseController {
         $icon = Input::file('icon_path');
         
         //Validación de los campos del formulario
-        $validator = Validator::make($fields + ['icon' => $icon], $validationRules);
+        $validator = Validator::make($fields + ['icon' => $icon], $rules);
 
         //Los campos no son válidos
         if ($validator->fails()) {

@@ -28,19 +28,36 @@ class ProductRepository implements ProductRepositoryInterface {
     }
 
     public function update($id, $data) {
-        
+
         \Eloquent::unguard();
-        
+
         $result = Product::find($id)->update($data);
-        
+
         \Eloquent::reguard();
-        
+
         return $result;
     }
 
     public function erase($id) {
 
         return Product::find($id)->delete();
+    }
+
+    public function addDeveloper($id, $developer) {
+        return Product::find($id)->developers()->save($developer);
+    }
+
+    public function addAudio($id, $language) {
+        return Product::find($id)->audioLanguages()->save($language);
+    }
+
+    public function addText($id, $language) {
+        return Product::find($id)->textLanguages()->save($language);
+    }
+
+    public function getByGameAndPlatform($gameId, $platformId) {
+
+        return Product::where('game_id', '=', $gameId)->where('platform_id', '=', $platformId)->first();
     }
 
     public function exists($productId, $platformId = null, $categoryId = null) {

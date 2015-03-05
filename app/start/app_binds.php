@@ -18,3 +18,5 @@ App::bind('Repositories\\Category\\CategoryRepositoryInterface', 'Repositories\\
 App::bind('Repositories\\Developer\\DeveloperRepositoryInterface', 'Repositories\\Developer\\DeveloperRepository');
 App::bind('Repositories\\Publisher\\PublisherRepositoryInterface', 'Repositories\\Publisher\\PublisherRepository');
 App::bind('Repositories\\Game\\GameRepositoryInterface', 'Repositories\\Game\\GameRepository');
+App::bind('Repositories\\Language\\LanguageRepositoryInterface', 'Repositories\\Language\\LanguageRepository');
+App::bind('Repositories\\Agerate\\AgerateRepositoryInterface', 'Repositories\\Agerate\\AgerateRepository');

@@ -46,6 +46,20 @@ class UserRepository implements UserRepositoryInterface {
         return $userRole->user()->save($user);
     }
 
+    public function updateAdminPersonalData($id, $name, $surname) {
+        
+        $user = User::find($id);
+
+        if (!$user) {
+            return false;
+        }
+
+        $user->name = $name;
+        $user->surname = $surname;
+
+        return $user->save();
+    }
+
     public function updateClientPersonalData($id, $name, $surname, $birthdate, $dni) {
 
         $user = User::find($id);
@@ -81,7 +95,7 @@ class UserRepository implements UserRepositoryInterface {
     public function getByConfirmationCode($confirmationCode) {
         return User::where('confirmation_code', '=', $confirmationCode)->first();
     }
-    
+
     public function confirm($id) {
 
         $user = User::find($id);

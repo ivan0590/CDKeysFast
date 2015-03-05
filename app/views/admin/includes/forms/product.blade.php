@@ -37,7 +37,7 @@
 
 <div class="form-group row">
 
-    <div class="col-md-2">
+    <div class="col-md-3">
         <div class="input-group">
             <div class="input-group-addon">
                 {{ Form::label('price', 'Precio')}}
@@ -46,7 +46,7 @@
         </div>
     </div>
 
-    <div class="col-md-2">
+    <div class="col-md-3">
         <div class="input-group">
             <div class="input-group-addon">
                 {{ Form::label('discount', 'Descuento')}}

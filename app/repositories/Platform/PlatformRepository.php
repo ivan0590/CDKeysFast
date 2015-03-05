@@ -42,6 +42,10 @@ class PlatformRepository implements PlatformRepositoryInterface {
         return Platform::find($id)->delete();
     }
 
+    public function getByName($name) {
+        return Platform::where('name', '=', $name)->first();
+    }
+    
     public function exists($id) {
         return !Platform::where('id', '=', $id)->get()->isEmpty();
     }

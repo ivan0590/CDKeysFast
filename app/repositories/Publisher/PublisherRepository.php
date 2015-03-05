@@ -43,6 +43,10 @@ class PublisherRepository implements PublisherRepositoryInterface {
         return Publisher::find($id)->delete();
     }
     
+    public function getByName($name) {
+        return Publisher::where('name', '=', $name)->first();
+    }
+    
     public function paginateForIndexTable($sort = 'name', $sortDir = 'asc', $pagination = 15) {
 
         $categories = Publisher::select(['id', 'name']);

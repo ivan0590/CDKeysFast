@@ -43,6 +43,10 @@ class DeveloperRepository implements DeveloperRepositoryInterface {
         return Developer::find($id)->delete();
     }
     
+    public function getByName($name) {
+        return Developer::where('name', '=', $name)->first();
+    }
+    
     public function paginateForIndexTable($sort = 'name', $sortDir = 'asc', $pagination = 15) {
 
         $categories = Developer::select(['id', 'name']);
