@@ -31,7 +31,7 @@ class MassiveUploadController extends \BaseController {
     public function create() {
 
         //Miga de pan
-        Breadcrumb::addBreadcrumb('Carga masiva de juegos y productos');
+        Breadcrumb::addBreadcrumb('Carga masiva de categorías, juegos y productos');
 
         return View::make('admin.pages.massive_upload')
                         ->with('breadcrumbs', Breadcrumb::generate());

@@ -40,6 +40,7 @@ View::composer(['client.includes.products_list'], function($view) {
 //Para cargar los valores de las listas cerradas en el formulario de búsqueda
 View::composer(['client.pages.advanced_search',
                 'admin.pages.create',
+                'admin.pages.index',
                 'admin.pages.edit'], function($view) {
 
     $models = [

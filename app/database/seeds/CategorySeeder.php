@@ -8,10 +8,15 @@
 class CategorySeeder extends DatabaseSeeder {
 
     public function run() {
-        for ($index = 1; $index <= 20; $index++) {
+
+        $json = File::get(app_path() . "\database\seeds\json\category.json");
+        $data = json_decode($json);
+
+        foreach ($data as $object) {
             Category::create([
-                'name' => "categoryTest$index",
-                'description' => "categoryTest$index"]);
+                'name' => $object->name,
+                'description' => $object->description,
+            ]);
         }
     }
 

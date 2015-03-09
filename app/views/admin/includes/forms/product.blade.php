@@ -68,7 +68,7 @@
             <div class="input-group-addon">
                 {{ Form::label('launch_date', 'Fecha de lanzamiento')}}
             </div>
-            {{ Form::input('date', 'launch_date', null, ['min' => '1990-01-01', 'max' => date('Y-m-d'), 'class' => 'form-control']) }}
+            {{ Form::input('text', 'launch_date', null, ['class' => 'form-control date-selector']) }}
         </div>
     </div>
 </div>

@@ -13,21 +13,6 @@ class PublisherController extends \BaseController {
      *
      * @return Response
      */
-    public function create() {
-
-        //Miga de pan
-        Breadcrumb::addBreadcrumb('Creación');
-
-        return View::make('admin.pages.create')
-                        ->with('restful', 'publisher')
-                        ->with('breadcrumbs', Breadcrumb::generate());
-    }
-
-    /**
-     * 
-     *
-     * @return Response
-     */
     public function store() {
         //Campos del formulario
         $fields = Input::only(['name']);
@@ -82,6 +67,7 @@ class PublisherController extends \BaseController {
         return View::make('admin.pages.edit')
                         ->with('restful', 'publisher')
                         ->with('model', $publisher)
+                        ->with('header_title', "Editar distribuidora (id: {$publisher->id})")
                         ->with('breadcrumbs', Breadcrumb::generate());
     }
 
@@ -133,22 +119,49 @@ class PublisherController extends \BaseController {
 
         //El id no existe
         if ($validator->fails()) {
-            return Redirect::back();
+            return Response::json(array(
+                        'success' => false,
+                        'errors' => $validator->getMessageBag()->toArray()
+                            ), 400); // 400 being the HTTP code for an invalid request.
         }
 
         //Éxito al eliminar
         if ($this->publisher->erase($id)) {
-            return Redirect::back();
+            return Response::json(array('success' => true), 200);
         }
 
         //Error de SQL
-        return Redirect::back()
-                        ->withErrors(['error' => 'Error al intentar borrar la distribuidora.'], 'erase');
+        return Response::json(array(
+                    'success' => false,
+                    'errors' => ['error' => 'Error al intentar borrar la distribuidora.']
+                        ), 400);
+
+//        //El id no existe
+//        if ($validator->fails()) {
+//            return Redirect::back();
+//        }
+//
+//        //Éxito al eliminar
+//        if ($this->publisher->erase($id)) {
+//            return Redirect::back();
+//        }
+//
+//        //Error de SQL
+//        return Redirect::back()
+//                        ->withErrors(['error' => 'Error al intentar borrar la distribuidora.'], 'erase');
     }
 
     public function index() {
 
-        $publishers = $this->publisher->paginateForIndexTable('name', 'asc', 20);
+        $publishers = $this->publisher->paginateForIndexTable('name', 'asc', 20, Input::get('page'));
+
+        if (Request::ajax()) {
+            return Response::json(View::make('admin.includes.index_table')
+                                    ->with([
+                                        'data' => $publishers,
+                                        'header' => ['ID', 'Distribuidora'],
+                                        'restful' => 'publisher'])->render(), 200);
+        }
 
         //Miga de pan
         Breadcrumb::addBreadcrumb('Edición');

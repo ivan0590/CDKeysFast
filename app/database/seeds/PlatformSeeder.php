@@ -8,12 +8,17 @@
 class PlatformSeeder extends DatabaseSeeder {
 
     public function run() {
-        for ($index = 1; $index <= 5; $index++) {
-            
+
+        $json = File::get(app_path() . "\database\seeds\json\platform.json");
+        $data = json_decode($json);
+        $platformIconDir = Config::get('constants.PLATFORM_ICON_DIR');
+
+        foreach ($data as $object) {
             Platform::create([
-                'name' => "platformTest$index",
-                'description' => "platformTest$index",
-                'icon_path' => "http://placehold.it/48x48&text=platformTest$index"]);
+                'name' => $object->name,
+                'description' => $object->description,
+                'icon_path' => $platformIconDir . $object->icon_path,
+            ]);
         }
     }
 

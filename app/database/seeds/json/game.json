@@ -1,0 +1,163 @@
+[
+    {
+        "name": "Counter Strike: Global Offensive",
+        "description": "El gran clásico del multijugador vuelve a la carga renovado y con nuevas fuerzas. El título con el que muchos tuvieron su bautismo de fuego en el juego online se presenta en una nueva versión, dispuesto a demostrar que la validez de su forma es incombustible.",
+        "thumbnail_image_extension": "png",
+        "offer_image_extension": "jpg",
+        "category_id": "1",
+        "agerate_id": "1"
+    },
+    {
+        "name": "Life is Feudal: Your Own",
+        "description": "Sandbox MMORPG ambientado en un enorme mundo de corte fantástico medieval.",
+        "thumbnail_image_extension": "png",
+        "offer_image_extension": "jpg",
+        "category_id": "13",
+        "agerate_id": null
+    },
+    {
+        "name": "BioShock Infinite",
+        "description": "Uno de los juegos más esperados de los últimos años llega al mercado con Irrational dandon una nueva lección de imaginación, ingenio y ambición. Tras System Shock y BioShock, las puertas del cielo se abren en Columbia para un rescate imposible.",
+        "thumbnail_image_extension": "png",
+        "offer_image_extension": "jpg",
+        "category_id": "1",
+        "agerate_id": "5"
+    },
+    {
+        "name": "H1Z1",
+        "description": "H1Z1, desarrollado y distribuido por Sony Online Entertainment para PC y PlayStation 4, es un MMO de acción ambientado en un mundo post-apocalíptico infestado de zombis en el que los jugadores deberán sobrevivir colaborando entre ellos, buscando recursos y refugio; cuenta con una gran variedad de armas y vehículos.",
+        "thumbnail_image_extension": "png",
+        "offer_image_extension": "jpg",
+        "category_id": "6",
+        "agerate_id": "5"
+    },
+    {
+        "name": "Company of Heroes 2",
+        "description": "Company of Heroes 2 sube el listón en estrategia en tiempo real para PC. Desarrollado por la nueva esencia del motor 3.0, Company of Heroes 2 ofrece características increíbles como la fidelidad gráfica y tecnología de vanguardia.",
+        "thumbnail_image_extension": "png",
+        "offer_image_extension": "jpg",
+        "category_id": "2",
+        "agerate_id": "5"
+    },
+    
+    {
+        "name": "Battlefield 3",
+        "description": "Tercera entrega de la popular saga de acción bélica Battlefield. Un poderoso nuevo motor gráfico llamado Frostbite 2 y una experiencia más cruda y más realista de lo conocido hasta ahora en la franquicia son algunas de sus principales bazas.",
+        "thumbnail_image_extension": "png",
+        "offer_image_extension": "jpg",
+        "category_id": "1",
+        "agerate_id": "5"
+    },
+    {
+        "name": "FarCry3",
+        "description": "Ubisoft Montreal vuelve a las islas paradisíacas de la serie FPS que inauguró Crytek para poner al límite de la supervivencia en un entorno salvaje y demencial a Jason Brody. Abierto, precioso, intenso y variado, Far Cry 3, que no despertaba demasiadas esperanzas entre algunos, es una de las sorpresas de la temporada en PS3, Xbox 360 y PC.",
+        "thumbnail_image_extension": "png",
+        "offer_image_extension": "jpg",
+        "category_id": "1",
+        "agerate_id": "5"
+    },
+    {
+        "name": "Metro Last Light",
+        "description": "El héroe de Metro 2033, Artyom, regresa en esta secuela del first person shooter de 4A Games y Deep Silver. Metro: Last Light está disponible para PlayStation 3, Xbox 360 y PC.",
+        "thumbnail_image_extension": "png",
+        "offer_image_extension": "jpg",
+        "category_id": "1",
+        "agerate_id": "5"
+    },
+    {
+        "name": "PayDay2",
+        "description": "Payday 2 es la segunda entrega del videojuego de acción en primera persona de Overkill Software, que vuelve a invitarnos a tomar parte en todo tipo de trabajos con hasta 3 compañeros de forma simultánea. Un multijugador cooperativo que nos pondrá en la piel de un criminal, buscando el golpe de su vida para poder retirarse tranquilamente, a algún lugar paradisíaco y con una buena pensión vitalicia. Consigue todo el dinero que puedas, y no dejes que la policía te cace, en este título para PC, PlayStation 3 y Xbox 360 que hoy analizamos.",
+        "thumbnail_image_extension": "png",
+        "offer_image_extension": "jpg",
+        "category_id": "1",
+        "agerate_id": "5"
+    },
+    {
+        "name": "Call of Duty 4: Modern Warfare",
+        "description": " La saga creada por Infinity Ward hace unos años, por fin vuelve a manos de sus creadores. Y lo hace en un ejercicio brillante de continuidad en el fondo y novedoso en la forma. Todo un ejemplo de cómo mejorar un juego ya de por sí de gran calidad. El deber os llama...",
+        "thumbnail_image_extension": "png",
+        "offer_image_extension": "jpg",
+        "category_id": "1",
+        "agerate_id": "4"
+    },
+    {
+        "name": "Arma III",
+        "description": "ArmA 3 es la tercera entrega del juego de acción bélica de Bohemia Interactive para PC, en la que nuestro soldado totalmente personalizable puede subir a vehículos aéreos, terrestres y navales para superar las diferentes misiones.",
+        "thumbnail_image_extension": "png",
+        "offer_image_extension": "jpg",
+        "category_id": "1",
+        "agerate_id": "5"
+    },
+    {
+        "name": "Crysis 3",
+        "description": "En Crysis 3, Prophet pisa Nueva York enfundado en un Nanosuit mejorado para convertirse en el cazador definitivo. Enfoque first person shooter sandbox de Crytek para un título que se asienta sobre la última versión del cryENGINE, para PlayStation 3, Xbox 360 y PC",
+        "thumbnail_image_extension": "png",
+        "offer_image_extension": "jpg",
+        "category_id": "1",
+        "agerate_id": "4"
+    },
+    {
+        "name": "Wolfenstein The New Order",
+        "description": "Wolfenstein: The New Order es el regreso de una de las sagas de acción first person shooter más celebradas de los noventa de la mano de MachineGames y Bethesda Softworks para PlayStation 3, Xbox 360, PC, PlayStation 4 y Xbox One; la acción tendrá lugar en un 1960 dominado por los nazis mientras tratan de hacerse con el dominio mundial.",
+        "thumbnail_image_extension": "png",
+        "offer_image_extension": "jpg",
+        "category_id": "1",
+        "agerate_id": "5"
+    },
+    {
+        "name": "Left 4 Dead 2",
+        "description": "Valve saca a la luz la segunda entrega de Left 4 Dead, el juego de zombies con un componente cooperativo que tantas horas de diversión y acción directa ofreció el año pasado. Una segunda entrega que explota al maximo la idea original. Las posibilidades, así como los tipos de infectados, se han mulitplicado. Es la hora de los muertos vivientes.",
+        "thumbnail_image_extension": "png",
+        "offer_image_extension": "jpg",
+        "category_id": "1",
+        "agerate_id": "5"
+    },
+    {
+        "name": "Borderlands 2",
+        "description": "El mundo de Pandora necesita nuevos héroes. Borderlands 2 reproduce la fórmula de la primera parte de esta propiedad intelectual de Gearbox Software y 2K Games, la maximiza y la nutre de humor, profundidad y horas de juego para ofrecer lo más granado del rol y lo destacado de la acción en primera persona. Bienvenidos a la tierra de las oportunidades.",
+        "thumbnail_image_extension": "png",
+        "offer_image_extension": "jpg",
+        "category_id": "13",
+        "agerate_id": "5"
+    },
+    {
+        "name": "S.T.A.L.K.E.R. Shadow of Chernobyl",
+        "description": "Tras un segundo accidente en Chernobil se creó a su alrededor un vasto territorio dominado por el terror y la muerte: la Zona. En aquel momento, cientos de personas se transformaron en juguetes silenciosos de fuerzas invisibles que los privaron de personalidad. Hubo intentos inútiles por parte del ejército de controlar esta nueva pesadilla planetaria o, al menos, de impedir su expansión, pero no tuvieron éxito. La Zona creció. Sólo unos cuantos valientes tuvieron el coraje de adentrarse en esta mortal región...",
+        "thumbnail_image_extension": "png",
+        "offer_image_extension": "jpg",
+        "category_id": "6",
+        "agerate_id": "4"
+    },
+    {
+        "name": "Dead Island",
+        "description": "La tranquilidad de las vacaciones en una isla tropical se pueden convertir en una pesadilla ante una invasión zombie en Dead Island.",
+        "thumbnail_image_extension": "png",
+        "offer_image_extension": "jpg",
+        "category_id": "6",
+        "agerate_id": "5"
+    },
+    {
+        "name": "Call of Juarez Gunslinger",
+        "description": "Call of Juarez: Gunslinger, desarrollado por Techland y distribuido por Ubisoft para PlayStation 3, Xbox 360 y PC, representa el regreso de la saga Call of Juarez, esta vez como spin-off ambientado en el lejano oeste. Llega como FPS y en formato descargable.",
+        "thumbnail_image_extension": "png",
+        "offer_image_extension": "jpg",
+        "category_id": "1",
+        "agerate_id": "4"
+    },
+    {
+        "name": "Medal of Honor Allied Assault",
+        "description": "Medal of Honour: Allied Assault nos traslada una manera casi real al mayor conflicto de la historia de la humanidad. Si quieres sentir las sensaciones de un soldado aliado durante la Segunda Guerra Mundial tu juegos es MoH.",
+        "thumbnail_image_extension": "png",
+        "offer_image_extension": "jpg",
+        "category_id": "1",
+        "agerate_id": "4"
+    },
+    {
+        "name": "Fallout 3",
+        "description": "Llega uno de los juegos del año. Bethesda consigue rozar la obra maestra con Fallout 3, además de traer lo mejor de la saga hasta nuestros días. Tras dejar el bunker 101, el PipBoy 2000 será nuestro guía entre zombies, mutantes, raiders, alienígenas y criaturas radioactivas. Feliz retorno a la realidad postnuclear.",
+        "thumbnail_image_extension": "png",
+        "offer_image_extension": "jpg",
+        "category_id": "4",
+        "agerate_id": "5"
+    }
+]

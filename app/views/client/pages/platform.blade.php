@@ -11,9 +11,9 @@
 
             <ul class="nav">
                 @foreach ($categories as $category)
-                <li class=" nav-pills text-left col-md-2">
+                <li class=" nav-pills text-left col-md-3">
                     <a href="{{ URL::route('platform.category.show', ['platform_id' => $platform->id, 'category_id' => $category->id]) }}" >
-                        {{ Form::label(null, $category->name) }}
+                        {{ $category->name.' ('.$category->products_count.')' }}
                     </a>
                 </li>
                 @endforeach

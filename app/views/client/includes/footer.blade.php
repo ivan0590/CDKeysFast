@@ -8,4 +8,5 @@
         <li><a href="#copyright">Copyright</a></li>
     </ul>
     <p>© 2015 CDKeysFast. Ningún derecho reservado.</p>
+    <div  class="clearfix"></div>
 </div>

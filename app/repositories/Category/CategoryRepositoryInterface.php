@@ -22,5 +22,5 @@ interface CategoryRepositoryInterface {
     
     public function getByPlatformWhereHasProducts($platformId);
     
-    public function paginateForIndexTable($sort = 'name', $sortDir = 'asc', $pagination = 15);
+    public function paginateForIndexTable($sort = 'name', $sortDir = 'asc', $pagination = 15, $page = 1);
 }

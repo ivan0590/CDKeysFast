@@ -1,25 +1,29 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
     <head>
         @include('admin.includes.head')
+        @yield('specific_head')
     </head>
 
     <body>
-        <div class="container">
+        <div class="wrap">
+            <div>
+                <header>
+                    @include('admin.includes.header')
+                </header>
 
-            <header class="row">
-                @include('admin.includes.header')
-            </header>
-            
-            {{ $breadcrumbs }}
-            
-            <div class="row">
-                @yield('content')
+                {{ $breadcrumbs }}
+
+                <div class="container">
+                    <div class="row">
+                        @yield('content')
+                    </div>
+                </div>
             </div>
-
-            <footer class="row">
-                @include('admin.includes.footer')
-            </footer>
         </div>
+
+        <footer class="clearfix">
+            @include('admin.includes.footer')
+        </footer>
     </body>
 </html>

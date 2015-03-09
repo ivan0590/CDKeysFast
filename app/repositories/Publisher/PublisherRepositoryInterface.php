@@ -18,5 +18,5 @@ interface PublisherRepositoryInterface {
     
     public function getByName($name);
     
-    public function paginateForIndexTable($sort = 'name', $sortDir = 'asc', $pagination = 15);
+    public function paginateForIndexTable($sort = 'name', $sortDir = 'asc', $pagination = 15, $page = 1);
 }

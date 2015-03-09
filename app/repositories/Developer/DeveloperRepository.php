@@ -47,11 +47,13 @@ class DeveloperRepository implements DeveloperRepositoryInterface {
         return Developer::where('name', '=', $name)->first();
     }
     
-    public function paginateForIndexTable($sort = 'name', $sortDir = 'asc', $pagination = 15) {
+    public function paginateForIndexTable($sort = 'name', $sortDir = 'asc', $pagination = 15, $page = 1) {
 
-        $categories = Developer::select(['id', 'name']);
+        $developers = Developer::select(['id', 'name']);
 
-        return $categories->orderBy($sort, $sortDir)->paginate($pagination);
+        \Paginator::setCurrentPage(($developers->count() / $pagination) < $page ? ceil($developers->count() / $pagination) : $page);
+        
+        return $developers->orderBy($sort, $sortDir)->paginate($pagination);
     }
 
 }

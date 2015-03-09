@@ -1,0 +1,72 @@
+/* 
+    Created on : Mar 8, 2015, 1:35:42 AM
+    Author     : Ivan
+*/
+
+/*
+
+    FUENTES
+
+*/
+
+@pathFonts:    '../font';
+
+/* CARGA DE FUENTES */
+@font-face{
+    font-family: 'allerregular';
+    src: url('@{pathFonts}/Aller/Aller_Rg-webfont.eot');
+    src: url('@{pathFonts}/Aller/Aller_Rg-webfont.eot?#iefix') format('embedded-opentype'),
+         url('@{pathFonts}/Aller/Aller_Rg-webfont.woff2') format('woff2'),
+         url('@{pathFonts}/Aller/Aller_Rg-webfont.woff') format('woff'),
+         url('@{pathFonts}/Aller/Aller_Rg-webfont.ttf') format('truetype'),
+         url('@{pathFonts}/Aller/Aller_Rg-webfont.svg#allerregular') format('svg');
+}
+
+@font-face{
+    font-family: Android;
+    src: url('@{pathFonts}/Droid_Logo/DroidLogo-Regular.ttf') format("truetype");
+}
+
+@font-face{
+    font-family: PS4;
+    src: url('@{pathFonts}/Phatboy_Slim/PhatBoy_Slim.otf') format("opentype");
+}
+
+/* CLASES DE FUENTE */
+.font-sans{
+    font-family: sans-serif !important;
+}
+
+.font-aller{
+    font-family: allerregular !important;
+}
+
+.font-android{
+    font-family: Android !important;
+}
+
+.font-ps4{
+    font-family: PS4 !important;
+}
+
+.font-windows{
+    font-family: "Segoe UI" !important;
+}
+
+.font-mac{
+    font-family: "Myriad Pro" !important;
+}
+
+.font-xboxone{
+    font-family: "Segoe UI" !important;
+}
+
+//Mayúsculas
+.font-android, .font-ps4, .font-xboxone{
+    text-transform: uppercase;
+}
+
+//Primera letra mayúcula
+.font-windows, .font-mac{
+    text-transform: capitalize;
+}

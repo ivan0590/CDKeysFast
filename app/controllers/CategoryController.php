@@ -17,21 +17,6 @@ class CategoryController extends \BaseController {
      *
      * @return Response
      */
-    public function create() {
-
-        //Miga de pan
-        Breadcrumb::addBreadcrumb('Creación');
-
-        return View::make('admin.pages.create')
-                        ->with('restful', 'category')
-                        ->with('breadcrumbs', Breadcrumb::generate());
-    }
-
-    /**
-     * 
-     *
-     * @return Response
-     */
     public function store() {
         //Campos del formulario
         $fields = Input::only(['name', 'description']);
@@ -88,6 +73,7 @@ class CategoryController extends \BaseController {
         return View::make('admin.pages.edit')
                         ->with('restful', 'category')
                         ->with('model', $category)
+                        ->with('header_title', "Editar categoría (id: {$category->id})")
                         ->with('breadcrumbs', Breadcrumb::generate());
     }
 
@@ -136,7 +122,7 @@ class CategoryController extends \BaseController {
      * @return Response
      */
     public function update($id) {
-        
+
         //Campos del formulario
         $fields = Input::only(['name', 'description']);
 
@@ -179,22 +165,49 @@ class CategoryController extends \BaseController {
 
         //El id no existe
         if ($validator->fails()) {
-            return Redirect::back();
+            return Response::json(array(
+                        'success' => false,
+                        'errors' => $validator->getMessageBag()->toArray()
+                            ), 400); // 400 being the HTTP code for an invalid request.
         }
 
         //Éxito al eliminar
         if ($this->category->erase($id)) {
-            return Redirect::back();
+            return Response::json(array('success' => true), 200);
         }
-        
+
         //Error de SQL
-        return Redirect::back()
-                        ->withErrors(['error' => 'Error al intentar borrar la categoría.'], 'erase');
+        return Response::json(array(
+                    'success' => false,
+                    'errors' => ['error' => 'Error al intentar borrar la categoría.']
+                        ), 400);
+
+//        //El id no existe
+//        if ($validator->fails()) {
+//            return Redirect::back();
+//        }
+//
+//        //Éxito al eliminar
+//        if ($this->category->erase($id)) {
+//            return Redirect::back();
+//        }
+//
+//        //Error de SQL
+//        return Redirect::back()
+//                        ->withErrors(['error' => 'Error al intentar borrar la categoría.'], 'erase');
     }
 
     public function index() {
 
-        $categories = $this->category->paginateForIndexTable('name', 'asc', 20);
+        $categories = $this->category->paginateForIndexTable('name', 'asc', 20, Input::get('page'));
+
+        if (Request::ajax()) {
+            return Response::json(View::make('admin.includes.index_table')
+                                    ->with([
+                                        'data' => $categories,
+                                        'header' => ['ID', 'Categoría'],
+                                        'restful' => 'category'])->render(), 200);
+        }
 
         //Miga de pan
         Breadcrumb::addBreadcrumb('Edición');

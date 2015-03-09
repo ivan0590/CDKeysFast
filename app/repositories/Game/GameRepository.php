@@ -46,7 +46,7 @@ class GameRepository implements GameRepositoryInterface {
         return Game::where('name', '=', $name)->first();
     }
 
-    public function paginateForIndexTable($sort = 'name', $sortDir = 'asc', $pagination = 15) {
+    public function paginateForIndexTable($sort = 'name', $sortDir = 'asc', $pagination = 15, $page = 1) {
 
         $games = Game::
                 leftJoin('categories', 'games.category_id', '=', 'categories.id')
@@ -56,6 +56,8 @@ class GameRepository implements GameRepositoryInterface {
             'categories.name as category_name',
             'agerates.name as agerate_name']);
 
+        \Paginator::setCurrentPage(($games->count() / $pagination) < $page ? ceil($games->count() / $pagination) : $page);
+        
         return $games->orderBy($sort, $sortDir)->paginate($pagination);
     }
 

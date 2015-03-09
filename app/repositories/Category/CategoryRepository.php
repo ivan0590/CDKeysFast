@@ -49,11 +49,16 @@ class CategoryRepository implements CategoryRepositoryInterface {
     
     public function getByPlatformWhereHasProducts($platformId) {
 
-        return Category::whereHas('games', function ($gamesQuery) use($platformId) {
+        $p =  Category::whereHas('games', function ($gamesQuery) use($platformId) {
                     $gamesQuery->whereHas('products', function ($productsQuery) use ($platformId) {
                         $productsQuery->where('platform_id', '=', $platformId)->orderBy('name', 'asc');
                     });
-                })->get();
+                })->selectRaw("id, name, description, (select count(*) from games where games.category_id = categories.id and (select count(*) from products where products.game_id = games.id and platform_id = $platformId order by name asc) >= 1) as products_count")
+                        ->get();
+        
+//        dd($p->toArray());
+        
+        return $p;
     }
 
     public function exists($id, $platformId = null) {
@@ -70,10 +75,12 @@ class CategoryRepository implements CategoryRepositoryInterface {
         return !$category->get()->isEmpty();
     }
 
-    public function paginateForIndexTable($sort = 'name', $sortDir = 'asc', $pagination = 15) {
+    public function paginateForIndexTable($sort = 'name', $sortDir = 'asc', $pagination = 15, $page = 1) {
 
         $categories = Category::select(['id', 'name']);
 
+        \Paginator::setCurrentPage(($categories->count() / $pagination) < $page ? ceil($categories->count() / $pagination) : $page);
+        
         return $categories->orderBy($sort, $sortDir)->paginate($pagination);
     }
 

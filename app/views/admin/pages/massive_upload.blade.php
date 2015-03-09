@@ -1,24 +1,21 @@
 @extends('admin.layouts.admin')
 @section('content')
 
-{{ Form::open(['route' => 'admin.massive_upload.store', 'files' => true, 'method' => 'POST']) }}
-<div>
+<div class="col-md-6 col-md-offset-3">
+    {{ Form::open(['route' => 'admin.massive_upload.store', 'files' => true, 'method' => 'POST']) }}
     <div class="form-group">
         <div class="input-group">
             <div class="input-group-addon">
                 {{ Form::label('xml', 'Fichero XML')}}
             </div>
             {{ Form::file('xml', ['class' => 'form-control']) }}
+            <div class="input-group-btn">
+                {{ Form::submit('Cargar', ['class' => 'btn btn-primary']) }}
+            </div>
         </div>
     </div>
+    {{ Form::close() }}
 </div>
-<div class="form-group">
-    <div class="input-group  col-md-12">
-        {{ Form::submit('Cargar', ['class' => 'btn btn-primary  col-md-2 col-md-offset-5']) }}
-    </div>
-</div>
-
-{{ Form::close() }}
 
 <div class="modal fade" id="modal-results" tabindex="-1" role="dialog" aria-labelledby="Errores al borrar" aria-hidden="true">
     <div class="modal-dialog">
@@ -32,9 +29,9 @@
                 @foreach((Session::get('save_success') ?: [] ) as $key => $successBag)
                 @if(!empty($successBag))
                 <div class="alert alert-success">
-                    <h4>Acciones realizadas con éxito en el grupo de {{ $key }}</h4>
+                    <h4 class="alert-success">Acciones realizadas con éxito en el grupo de {{ $key }}</h4>
                     @foreach($successBag as $message)
-                    <div>
+                    <div class="alert-success">
                         <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                         {{ $message }}
                     </div>
@@ -46,9 +43,9 @@
                 @foreach($errors->getBags() as $key => $errorBag)
                 @if(!$errorBag->isEmpty())
                 <div class="alert alert-danger">
-                    <h4>{{ $key }}</h4>
+                    <h4 class="alert-danger">{{ $key }}</h4>
                     @foreach($errorBag->all() as $error)
-                    <div>
+                    <div class="alert-danger">
                         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
                         {{ $error }}
                     </div>

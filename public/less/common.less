@@ -1,0 +1,260 @@
+/* 
+    Created on : Mar 8, 2015, 12:51:15 AM
+    Author     : Ivan
+*/
+
+@import 'colors.less';
+@import 'fonts.less';
+
+@footerHeight: 120px;
+
+body{
+    padding-top: 54px;
+    background: @colorGreen0 scroll;
+
+    *:not(.glyphicon):not([class*="font-"]) {
+        .font-aller();
+    }
+
+    *:not(.glyphicon):not([class*="alert-"]):not([class*="btn-default"]):not(option):not(select):not(input) {
+        color: @colorWhite0;
+    }
+}
+
+.panel-heading .dropdown *,
+.img-thumbnail,
+.pagination li:not(.active) a,
+.pagination li:not(.active) span,
+.popover,
+.input-group-addon,
+.product-info,
+.nav-tabs li:not(.active) a {
+    background: @colorGreen3 !important;
+}
+
+header .dropdown-menu li a,
+.modal-header .close * {
+    color: @colorBlack1 !important;
+}
+
+.navbar-inverse {
+    height: 54px;
+    background: @colorBlack0 !important;
+}
+
+.breadcrumb,
+.panel-body,
+.modal-header,
+.modal-body,
+.modal-footer{
+    background: @colorGreen1 !important;
+}
+
+#platforms,
+.panel-heading {
+    background: @colorGreen4 !important;
+}
+
+.nav-tabs>li.active>a,
+.products-list .thumbnail,
+.pagination .active span,
+.nav-tabs li:not(.active) button,
+.well {
+    background: @colorGreen6 !important;
+}
+
+.breadcrumb .active {
+    color: @colorGray1 !important;
+}
+
+.panel-body .nav-pills {
+    font-weight: 550;
+
+    & a:hover,
+        & a:focus {
+        background: none !important;
+        color: @colorGreen6 !important;
+    }
+}
+
+#offers-carousel {
+    margin-top: 1em;
+    margin-bottom: 2em;
+
+    .carousel-inner .item .img-thumbnail {
+        width: 100%;
+        height: 100%;
+    }
+
+    .carousel-caption {
+        margin-bottom: 1em;
+    }
+}
+
+
+#platforms .nav-pills {
+    border-right: 1px solid @colorGreen1;
+
+    &, * {
+        cursor: pointer !important;
+    }
+
+    label {
+        margin-left: 0.5em;
+        font-size: 1.15em;
+        font-weight: normal;
+    }
+
+    & a:hover,
+        & a:focus {
+
+        background: none !important;
+        * {
+            color: @colorGreen0 !important;
+        }
+
+        .svg path {
+            fill: @colorGreen0 !important;
+        }
+    }
+}
+
+.img-thumbnail {
+    border: 1px solid @colorGreen2 !important;
+}
+
+.products-list {
+
+    * {
+        color: @colorWhite0 !important;
+    }
+
+    li {
+        list-style: none;
+    }
+
+    .thumbnail {
+
+        & > a > .img-thumbnail {
+            padding: 0px;
+        }
+
+        .caption .img-thumbnail {
+            padding: 0.5em !important;
+        }
+
+        a:hover {
+            text-decoration: none !important;
+        }
+
+        .price {
+            margin: 0em !important;
+
+
+            .h4{
+                margin-bottom: 0em !important;
+                margin-top: 0.4em !important;
+            }
+        }
+    }
+
+}
+
+.pagination .active span {
+    border: 1px solid @colorGray0;
+}
+
+.popover {
+
+    .arrow:after {
+        border-bottom-color: @colorGreen3 !important;
+    }
+
+    position: fixed;
+    margin-top: 3px !important;
+    border-top-style: none;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+html, body {
+    height: 100%;
+}
+
+.wrap {
+    min-height: 100%;
+
+    & > div {
+        overflow:auto;
+        padding-bottom:@footerHeight; 
+    }
+}
+
+footer {
+    background: @colorGreen5 !important;
+    margin-top: 4em;
+    padding-top: 2em !important;
+    padding-bottom: 1em !important;
+
+    position: relative;
+    margin-top: -@footerHeight;
+    height: @footerHeight;
+    padding-top:20px;
+
+    .nav-pills {
+        margin-bottom: 1.5em;
+
+        & a:hover,
+            & a:focus {
+
+            background: none !important;
+            color: @colorGreen0 !important;
+        }
+    }
+}
+
+.product-info {
+    margin-bottom: 1em !important;
+    padding: 1em !important;
+    border-radius: 4px !important;
+
+    .img-thumbnail {
+        padding: 0em;
+    }
+
+    .product-info-content {
+        padding-left: 1em;
+    }
+}
+
+dl:not(.dl-horizontal) dd {
+    margin-left: 1em !important;
+}
+
+.input-group-addon  label {
+    font-weight: 500;
+    margin-bottom: 0em;
+}
+
+.btn-link {
+    text-decoration: none !important;
+}
+
+.input-group-addon label,
+.label-primary {
+    font-weight: 500;
+}
+
+[class*="alert-"] a {
+    color: @colorBlue0 !important;
+}
+
+.vertical-align {
+    position: relative;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    display: inline-block;
+}

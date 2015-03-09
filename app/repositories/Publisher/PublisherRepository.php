@@ -47,11 +47,13 @@ class PublisherRepository implements PublisherRepositoryInterface {
         return Publisher::where('name', '=', $name)->first();
     }
     
-    public function paginateForIndexTable($sort = 'name', $sortDir = 'asc', $pagination = 15) {
+    public function paginateForIndexTable($sort = 'name', $sortDir = 'asc', $pagination = 15, $page = 1) {
 
-        $categories = Publisher::select(['id', 'name']);
+        $publishers = Publisher::select(['id', 'name']);
 
-        return $categories->orderBy($sort, $sortDir)->paginate($pagination);
+        \Paginator::setCurrentPage(($publishers->count() / $pagination) < $page ? ceil($publishers->count() / $pagination) : $page);
+        
+        return $publishers->orderBy($sort, $sortDir)->paginate($pagination);
     }
 
 }

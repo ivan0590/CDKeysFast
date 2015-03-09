@@ -30,13 +30,13 @@ class SessionController extends \BaseController {
         //Reglas de validación
         $rules = [
             'email' => 'required|email', //Email requerido
-            'password' => 'required|alphaNum|min:6' //Contraseña alfanumérica de 6 caracteres requerida
+            'password' => 'required|alpha_dash|min:6' //Contraseña alfanumérica de 6 caracteres requerida
         ];
 
         //Mensajes de error
         $messages = ['email.required' => 'Formato de email incorrecto.',
             'email.email' => 'Formato de email incorrecto.',
-            'password.alphaNum' => 'La contraseña ha de ser alfanumérica.',
+            'password.alpha_dash' => 'Solo se admiten letras, números, guiones bajos y barras.',
             'password.required' => 'La contraseña ha de tener al menos 6 caracteres.',
             'password.min' => 'La contraseña ha de tener al menos 6 caracteres.'];
 

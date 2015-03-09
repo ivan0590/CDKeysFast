@@ -17,21 +17,6 @@ class ProductController extends \BaseController {
      *
      * @return Response
      */
-    public function create() {
-
-        //Miga de pan
-        Breadcrumb::addBreadcrumb('Creación');
-
-        return View::make('admin.pages.create')
-                        ->with('restful', 'product')
-                        ->with('breadcrumbs', Breadcrumb::generate());
-    }
-
-    /**
-     * 
-     *
-     * @return Response
-     */
     public function store() {
 
         //Cuando el checkbox del producto destacado está desmarcado su valor es null y se necesita un false
@@ -97,6 +82,9 @@ class ProductController extends \BaseController {
 
         $product = $this->product->find($id);
 
+        //Para el formato de la fecha
+        $product->launch_date = date_format(new dateTime($product->launch_date), 'd-m-Y');
+
         //Miga de pan
         Breadcrumb::addBreadcrumb('Edición de productos', URL::route('admin.product.index'));
         Breadcrumb::addBreadcrumb("ID: $product->id");
@@ -104,6 +92,7 @@ class ProductController extends \BaseController {
         return View::make('admin.pages.edit')
                         ->with('restful', 'product')
                         ->with('model', $product)
+                        ->with('header_title', "Editar producto (id: {$product->id})")
                         ->with('breadcrumbs', Breadcrumb::generate());
     }
 
@@ -204,23 +193,50 @@ class ProductController extends \BaseController {
 
         //El id no existe
         if ($validator->fails()) {
-            return Redirect::back();
+            return Response::json(array(
+                        'success' => false,
+                        'errors' => $validator->getMessageBag()->toArray()
+                            ), 400); // 400 being the HTTP code for an invalid request.
         }
 
         //Éxito al eliminar
         if ($this->product->erase($id)) {
-            return Redirect::back();
+            return Response::json(array('success' => true), 200);
         }
-        
+
         //Error de SQL
-        return Redirect::back()
-                        ->withErrors(['error' => 'Error al intentar borrar el producto.'], 'erase');
+        return Response::json(array(
+                    'success' => false,
+                    'errors' => ['error' => 'Error al intentar borrar el producto.']
+                        ), 400);
+
+//        //El id no existe
+//        if ($validator->fails()) {
+//            return Redirect::back();
+//        }
+//
+//        //Éxito al eliminar
+//        if ($this->product->erase($id)) {
+//            return Redirect::back();
+//        }
+//        
+//        //Error de SQL
+//        return Redirect::back()
+//                        ->withErrors(['error' => 'Error al intentar borrar el producto.'], 'erase');
     }
 
     public function index() {
-
-        $products = $this->product->paginateForIndexTable('games.name', 'asc', 20);
-
+        
+        $products = $this->product->paginateForIndexTable('games.name', 'asc', 20, Input::get('page'));
+        
+        if (Request::ajax()) {
+            return Response::json(View::make('admin.includes.index_table')
+                                    ->with([
+                                        'data' => $products,
+                                        'header' => ['ID', 'Juego', 'Plataforma', 'Categoría', 'Distribuidora'],
+                                        'restful' => 'product'])->render(), 200);
+        }
+        
         //Miga de pan
         Breadcrumb::addBreadcrumb('Edición');
 

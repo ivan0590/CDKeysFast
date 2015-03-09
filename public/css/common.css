@@ -1,0 +1,255 @@
+/* 
+    Created on : Mar 8, 2015, 12:51:15 AM
+    Author     : Ivan
+*/
+/* 
+    Created on : Mar 8, 2015, 1:35:42 AM
+    Author     : Ivan
+*/
+/*
+
+    FUENTES
+
+*/
+/* CARGA DE FUENTES */
+@font-face {
+  font-family: 'allerregular';
+  src: url('../font/Aller/Aller_Rg-webfont.eot');
+  src: url('../font/Aller/Aller_Rg-webfont.eot?#iefix') format('embedded-opentype'), url('../font/Aller/Aller_Rg-webfont.woff2') format('woff2'), url('../font/Aller/Aller_Rg-webfont.woff') format('woff'), url('../font/Aller/Aller_Rg-webfont.ttf') format('truetype'), url('../font/Aller/Aller_Rg-webfont.svg#allerregular') format('svg');
+}
+@font-face {
+  font-family: Android;
+  src: url('../font/Droid_Logo/DroidLogo-Regular.ttf') format("truetype");
+}
+@font-face {
+  font-family: PS4;
+  src: url('../font/Phatboy_Slim/PhatBoy_Slim.otf') format("opentype");
+}
+/* CLASES DE FUENTE */
+.font-sans {
+  font-family: sans-serif !important;
+}
+.font-aller {
+  font-family: allerregular !important;
+}
+.font-android {
+  font-family: Android !important;
+}
+.font-ps4 {
+  font-family: PS4 !important;
+}
+.font-windows {
+  font-family: "Segoe UI" !important;
+}
+.font-mac {
+  font-family: "Myriad Pro" !important;
+}
+.font-xboxone {
+  font-family: "Segoe UI" !important;
+}
+.font-android,
+.font-ps4,
+.font-xboxone {
+  text-transform: uppercase;
+}
+.font-windows,
+.font-mac {
+  text-transform: capitalize;
+}
+body {
+  padding-top: 54px;
+  background: #b8e488 scroll;
+}
+body *:not(.glyphicon):not([class*="font-"]) {
+  font-family: allerregular !important;
+}
+body *:not(.glyphicon):not([class*="alert-"]):not([class*="btn-default"]):not(option):not(select):not(input) {
+  color: #ffffff;
+}
+.panel-heading .dropdown *,
+.img-thumbnail,
+.pagination li:not(.active) a,
+.pagination li:not(.active) span,
+.popover,
+.input-group-addon,
+.product-info,
+.nav-tabs li:not(.active) a {
+  background: #79c515 !important;
+}
+header .dropdown-menu li a,
+.modal-header .close * {
+  color: #333333 !important;
+}
+.navbar-inverse {
+  height: 54px;
+  background: #000000 !important;
+}
+.breadcrumb,
+.panel-body,
+.modal-header,
+.modal-body,
+.modal-footer {
+  background: #95cc5a !important;
+}
+#platforms,
+.panel-heading {
+  background: #79b539 !important;
+}
+.nav-tabs > li.active > a,
+.products-list .thumbnail,
+.pagination .active span,
+.nav-tabs li:not(.active) button,
+.well {
+  background: #5ca110 !important;
+}
+.breadcrumb .active {
+  color: #666666 !important;
+}
+.panel-body .nav-pills {
+  font-weight: 550;
+}
+.panel-body .nav-pills a:hover,
+.panel-body .nav-pills a:focus {
+  background: none !important;
+  color: #5ca110 !important;
+}
+#offers-carousel {
+  margin-top: 1em;
+  margin-bottom: 2em;
+}
+#offers-carousel .carousel-inner .item .img-thumbnail {
+  width: 100%;
+  height: 100%;
+}
+#offers-carousel .carousel-caption {
+  margin-bottom: 1em;
+}
+#platforms .nav-pills {
+  border-right: 1px solid #95cc5a;
+}
+#platforms .nav-pills,
+#platforms .nav-pills * {
+  cursor: pointer !important;
+}
+#platforms .nav-pills label {
+  margin-left: 0.5em;
+  font-size: 1.15em;
+  font-weight: normal;
+}
+#platforms .nav-pills a:hover,
+#platforms .nav-pills a:focus {
+  background: none !important;
+}
+#platforms .nav-pills a:hover *,
+#platforms .nav-pills a:focus * {
+  color: #b8e488 !important;
+}
+#platforms .nav-pills a:hover .svg path,
+#platforms .nav-pills a:focus .svg path {
+  fill: #b8e488 !important;
+}
+.img-thumbnail {
+  border: 1px solid #95c365 !important;
+}
+.products-list * {
+  color: #ffffff !important;
+}
+.products-list li {
+  list-style: none;
+}
+.products-list .thumbnail > a > .img-thumbnail {
+  padding: 0px;
+}
+.products-list .thumbnail .caption .img-thumbnail {
+  padding: 0.5em !important;
+}
+.products-list .thumbnail a:hover {
+  text-decoration: none !important;
+}
+.products-list .thumbnail .price {
+  margin: 0em !important;
+}
+.products-list .thumbnail .price .h4 {
+  margin-bottom: 0em !important;
+  margin-top: 0.4em !important;
+}
+.pagination .active span {
+  border: 1px solid #dddddd;
+}
+.popover {
+  position: fixed;
+  margin-top: 3px !important;
+  border-top-style: none;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+.popover .arrow:after {
+  border-bottom-color: #79c515 !important;
+}
+html,
+body {
+  height: 100%;
+}
+.wrap {
+  min-height: 100%;
+}
+.wrap > div {
+  overflow: auto;
+  padding-bottom: 120px;
+}
+footer {
+  background: #71b32e !important;
+  margin-top: 4em;
+  padding-top: 2em !important;
+  padding-bottom: 1em !important;
+  position: relative;
+  margin-top: -120px;
+  height: 120px;
+  padding-top: 20px;
+}
+footer .nav-pills {
+  margin-bottom: 1.5em;
+}
+footer .nav-pills a:hover,
+footer .nav-pills a:focus {
+  background: none !important;
+  color: #b8e488 !important;
+}
+.product-info {
+  margin-bottom: 1em !important;
+  padding: 1em !important;
+  border-radius: 4px !important;
+}
+.product-info .img-thumbnail {
+  padding: 0em;
+}
+.product-info .product-info-content {
+  padding-left: 1em;
+}
+dl:not(.dl-horizontal) dd {
+  margin-left: 1em !important;
+}
+.input-group-addon label {
+  font-weight: 500;
+  margin-bottom: 0em;
+}
+.btn-link {
+  text-decoration: none !important;
+}
+.input-group-addon label,
+.label-primary {
+  font-weight: 500;
+}
+[class*="alert-"] a {
+  color: #337ab7 !important;
+}
+.vertical-align {
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  display: inline-block;
+}
+/*# sourceMappingURL=common.css.map */

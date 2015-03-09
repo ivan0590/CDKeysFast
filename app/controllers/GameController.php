@@ -13,21 +13,6 @@ class GameController extends \BaseController {
      *
      * @return Response
      */
-    public function create() {
-
-        //Miga de pan
-        Breadcrumb::addBreadcrumb('Creación');
-
-        return View::make('admin.pages.create')
-                        ->with('restful', 'game')
-                        ->with('breadcrumbs', Breadcrumb::generate());
-    }
-
-    /**
-     * 
-     *
-     * @return Response
-     */
     public function store() {
 
         //Campos del formulario
@@ -42,16 +27,12 @@ class GameController extends \BaseController {
             'category_id' => 'exists:categories,id',
             'agerate_id' => 'exists:agerates,id',
             'description' => 'string',
-            'thumbnail' => 'image',
-            'offer' => 'image'
+            'thumbnail_image_path' => 'mimes:jpeg,jpg,png,bmp,gif,svg',
+            'offer_image_path' => 'mimes:jpeg,jpg,png,bmp,gif,svg'
         ];
 
-        //Imagenes
-        $thumbnail = Input::file('thumbnail_image_path');
-        $offer = Input::file('offer_image_path');
-
         //Validación de los campos del formulario
-        $validator = Validator::make($fields + ['thumbnail' => $thumbnail, 'offer' => $offer], $rules);
+        $validator = Validator::make($fields, $rules);
 
         //Los campos no son válidos
         if ($validator->fails()) {
@@ -59,6 +40,10 @@ class GameController extends \BaseController {
                             ->withErrors($validator, 'create')
                             ->withInput($fields);
         }
+        
+        //Imagenes
+        $thumbnail = Input::file('thumbnail_image_path');
+        $offer = Input::file('offer_image_path');
 
         //Para el alamacenamiento de la imagen de miniatura
         if ($thumbnail !== null) {
@@ -114,6 +99,7 @@ class GameController extends \BaseController {
         return View::make('admin.pages.edit')
                         ->with('restful', 'game')
                         ->with('model', $game)
+                        ->with('header_title', "Editar juego (id: {$game->id})")
                         ->with('breadcrumbs', Breadcrumb::generate());
     }
 
@@ -137,16 +123,13 @@ class GameController extends \BaseController {
             'category_id' => 'exists:categories,id',
             'agerate_id' => 'exists:agerates,id',
             'description' => 'string',
-            'thumbnail' => 'image',
-            'offer' => 'image'
+            'thumbnail_image_path' => 'mimes:jpeg,jpg,png,bmp,gif,svg',
+            'offer_image_path' => 'mimes:jpeg,jpg,png,bmp,gif,svg'
         ];
 
-        //Imagenes
-        $thumbnail = Input::file('thumbnail_image_path');
-        $offer = Input::file('offer_image_path');
 
         //Validación de los campos del formulario
-        $validator = Validator::make($fields + ['thumbnail' => $thumbnail, 'offer' => $offer], $rules);
+        $validator = Validator::make($fields, $rules);
 
         //Los campos no son válidos
         if ($validator->fails()) {
@@ -154,6 +137,10 @@ class GameController extends \BaseController {
                             ->withErrors($validator, 'update')
                             ->withInput($fields);
         }
+        
+        //Imagenes
+        $thumbnail = Input::file('thumbnail_image_path');
+        $offer = Input::file('offer_image_path');
 
         //Para el alamacenamiento de la imagen de miniatura
         if ($thumbnail !== null) {
@@ -201,7 +188,10 @@ class GameController extends \BaseController {
 
         //El id no existe
         if ($validator->fails()) {
-            return Redirect::back();
+            return Response::json(array(
+                        'success' => false,
+                        'errors' => $validator->getMessageBag()->toArray()
+                            ), 400); // 400 being the HTTP code for an invalid request.
         }
 
         //Ruta de la imagen para borrarla
@@ -213,16 +203,48 @@ class GameController extends \BaseController {
             File::delete($thumbnail_image_path);
             File::delete($offer_image_path);
 
-            return Redirect::back();
+            return Response::json(array('success' => true), 200);
         }
 
         //Error de SQL
-        return Redirect::back()
-                        ->withErrors(['error' => 'Error al intentar borrar el juego.'], 'erase');
+        return Response::json(array(
+                    'success' => false,
+                    'errors' => ['error' => 'Error al intentar borrar el juego.']
+                        ), 400);
+
+//        //El id no existe
+//        if ($validator->fails()) {
+//            return Redirect::back();
+//        }
+//
+//        //Ruta de la imagen para borrarla
+//        $thumbnail_image_path = $this->game->find($id)->thumbnail_image_path;
+//        $offer_image_path = $this->game->find($id)->offer_image_path;
+//
+//        //Éxito al eliminar
+//        if ($this->game->erase($id)) {
+//            File::delete($thumbnail_image_path);
+//            File::delete($offer_image_path);
+//
+//            return Redirect::back();
+//        }
+//
+//        //Error de SQL
+//        return Redirect::back()
+//                        ->withErrors(['error' => 'Error al intentar borrar el juego.'], 'erase');
     }
 
     public function index() {
-        $games = $this->game->paginateForIndexTable('games.name', 'asc', 20);
+        $games = $this->game->paginateForIndexTable('games.name', 'asc', 20, Input::get('page'));
+
+        if (Request::ajax()) {
+
+            return Response::json(View::make('admin.includes.index_table')
+                                    ->with([
+                                        'data' => $games,
+                                        'header' => ['ID', 'Juego', 'Categoría', 'Calificación por edad'],
+                                        'restful' => 'game'])->render(), 200);
+        }
 
         //Miga de pan
         Breadcrumb::addBreadcrumb('Edición');

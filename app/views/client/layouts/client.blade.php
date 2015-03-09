@@ -1,29 +1,33 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
     <head>
         @include('client.includes.head')
     </head>
 
     <body>
-        <div class="container">
+        <div class="wrap">
+            <div>
+                <header>
+                    @include('client.includes.header')
+                </header>
 
-            <header class="row">
-                @include('client.includes.header')
-            </header>
+                <nav id="platforms">
+                    @include('client.includes.nav')
+                </nav>
 
-            <nav>
-                @include('client.includes.nav')
-            </nav>
-            
-            {{ $breadcrumbs }}
-            
-            <div class="row">
-                @yield('content')
+                {{ $breadcrumbs }}
+
+                <div class="container">
+                    <div class="row">
+                        @yield('content')
+                    </div>
+                </div>
             </div>
-
-            <footer class="row">
-                @include('client.includes.footer')
-            </footer>
         </div>
-    </body>
+
+        <footer class="clearfix">
+            @include('client.includes.footer')
+        </footer>
+    </div>
+</body>
 </html>

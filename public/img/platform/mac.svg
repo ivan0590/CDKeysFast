@@ -9,15 +9,12 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="33.494335"
-   height="40"
+   width="36"
+   height="36"
    id="svg3333"
    version="1.1"
    inkscape:version="0.48.5 r10040"
-   sodipodi:docname="mac.svg"
-   inkscape:export-filename="D:\Ivan\Escritorio\DAW\Servidor\UT3\Mockups\Plataformas\mac.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   sodipodi:docname="mac.svg">
   <defs
      id="defs3335" />
   <sodipodi:namedview
@@ -27,9 +24,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="3.959798"
-     inkscape:cx="82.553496"
-     inkscape:cy="33.26056"
+     inkscape:zoom="5.6"
+     inkscape:cx="-1.2368453"
+     inkscape:cy="17.755188"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -37,11 +34,11 @@
      fit-margin-left="0"
      fit-margin-right="0"
      fit-margin-bottom="0"
-     inkscape:window-width="1280"
-     inkscape:window-height="737"
-     inkscape:window-x="-4"
-     inkscape:window-y="-4"
-     inkscape:window-maximized="1" />
+     inkscape:window-width="1030"
+     inkscape:window-height="487"
+     inkscape:window-x="44"
+     inkscape:window-y="44"
+     inkscape:window-maximized="0" />
   <metadata
      id="metadata3338">
     <rdf:RDF>
@@ -58,11 +55,11 @@
      inkscape:label="Capa 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-399.47534,-304.33488)">
+     transform="translate(-399.47534,-308.3349)">
     <g
        style="display:inline"
        id="g3851"
-       transform="matrix(1.1325911,0,0,1.1325911,133.48963,193.20982)">
+       transform="matrix(1.2173187,0,0,1.019332,113.5916,208.32234)">
       <path
          id="path3825"
          d="m 256.74356,106.13329 c -0.85311,10e-4 -1.79861,0.12672 -2.84197,0.42251 -3.56736,1.21135 -3.9219,1.00841 -3.92007,1.00846 -0.54448,0.0894 -3.3917,-0.76238 -3.3917,-0.76238 -0.003,0.0353 -3.33199,-1.17284 -6.22207,0.0543 C 235.42861,109.17131 235,115 235,115 c -0.97514,6.8045 3.03233,13.01057 3.03233,13.01057 2.14967,3.77599 3.96882,4.69917 3.96882,4.69917 0.88717,0.49957 1.81006,0.97686 3.48039,0.57016 0,0 0.96202,-0.23354 1.75737,-0.60405 0,0 1.04657,-0.46154 2.16781,-0.60498 0,0 0.97026,-0.18496 2.1497,0.097 1.17944,0.28199 1.53125,0.42344 1.53125,0.42344 l 0.65141,0.2368 0.64074,0.19918 0.74102,0.19454 0.48333,0.0947 0.47266,0.0627 0.48844,0.006 0.35194,-0.0422 0.42019,-0.0998 0.30133,-0.0998 0.34544,-0.13743 0.35472,-0.18201 0.24329,-0.14671 0.23772,-0.15415 0.19315,-0.14115 0.18572,-0.13743 0.17829,-0.15229 0.17458,-0.14672 0.20615,-0.18758 0.70759,-0.74287 0.31572,-0.38073 0.27672,-0.34915 0.25258,-0.33615 0.20429,-0.28601 0.15229,-0.22101 0.16529,-0.25072 0.11143,-0.16715 0.11886,-0.18571 0.15972,-0.26373 0.14858,-0.23772 0.16343,-0.27115 0.33058,-0.58316 0.15786,-0.29158 0.13744,-0.26557 0.16575,-0.32733 0.16251,-0.33058 0.12211,-0.26558 0.12489,-0.28462 0.24283,-0.56598 0.2484,-0.6737 0.19361,-0.55669 -0.0237,-0.0116 -0.008,-0.003 c -0.35308,-0.12354 -4.23497,-1.59084 -4.75395,-6.54382 -4e-4,-0.004 -10e-4,-0.007 -10e-4,-0.0112 -0.77764,-4.35306 3.63403,-7.72082 3.76036,-7.73242 9.9e-4,-1.2e-4 10e-4,1.1e-4 0.002,4.5e-4 l 0.005,0.003 -9.2e-4,-0.0125 c -0.13249,0.12113 -2.04939,-3.48387 -6.65618,-3.47621 z"

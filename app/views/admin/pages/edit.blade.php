@@ -4,7 +4,12 @@
 {{-- Formulario de creación --}}
 <div class="panel panel-default">
 
-
+    {{-- Cabecera --}}
+    <div class="panel-heading clearfix">
+        <h3 class="navbar-text">{{ $header_title }}</h3>
+    </div>
+    
+    
     <div class="panel-body">
 
         {{ Form::model($model,['route' => ["admin.$restful.update", $model->id], 'files' => true, 'method' => 'PUT']) }}

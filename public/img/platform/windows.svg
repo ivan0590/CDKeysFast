@@ -9,15 +9,12 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="43.261524"
-   height="40"
+   width="36"
+   height="35.999725"
    id="svg3297"
    version="1.1"
    inkscape:version="0.48.5 r10040"
-   sodipodi:docname="windows.svg"
-   inkscape:export-filename="D:\Ivan\Escritorio\DAW\Servidor\UT3\Mockups\Plataformas\windows.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   sodipodi:docname="windows.svg">
   <defs
      id="defs3299" />
   <sodipodi:namedview
@@ -27,9 +24,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="3.959798"
-     inkscape:cx="94.347113"
-     inkscape:cy="51.67569"
+     inkscape:zoom="5.6"
+     inkscape:cx="34.535715"
+     inkscape:cy="18.449233"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -37,11 +34,11 @@
      fit-margin-left="0"
      fit-margin-right="0"
      fit-margin-bottom="0"
-     inkscape:window-width="1280"
-     inkscape:window-height="737"
-     inkscape:window-x="-4"
-     inkscape:window-y="-4"
-     inkscape:window-maximized="1" />
+     inkscape:window-width="1030"
+     inkscape:window-height="487"
+     inkscape:window-x="464"
+     inkscape:window-y="91"
+     inkscape:window-maximized="0" />
   <metadata
      id="metadata3302">
     <rdf:RDF>
@@ -50,7 +47,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -58,14 +55,11 @@
      inkscape:label="Capa 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-532.29956,-412.9062)">
+     transform="translate(-532.29955,-416.90647)">
     <g
-       transform="matrix(0.17189947,0,0,0.17189947,471.19973,372.01828)"
+       transform="matrix(0.14304583,0,0,0.15470835,481.45544,380.10762)"
        style="fill:#ffffff;fill-opacity:1;display:inline"
-       id="g3771"
-       inkscape:export-filename="D:\Ivan\Escritorio\DAW\Servidor\UT3\Mockups\Plataformas\windows.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90">
+       id="g3771">
       <path
          sodipodi:nodetypes="ccscc"
          inkscape:connector-curvature="0"

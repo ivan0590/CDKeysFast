@@ -45,14 +45,16 @@ class PlatformRepository implements PlatformRepositoryInterface {
     public function getByName($name) {
         return Platform::where('name', '=', $name)->first();
     }
-    
+
     public function exists($id) {
         return !Platform::where('id', '=', $id)->get()->isEmpty();
     }
 
-    public function paginateForIndexTable($sort = 'name', $sortDir = 'asc', $pagination = 15) {
+    public function paginateForIndexTable($sort = 'name', $sortDir = 'asc', $pagination = 15, $page = 1) {
 
         $platforms = Platform::select(['id', 'name']);
+
+        \Paginator::setCurrentPage(($platforms->count() / $pagination) < $page ? ceil($platforms->count() / $pagination) : $page);
 
         return $platforms->orderBy($sort, $sortDir)->paginate($pagination);
     }

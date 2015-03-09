@@ -31,12 +31,12 @@ Route::group(['prefix' => 'admin', 'before' => 'admin'], function () {
     Route::resource('massive_upload', 'MassiveUploadController', ['only' => ['create', 'store']]);
 
     //Formularios y operaciones CRUD
-    Route::resource('product', 'ProductController', ['except' => ['show']]);
-    Route::resource('game', 'GameController', ['except' => ['show']]);
-    Route::resource('platform', 'PlatformController', ['except' => ['show']]);
-    Route::resource('category', 'CategoryController', ['except' => ['show']]);
-    Route::resource('developer', 'DeveloperController', ['except' => ['show']]);
-    Route::resource('publisher', 'PublisherController', ['except' => ['show']]);
+    Route::resource('product', 'ProductController', ['except' => ['show', 'create']]);
+    Route::resource('game', 'GameController', ['except' => ['show', 'create']]);
+    Route::resource('platform', 'PlatformController', ['except' => ['show', 'create']]);
+    Route::resource('category', 'CategoryController', ['except' => ['show', 'create']]);
+    Route::resource('developer', 'DeveloperController', ['except' => ['show', 'create']]);
+    Route::resource('publisher', 'PublisherController', ['except' => ['show', 'create']]);
 });
 
 //Para aplicar el filtro de ordenación

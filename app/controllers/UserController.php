@@ -32,14 +32,14 @@ class UserController extends \BaseController {
         //Reglas de validación
         $rules = [
             'email' => 'required|email|confirmed', //Email requerido
-            'password' => 'required|alphaNum|min:6|confirmed' //Contraseña alfanumérica de 6 caracteres requerida'
+            'password' => 'required|alpha_dash|min:6|confirmed' //Contraseña alfanumérica de 6 caracteres requerida'
         ];
 
         //Mensajes de error
         $messages = ['email.required' => 'Formato de email incorrecto.',
             'email.email' => 'Formato de email incorrecto.',
             'email.confirmed' => 'Los emails no coinciden',
-            'password.alphaNum' => 'La contraseña ha de ser alfanumérica.',
+            'password.alpha_dash' => 'Solo se admiten letras, números, guiones bajos y barras.',
             'password.required' => 'La contraseña ha de tener al menos 6 caracteres.',
             'password.min' => 'La contraseña ha de tener al menos 6 caracteres.',
             'password.confirmed' => 'Las contraseñas no coinciden.'
@@ -50,14 +50,14 @@ class UserController extends \BaseController {
 
         //Los campos no son válidos
         if ($validator->fails()) {
-            return Redirect::route('user.create')
+            return Redirect::back()
                             ->withErrors($validator, 'register')
                             ->withInput(Input::except('password'));
         }
 
         //Ya existe un usuario con ese email
         if ($this->user->emailExists(Input::get('email'))) {
-            return Redirect::route('user.create')
+            return Redirect::back()
                             ->withErrors(['userExists' => 'Ya existe un usuario con ese email.'], 'register')
                             ->withInput(Input::except('password'));
         }
@@ -91,16 +91,16 @@ class UserController extends \BaseController {
         //Miga de pan
         Breadcrumb::addBreadcrumb('Inicio', URL::route('index'));
         Breadcrumb::addBreadcrumb('Editar perfil');
-        
+
         $userData = ['email' => Auth::user()->email,
                      'name' => Auth::user()->name,
                      'surname' => Auth::user()->surname,
-                     'birthdate' => Auth::user()->userable->birthdate,
+                     'birthdate' => date_format(new dateTime(Auth::user()->userable->birthdate), 'd-m-Y'),
                      'dni' => Auth::user()->userable->dni];
 
         return View::make('client.pages.edit_profile')
-                        ->with('breadcrumbs', Breadcrumb::generate())
-                        ->withInput($userData);
+                        ->with('model', $userData)
+                        ->with('breadcrumbs', Breadcrumb::generate());
     }
 
     
@@ -116,16 +116,15 @@ class UserController extends \BaseController {
         }
 
         //Campos
-        $fields = Input::only(['email', 'email_confirmation']);
+        $fields = Input::only('email');
 
         //Reglas de validación
-        $rules = ['email' => 'required|email|confirmed|unique:users'];
+        $rules = ['email' => 'required|email|unique:users'];
 
         //Mensajes de error
         $messages = [
             'email.required' => 'Formato de email incorrecto.',
             'email.email' => 'Formato de email incorrecto.',
-            'email.confirmed' => 'Los emails no coinciden.',
             'email.unique' => 'El email es el mismo o ya existe otro usuario con ese email.'];
 
         //Validación de los campos del formulario
@@ -134,7 +133,7 @@ class UserController extends \BaseController {
         //Los campos no son válidos
         if ($validator->fails()) {
             return Redirect::back()
-                            ->withErrors($validator, 'email')
+                            ->withErrors($validator, 'edit_profile')
                             ->withInput($fields);
         }
 
@@ -146,7 +145,7 @@ class UserController extends \BaseController {
         });
 
         return Redirect::back()
-                        ->with('email_success', 'Se ha enviado un email para confirmar el cambio.');
+                        ->with('save_success', 'Se ha enviado un email para confirmar el cambio de email.');
     }
 
     public function updatePassword($id) {
@@ -156,18 +155,16 @@ class UserController extends \BaseController {
         }
 
         //Campos
-        $fields = Input::only(['password', 'password_confirmation']);
+        $fields = Input::only('password');
 
         //Reglas de validación
-        $rules = ['password' => 'required|alphaNum|min:6|confirmed|unique:users,password,NULL,id,id,' . Auth::id()];
+        $rules = ['password' => 'required|alpha_dash|min:6'];
 
         //Mensajes de error
         $messages = [
-            'password.alphaNum' => 'La contraseña ha de ser alfanumérica.',
+            'password.alpha_dash' => 'Solo se admiten letras, números, guiones bajos y barras.',
             'password.required' => 'La contraseña ha de tener al menos 6 caracteres.',
-            'password.min' => 'La contraseña ha de tener al menos 6 caracteres.',
-            'password.confirmed' => 'Las contraseñas no coinciden.',
-            'password.unique' => 'La contraseña es la misma que la actual.'
+            'password.min' => 'La contraseña ha de tener al menos 6 caracteres.'
         ];
 
         //Validación de los campos del formulario
@@ -176,7 +173,7 @@ class UserController extends \BaseController {
         //Los campos no son válidos
         if ($validator->fails()) {
             return Redirect::back()
-                            ->withErrors($validator, 'password')
+                            ->withErrors($validator, 'edit_profile')
                             ->withInput($fields);
         }
 
@@ -188,7 +185,7 @@ class UserController extends \BaseController {
         });
 
         return Redirect::back()
-                        ->with('password_success', 'Se ha enviado un email para confirmar el cambio.');
+                        ->with('save_success', 'Se ha enviado un email para confirmar el cambio de contraseña.');
     }
 
     public function updatePersonal($id) {
@@ -213,7 +210,7 @@ class UserController extends \BaseController {
         //Los campos no son válidos
         if ($validator->fails()) {
             return Redirect::back()
-                            ->withErrors($validator, 'password')
+                            ->withErrors($validator, 'edit_profile')
                             ->withInput($fields);
         }
 
@@ -230,7 +227,7 @@ class UserController extends \BaseController {
         }
         
         return Redirect::back()
-                        ->with('personal_success', 'Se han guardado los cambios.');
+                        ->with('save_success', 'Los datos personales se han modificado correctamente.');
     }
 
     public function unsuscribe($id) {
@@ -247,7 +244,7 @@ class UserController extends \BaseController {
         });
 
         return Redirect::back()
-                        ->with('unsuscribe_success', 'Se ha enviado un email para confirmar la baja.');
+                        ->with('save_success', 'Se ha enviado un email para confirmar la baja.');
     }
 
     

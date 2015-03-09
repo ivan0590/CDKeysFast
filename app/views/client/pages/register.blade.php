@@ -44,16 +44,14 @@
                     </div>
 
                     <div class="form-group">
-                        <div class="alert alert-info">
-                            <small>
-                                Al crear una cuenta, acepto las Condiciones de Servicio y la Política de Privacidad de CDKeysFast.            
-                            </small>
+                        <div class="alert alert-info h6">
+                            Al crear una cuenta, acepto las Condiciones de Servicio y la Política de Privacidad de CDKeysFast.            
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <div class="input-group  col-md-12">
-                            {{ Form::submit('Registrarse', ['class' => 'btn btn-primary  col-md-4 col-md-offset-4']) }}
+                        <div class="input-group col-md-12">
+                            {{ Form::submit('Registrarse', ['class' => 'btn btn-primary  center-block']) }}
                         </div>
                     </div>
 
@@ -61,9 +59,9 @@
 
                 <div class="col-md-4">
                     @foreach ($errors->register->all() as $error)
-                    <div class="alert alert-danger" role="alert">
+                    <div class="alert alert-danger h6" role="alert">
                         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                        <small>{{ $error }}</small>
+                        {{ $error }}
                     </div>        
                     @endforeach
                 </div>

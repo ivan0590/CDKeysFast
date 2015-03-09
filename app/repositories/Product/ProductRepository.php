@@ -78,25 +78,27 @@ class ProductRepository implements ProductRepositoryInterface {
         return !$product->get()->isEmpty();
     }
 
-    public function paginateForIndexTable($sort = 'name', $sortDir = 'asc', $pagination = 15) {
+    public function paginateForIndexTable($sort = 'name', $sortDir = 'asc', $pagination = 16, $page = 1) {
 
         $products = Product::
-                leftJoin('games', 'products.game_id', '=', 'games.id')
-                ->leftJoin('categories', function ($query) {
-                    $query->on('categories.id', '=', 'games.category_id');
-                })
-                ->leftJoin('platforms', 'products.platform_id', '=', 'platforms.id')
-                ->leftJoin('publishers', 'products.publisher_id', '=', 'publishers.id')
-                ->select(['products.id as id',
-            'games.name as game_name',
-            'platforms.name as platform_name',
-            'categories.name as category_name',
-            'publishers.name as punlisher_name']);
+                        leftJoin('games', 'products.game_id', '=', 'games.id')
+                        ->leftJoin('categories', function ($query) {
+                            $query->on('categories.id', '=', 'games.category_id');
+                        })
+                        ->leftJoin('platforms', 'products.platform_id', '=', 'platforms.id')
+                        ->leftJoin('publishers', 'products.publisher_id', '=', 'publishers.id')
+                        ->select(['products.id as id',
+                            'games.name as game_name',
+                            'platforms.name as platform_name',
+                            'categories.name as category_name',
+                            'publishers.name as punlisher_name']);
+        
+        \Paginator::setCurrentPage(($products->count() / $pagination) < $page ? ceil($products->count() / $pagination) : $page);
 
         return $products->orderBy($sort, $sortDir)->paginate($pagination);
     }
 
-    public function paginateHighlighted($platformId = null, $discounted = null, $sort = 'name', $sortDir = 'asc', $pagination = 15) {
+    public function paginateHighlighted($platformId = null, $discounted = null, $sort = 'name', $sortDir = 'asc', $pagination = 16) {
 
         $products = Product::join('games', 'products.game_id', '=', 'games.id')
                 ->where('highlighted', '=', true)
@@ -115,7 +117,7 @@ class ProductRepository implements ProductRepositoryInterface {
         return $products->orderBy($sort, $sortDir)->paginate($pagination);
     }
 
-    public function paginateSimpleSearch($name = null, $sort = 'name', $sortDir = 'asc', $pagination = 15) {
+    public function paginateSimpleSearch($name = null, $sort = 'name', $sortDir = 'asc', $pagination = 16) {
 
         return Product::join('games', 'products.game_id', '=', 'games.id')
                         ->where('name', 'like', "%$name%")
@@ -123,7 +125,7 @@ class ProductRepository implements ProductRepositoryInterface {
                         ->paginate($pagination);
     }
 
-    public function paginateAdvancedSearch($data = [], $sort = 'name', $sortDir = 'asc', $pagination = 15) {
+    public function paginateAdvancedSearch($data = [], $sort = 'name', $sortDir = 'asc', $pagination = 16) {
 
         $products = Product::
                 join('games', 'products.game_id', '=', 'games.id')
@@ -179,13 +181,13 @@ class ProductRepository implements ProductRepositoryInterface {
 
         //Buscar a partir de una fecha
         if (array_key_exists('launch_date', $data) && $data['launch_date'] !== '') {
-            $products = $products->where('launch_date', '>=', $data['launch_date']);
+            $products = $products->where('launch_date', '>=', new \DateTime($data['launch_date']));
         }
-
+        
         return $products->orderBy($sort, $sortDir)->paginate($pagination);
     }
 
-    public function paginateByPlatformAndCategory($platformId, $categoryId, $sort = 'name', $sortDir = 'asc', $pagination = 15) {
+    public function paginateByPlatformAndCategory($platformId, $categoryId, $sort = 'name', $sortDir = 'asc', $pagination = 16) {
 
         $products = Product::join('games', 'products.game_id', '=', 'games.id')
                 ->where('category_id', '=', $categoryId)

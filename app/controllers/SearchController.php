@@ -40,17 +40,10 @@ class SearchController extends \BaseController {
 
         $sort = Input::get('sort') === 'name' ? 'games.' . Input::get('sort') : Input::get('sort', 'games.name');
 
-        //Nuevo array en el que se quita el prefijo "as-" de las claves
-        $searchValues = array_combine(
-                array_map(function ($key) {
-                    return str_replace('as-', '', $key);
-                }, array_keys(Input::all())), Input::all());
-
-
         //Se busca por los valores del formulario, se ordena y se pagina
         $foundProducts = $this->product
-                ->paginateAdvancedSearch($searchValues, $sort, Input::get('sort_dir', 'asc'));
-
+                ->paginateAdvancedSearch(Input::all(), $sort, Input::get('sort_dir', 'asc'));
+        
         //Miga de pan
         Breadcrumb::addBreadcrumb('Inicio', URL::route('index'));
         Breadcrumb::addBreadcrumb('Búsqueda avanzada');

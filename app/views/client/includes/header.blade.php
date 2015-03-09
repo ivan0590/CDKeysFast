@@ -1,14 +1,16 @@
-<nav class="navbar-inverse">
-    <div class="container">
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
 
         {{-- Logo --}}
-        <div class="col-md-4 navbar-left navbar-btn ">
-            <a href="{{ URL::route('index') }}">
-                {{ HTML::image('img/cdkeysfast.svg', 'CDKeysFast', ['class' => 'img-responsive']) }}
-            </a>
+        <div class="col-md-4 navbar-btn">
+            <div class="navbar-left navbar-link">
+                <a href="{{ URL::route('index') }}">
+                    {{ HTML::image('img/cdkeysfast.svg', 'CDKeysFast', ['class' => 'img-responsive']) }}
+                </a>
+            </div>
         </div>
 
-        <div class="col-md-4">            
+        <div class="col-md-4 ">            
             {{-- Busqueda --}}
             {{ Form::open(['route' => ['search.simple'],
                        'method' => 'GET',
@@ -34,9 +36,9 @@
             {{ Form::close() }}
         </div>
 
-        <div class="col-md-4">
-            <ul class="nav navbar-nav navbar-right">
-                
+        <div class="col-md-4  navbar-right">
+            <ul class="nav navbar-nav  navbar-right">
+
                 {{-- Perfil y logout --}}
                 @if (Auth::check())
                 <li>{{ HTML::linkRoute('user.edit',
@@ -55,11 +57,11 @@
                 {{-- Registro y login --}}
                 @else
 
-                <li>
+                <li class="col-md-4">
                     {{ HTML::linkRoute('user.create', 'Registrarse') }}
                 </li>
 
-                <li class="dropdown">
+                <li class="dropdown col-md-8">
                     <a data-placement="bottom" data-toggle="login" data-container="body" class='btn'>Iniciar sesión</a>
                     @include('client.includes.login')
                 </li>
