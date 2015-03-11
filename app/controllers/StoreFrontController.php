@@ -25,7 +25,7 @@ class StoreFrontController extends \BaseController {
         } else {
             $offerProducts = $this->product->all(false, 'price', 'asc')->take(5);
         }
-
+        
         //Miga de pan
         Breadcrumb::addBreadcrumb('Inicio');
 

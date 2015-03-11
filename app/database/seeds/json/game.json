@@ -1,6 +1,6 @@
 [
     {
-        "name": "Counter Strike: Global Offensive",
+        "name": "Counter Strike Global Offensive",
         "description": "El gran clásico del multijugador vuelve a la carga renovado y con nuevas fuerzas. El título con el que muchos tuvieron su bautismo de fuego en el juego online se presenta en una nueva versión, dispuesto a demostrar que la validez de su forma es incombustible.",
         "thumbnail_image_extension": "png",
         "offer_image_extension": "jpg",
@@ -8,12 +8,12 @@
         "agerate_id": "1"
     },
     {
-        "name": "Life is Feudal: Your Own",
-        "description": "Sandbox MMORPG ambientado en un enorme mundo de corte fantástico medieval.",
+        "name": "Tropico 4",
+        "description": "El simulador civil Tropico llega a su cuarta entrega. Desarrollado de nuevo por Haemimont Games, supondrá el retorno de El Presidente a la isla paradisíaca de Trópico para hacer de su nación una superpotencia a nivel mundial.",
         "thumbnail_image_extension": "png",
         "offer_image_extension": "jpg",
-        "category_id": "13",
-        "agerate_id": null
+        "category_id": "2",
+        "agerate_id": "4"
     },
     {
         "name": "BioShock Infinite",
@@ -24,12 +24,12 @@
         "agerate_id": "5"
     },
     {
-        "name": "H1Z1",
-        "description": "H1Z1, desarrollado y distribuido por Sony Online Entertainment para PC y PlayStation 4, es un MMO de acción ambientado en un mundo post-apocalíptico infestado de zombis en el que los jugadores deberán sobrevivir colaborando entre ellos, buscando recursos y refugio; cuenta con una gran variedad de armas y vehículos.",
+        "name": "Goat Simulator",
+        "description": "Disparatado videojuego de acción protagonizado por una cabra, con la que tendremos que hacer toda clase de locuras. Saltar, lanzarla al vacío, destrozar cosas e incluso golpear a personas. Todo ello con un gran sentido del humor.",
         "thumbnail_image_extension": "png",
         "offer_image_extension": "jpg",
-        "category_id": "6",
-        "agerate_id": "5"
+        "category_id": "9",
+        "agerate_id": "1"
     },
     {
         "name": "Company of Heroes 2",
@@ -73,7 +73,7 @@
         "agerate_id": "5"
     },
     {
-        "name": "Call of Duty 4: Modern Warfare",
+        "name": "Call of Duty 4 Modern Warfare",
         "description": " La saga creada por Infinity Ward hace unos años, por fin vuelve a manos de sus creadores. Y lo hace en un ejercicio brillante de continuidad en el fondo y novedoso en la forma. Todo un ejemplo de cómo mejorar un juego ya de por sí de gran calidad. El deber os llama...",
         "thumbnail_image_extension": "png",
         "offer_image_extension": "jpg",
@@ -97,12 +97,12 @@
         "agerate_id": "4"
     },
     {
-        "name": "Wolfenstein The New Order",
-        "description": "Wolfenstein: The New Order es el regreso de una de las sagas de acción first person shooter más celebradas de los noventa de la mano de MachineGames y Bethesda Softworks para PlayStation 3, Xbox 360, PC, PlayStation 4 y Xbox One; la acción tendrá lugar en un 1960 dominado por los nazis mientras tratan de hacerse con el dominio mundial.",
+        "name": "Lords of the Fallen",
+        "description": "Del antiguo productor de The Witcher 2, llega este RPG ambientado en un mundo de fantasía medieval que domina un dios caído. Un videojuego inspirado por obras como Dark Souls o el propio The Witcher.",
         "thumbnail_image_extension": "png",
         "offer_image_extension": "jpg",
-        "category_id": "1",
-        "agerate_id": "5"
+        "category_id": "4",
+        "agerate_id": "4"
     },
     {
         "name": "Left 4 Dead 2",
@@ -121,12 +121,12 @@
         "agerate_id": "5"
     },
     {
-        "name": "S.T.A.L.K.E.R. Shadow of Chernobyl",
-        "description": "Tras un segundo accidente en Chernobil se creó a su alrededor un vasto territorio dominado por el terror y la muerte: la Zona. En aquel momento, cientos de personas se transformaron en juguetes silenciosos de fuerzas invisibles que los privaron de personalidad. Hubo intentos inútiles por parte del ejército de controlar esta nueva pesadilla planetaria o, al menos, de impedir su expansión, pero no tuvieron éxito. La Zona creció. Sólo unos cuantos valientes tuvieron el coraje de adentrarse en esta mortal región...",
+        "name": "FIFA 15",
+        "description": "Videojuego de la serie FIFA para la temporada de fútbol 2014-2015. El título presenta licencias de más de 25 competiciones oficiales, y entre sus novedades destacan un comportamiento de los porteros mucho más reales, nuevas animaciones para los jugadores, cambios en el comportamiento del esférico y un ritmo de juego más rápido, entre otros tantos.",
         "thumbnail_image_extension": "png",
         "offer_image_extension": "jpg",
-        "category_id": "6",
-        "agerate_id": "4"
+        "category_id": "5",
+        "agerate_id": "1"
     },
     {
         "name": "Dead Island",
@@ -145,12 +145,12 @@
         "agerate_id": "4"
     },
     {
-        "name": "Medal of Honor Allied Assault",
-        "description": "Medal of Honour: Allied Assault nos traslada una manera casi real al mayor conflicto de la historia de la humanidad. Si quieres sentir las sensaciones de un soldado aliado durante la Segunda Guerra Mundial tu juegos es MoH.",
+        "name": "Medal of Honor",
+        "description": "Nueva entrega de Medal of Honor en la que EA reinventa esta popular saga de juegos bélicos. El título estará ambientado en Afganistán, poniéndonos en la piel de la unidad especial de combate Tier 1 Operator, bajo supervisión del Gobierno de Estados Unidos y encargados de “asumir las misiones que nadie más puede llevar a cabo”.",
         "thumbnail_image_extension": "png",
         "offer_image_extension": "jpg",
         "category_id": "1",
-        "agerate_id": "4"
+        "agerate_id": "5"
     },
     {
         "name": "Fallout 3",
@@ -158,6 +158,30 @@
         "thumbnail_image_extension": "png",
         "offer_image_extension": "jpg",
         "category_id": "4",
+        "agerate_id": "5"
+    },
+    {
+        "name": "Age of Empires II HD",
+        "description": "El clásico Age of Empires II regresa al mercado con esta remasterización a la alta definición que incluye gráficos adaptados a las 1080p, texturas más definidas, así como mejores efectos de iluminación. El juego trae consigo además la expansión Conquerors.",
+        "thumbnail_image_extension": "png",
+        "offer_image_extension": "jpg",
+        "category_id": "2",
+        "agerate_id": "3"
+    },
+    {
+        "name": "Outlast",
+        "description": "Survival Horror en el que participan veteranos desarrolladores provenientes de Ubisoft y EA. El juego está protagonizado por el periodista Miles Upshur, que investiga una denuncia anónima en un hospital psiquiátrico, que desencadenará en una truculenta historia de terror y suspense.",
+        "thumbnail_image_extension": "png",
+        "offer_image_extension": "jpg",
+        "category_id": "11",
+        "agerate_id": "5"
+    },
+    {
+        "name": "Assassin's Creed Unity",
+        "description": "Videojuego de la popular saga de acción y aventuras Assassin's Creed destinada en exclusiva a la nueva generación. El título se ambienta en el París del siglo XVIII, recreando con todo lujo de detalles escenarios reales como la Catedral de Notre Dame o el río Sena que recorre la capital gala.",
+        "thumbnail_image_extension": "png",
+        "offer_image_extension": "jpg",
+        "category_id": "13",
         "agerate_id": "5"
     }
 ]

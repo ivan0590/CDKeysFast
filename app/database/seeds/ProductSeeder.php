@@ -9,31 +9,35 @@ class ProductSeeder extends DatabaseSeeder {
 
     public function run() {
 
-        $productsCount = 400;
-        
-        for ($index = 1; $index <= $productsCount; $index++) {
+        $json = File::get(app_path() . "\database\seeds\json\product.json");
+        $data = json_decode($json);
 
-            $foreignIndex = ceil($index / ($productsCount / 40));
-            
+        foreach ($data as $object) {
             $product = Product::create([
-                        'price' => $index,
-                        'discount' => mt_rand(0,1) ? mt_rand(1, 100) : null,
-                        'stock' => $index,
-                        'highlighted' => mt_rand(0,1),
-                        'launch_date' => new DateTime(" - $index days"),
-                        'singleplayer' => true,
-                        'multiplayer' => true,
-                        'cooperative' => true,
-                        'game_id' => $index - (200 * floor(($index - 1) / 200)),
-                        'platform_id' => ceil($index / ($productsCount / 5)),
-                        'publisher_id' => $foreignIndex
+                        'price' => $object->price,
+                        'discount' => $object->discount,
+                        'stock' => $object->stock,
+                        'highlighted' => $object->highlighted,
+                        'launch_date' => new DateTime($object->launch_date),
+                        'singleplayer' => $object->singleplayer,
+                        'multiplayer' => $object->multiplayer,
+                        'cooperative' => $object->cooperative,
+                        'game_id' => $object->game_id,
+                        'platform_id' => $object->platform_id,
+                        'publisher_id' => $object->publisher_id
             ]);
 
-
-            Language::find($foreignIndex)->products()->save($product, ['type' => 'text']);
-            Language::find($foreignIndex)->products()->save($product, ['type' => 'audio']);
-
-            Developer::find($foreignIndex)->products()->save($product);
+            foreach ($object->audio as $audio) {
+                Language::find($audio)->products()->save($product, ['type' => 'audio']);
+            }
+            
+            foreach ($object->text as $text) {
+                Language::find($text)->products()->save($product, ['type' => 'text']);
+            }
+            
+            foreach ($object->developers as $developer) {
+                Developer::find($developer)->products()->save($product);
+            }
         }
     }
 

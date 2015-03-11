@@ -109,11 +109,11 @@ class ProductRepository implements ProductRepositoryInterface {
         }
 
         if ($discounted) {
-            $products = $products->whereNotNull('discount');
+            $products = $products->where('discount', ">", "0");
         } else if ($discounted === false) {
-            $products = $products->whereNull('discount');
+            $products = $products->Where('discount', "=", "0");
         }
-
+//dd($products->toSql());
         return $products->orderBy($sort, $sortDir)->paginate($pagination);
     }
 
@@ -199,11 +199,11 @@ class ProductRepository implements ProductRepositoryInterface {
     }
 
     public function all($discounted = null, $sort = 'price', $sortDir = 'asc') {
-
+        
         if ($discounted) {
-            $products = Product::whereNotNull('discount');
+            $products = Product::where('discount', ">", "0");
         } else if ($discounted === false) {
-            $products = Product::whereNull('discount');
+            $products = Product::where('discount', "=", "0");
         } else {
             $products = Product::all();
         }

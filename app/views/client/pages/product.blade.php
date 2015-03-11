@@ -4,8 +4,12 @@
 
     {{-- Cabecera con el nombre, precio y plataforma --}}
     <div class="panel-heading clearfix">
-        {{ HTML::image($product->platform->icon_path, $product->platform->name, ['class' => 'pull-left']) }}
-        <h3 class="navbar-text">{{ $product->game->name }}</h3>
+
+        <h3 class="pull-left navbar-text">
+            {{ HTML::image($product->platform->icon_path, $product->platform->name) }}
+            {{ $product->game->name }}
+        </h3>
+
 
         <h3 class="navbar-text pull-right">
             @if(Auth::check() && $product->discount)
@@ -26,7 +30,7 @@
         <div class="col-md-3 product-info">
             <div class="center-block">
 
-                {{ HTML::image($product->game->thumbnail_image_path, $product->game->name, ['class' => 'img-thumbnail']) }}
+                {{ HTML::image($product->game->thumbnail_image_path, $product->game->name) }}
 
                 <h4>Datos técnicos</h4>
                 <dl class="product-info-content">

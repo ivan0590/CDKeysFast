@@ -14,7 +14,7 @@ class CreateProductsTable extends Migration {
         Schema::create('products', function ($table) {
             $table->increments('id');
             $table->decimal('price', 7, 2)->unsigned();
-            $table->decimal('discount', 4, 2)->unsigned()->nullable();
+            $table->decimal('discount', 4, 2)->unsigned();
             $table->integer('stock')->unsigned();
             $table->boolean('highlighted');
             $table->date('launch_date');

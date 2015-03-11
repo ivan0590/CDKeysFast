@@ -22,7 +22,7 @@
     </div>        
 </div>
 
-@include('client.includes.products_list',['header_title' => "Productos destacados en $platform->name",
+@include('client.includes.products_list',['header_title' => "Productos destacados " . (Auth::check() ? 'con descuento' : '') . " en $platform->name",
                                      'header_icon_path'  => null,
                                      'show_platform_icon' => false])
 

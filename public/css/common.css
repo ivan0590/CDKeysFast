@@ -63,7 +63,7 @@ body {
 body *:not(.glyphicon):not([class*="font-"]) {
   font-family: allerregular !important;
 }
-body *:not(.glyphicon):not([class*="alert-"]):not([class*="btn-default"]):not(option):not(select):not(input) {
+body *:not(.glyphicon):not([class*="alert-"]):not([class*="btn-default"]):not(option):not(select):not(input):not(textarea) {
   color: #ffffff;
 }
 .panel-heading .dropdown *,
@@ -157,8 +157,8 @@ header .dropdown-menu li a,
 .products-list li {
   list-style: none;
 }
-.products-list .thumbnail > a > .img-thumbnail {
-  padding: 0px;
+.products-list .thumbnail .caption {
+  height: 5em;
 }
 .products-list .thumbnail .caption .img-thumbnail {
   padding: 0.5em !important;

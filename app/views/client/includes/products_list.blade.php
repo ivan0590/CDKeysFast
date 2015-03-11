@@ -6,10 +6,10 @@
 
             {{-- Cabecera --}}
             <h3 class="pull-left navbar-text">
-                {{ $header_title }}
                 @if($header_icon_path)
                 {{ HTML::image($header_icon_path) }}
                 @endif
+                {{ $header_title }}
             </h3>
 
             {{-- Ordenación de productos --}}
@@ -52,7 +52,7 @@
                                                     'category_id' => $product->game->category_id,
                                                     'product_id'  => $product->id
                                                    ]) }}">
-                                {{ HTML::image($product->game->thumbnail_image_path, $product->game->name, ['class' => 'img-responsive img-thumbnail ']) }}
+                                {{ HTML::image($product->game->thumbnail_image_path, $product->game->name, ['class' => 'img-responsive']) }}
                             </a>
 
                             <div class="caption clearfix">
@@ -70,7 +70,7 @@
                                                     'product_id'  => $product->id
                                                    ]) }}">
                                     <div class="text-center h3 price">
-                                        @if(Auth::check() && $product->discount)
+                                        @if(Auth::check() && $product->discount && $product->discount > 0)
                                         {{ round($product->price * ((100 - $product->discount) / 100), 2, PHP_ROUND_HALF_UP ) }} € 
                                         <div class="h4">
                                             <span class="label label-primary">-{{ round($product->discount, 2, PHP_ROUND_HALF_UP ) }}%</span>
