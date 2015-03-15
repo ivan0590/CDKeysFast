@@ -193,10 +193,10 @@ class PlatformController extends \BaseController {
 
         //El id no existe
         if ($validator->fails()) {
-            return Response::json(array(
+            return Response::json([
                         'success' => false,
                         'errors' => $validator->getMessageBag()->toArray()
-                            ), 400); // 400 being the HTTP code for an invalid request.
+                            ], 400); // 400 being the HTTP code for an invalid request.
         }
 
         //Ruta de la imagen para borrarla
@@ -206,14 +206,14 @@ class PlatformController extends \BaseController {
         if ($this->platform->erase($id)) {
             File::delete($icon_path);
 
-            return Response::json(array('success' => true), 200);
+            return Response::json(['success' => true], 200);
         }
 
         //Error de SQL
-        return Response::json(array(
+        return Response::json([
                     'success' => false,
                     'errors' => ['error' => 'Error al intentar borrar la plataforma.']
-                        ), 400);
+                        ], 400);
 
 //        //El id no existe
 //        if ($validator->fails()) {

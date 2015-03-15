@@ -18,6 +18,11 @@ Route::get('/', [
     'before' => 'sort'
 ]);
 
+Route::post('/googlePlus', [
+    'as' => 'googlePlus',
+    'uses' => 'UserController@updateEmailByGooglePlus'
+]);
+
 //Login y logout
 Route::resource('session', 'SessionController', ['only' => ['store']]);
 
@@ -26,7 +31,7 @@ Route::get('admin/login', ['as' => 'admin.login', 'uses' => 'SessionController@g
 
 //Administración
 Route::group(['prefix' => 'admin', 'before' => 'admin'], function () {
-    
+
     //Carga masiva
     Route::resource('massive_upload', 'MassiveUploadController', ['only' => ['create', 'store']]);
 

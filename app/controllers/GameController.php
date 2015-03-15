@@ -188,10 +188,10 @@ class GameController extends \BaseController {
 
         //El id no existe
         if ($validator->fails()) {
-            return Response::json(array(
+            return Response::json([
                         'success' => false,
                         'errors' => $validator->getMessageBag()->toArray()
-                            ), 400); // 400 being the HTTP code for an invalid request.
+                            ], 400); // 400 being the HTTP code for an invalid request.
         }
 
         //Ruta de la imagen para borrarla
@@ -203,14 +203,14 @@ class GameController extends \BaseController {
             File::delete($thumbnail_image_path);
             File::delete($offer_image_path);
 
-            return Response::json(array('success' => true), 200);
+            return Response::json(['success' => true], 200);
         }
 
         //Error de SQL
-        return Response::json(array(
+        return Response::json([
                     'success' => false,
                     'errors' => ['error' => 'Error al intentar borrar el juego.']
-                        ), 400);
+                        ], 400);
 
 //        //El id no existe
 //        if ($validator->fails()) {

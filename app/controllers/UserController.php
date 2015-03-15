@@ -93,21 +93,31 @@ class UserController extends \BaseController {
         Breadcrumb::addBreadcrumb('Editar perfil');
 
         $userData = ['email' => Auth::user()->email,
-                     'name' => Auth::user()->name,
-                     'surname' => Auth::user()->surname,
-                     'birthdate' => date_format(new dateTime(Auth::user()->userable->birthdate), 'd-m-Y'),
-                     'dni' => Auth::user()->userable->dni];
+            'name' => Auth::user()->name,
+            'surname' => Auth::user()->surname,
+            'birthdate' => date_format(new dateTime(Auth::user()->userable->birthdate), 'd-m-Y'),
+            'dni' => Auth::user()->userable->dni];
+
+
+        //GOOGLE
+
+        $state = md5(rand());
+        Session::set('state', $state);
+
+        $client = new Google_Client();
+        $client->setApplicationName(Config::get('constants.GOOGLE_APPLICATION_NAME'));
+        $client->setClientId(Config::get('constants.GOOGLE_CLIENT_ID'));
+        $client->setClientSecret(Config::get('constants.GOOGLE_SECRET'));
+        $client->setRedirectUri('postmessage');
+
+
+
 
         return View::make('client.pages.edit_profile')
                         ->with('model', $userData)
+                        ->with('state', $state)
                         ->with('breadcrumbs', Breadcrumb::generate());
     }
-
-    
-    
-    
-    
-    
 
     public function updateEmail($id) {
 
@@ -214,28 +224,24 @@ class UserController extends \BaseController {
                             ->withInput($fields);
         }
 
-        if(Auth::user()->userable_type === 'Admin'){
-            $this->user->updateAdminPersonalData(Auth::id(),
-                                                        Input::get('name') ?: Auth::user()->name,
-                                                        Input::get('surname') ?: Auth::user()->surname);
+        if (Auth::user()->userable_type === 'Admin') {
+            $this->user->updateAdminPersonalData(Auth::id(), Input::get('name') ? : Auth::user()->name, Input::get('surname') ? : Auth::user()->surname);
         } else {
-            $this->user->updateClientPersonalData(Auth::id(),
-                                                        Input::get('name') ?: Auth::user()->name,
-                                                        Input::get('surname') ?: Auth::user()->surname,
-                                                        Input::get('birthdate') ?: Auth::user()->userable->birthdate,
-                                                        Input::get('dni') ?: Auth::user()->userable->dni);
+            $this->user->updateClientPersonalData(
+                    Auth::id(), Input::get('name') ? : Auth::user()->name, Input::get('surname') ? : Auth::user()->surname, Input::get('birthdate') ? : Auth::user()->userable->birthdate, Input::get('dni') ? : Auth::user()->userable->dni
+            );
         }
-        
+
         return Redirect::back()
                         ->with('save_success', 'Los datos personales se han modificado correctamente.');
     }
 
     public function unsuscribe($id) {
-        
+
         if ($id != Auth::id()) {
             return Redirect::back();
         }
-        
+
         $this->user->setUnsuscribe(Auth::id());
 
         //Se envía el email
@@ -247,22 +253,13 @@ class UserController extends \BaseController {
                         ->with('save_success', 'Se ha enviado un email para confirmar la baja.');
     }
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
     public function confirm($id, $confirmationCode) {
 
         $user = $this->user->getById($id);
 
         if (!$user || !$confirmationCode || $user->confirmation_code !== $confirmationCode) {
             return Redirect::route('info')
-                    ->withErrors(['errorWithCode' => 'Error de confirmación'], 'confirm');
+                            ->withErrors(['errorWithCode' => 'Error de confirmación'], 'confirm');
         }
 
         $this->user->confirm($user->id);
@@ -345,6 +342,46 @@ class UserController extends \BaseController {
         }
 
         return Redirect::back();
+    }
+
+    public function updateEmailByGooglePlus() {
+
+        //Cliente de google
+        $client = new Google_Client();
+        $client->setApplicationName(Config::get('constants.GOOGLE_APPLICATION_NAME'));
+        $client->setClientId(Config::get('constants.GOOGLE_CLIENT_ID'));
+        $client->setClientSecret(Config::get('constants.GOOGLE_SECRET'));
+        $client->setRedirectUri('postmessage');
+
+        //Comprobación de estado para evitar peticiones falsas
+        if (Input::get('state') != (Session::get('state'))) {
+            return Response::json('error', 400);
+        }
+
+        //Código de autentificación
+        $code = Request::getContent();
+
+        //Se autentifica el cliente
+        $client->authenticate($code);
+
+        //Servicio Oauth 2
+        $plus = new Google_Service_Oauth2($client);
+
+        //Email del cliente
+        $email = $plus->userinfo_v2_me->get()->email;
+
+        //Se remueve el token del cliente
+        $client->revokeToken();
+        
+        $this->user->setChangeEmail(Auth::id(), $email);
+
+        //Se envía el email
+        Mail::send('emails.update_email', ['id' => Auth::id(), 'change_email_code' => Auth::user()->change_email_code], function($message) {
+            $message->to(Auth::user()->email)->subject('Confirmación de cambio de correo electrónico');
+        });
+
+
+        return Response::json($email, 200);
     }
 
 }

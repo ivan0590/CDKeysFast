@@ -2,6 +2,7 @@
 <html lang="es">
     <head>
         @include('client.includes.head')
+        @yield('specific_head')
     </head>
 
     <body>
@@ -28,6 +29,6 @@
         <footer class="clearfix">
             @include('client.includes.footer')
         </footer>
-    </div>
-</body>
+
+    </body>
 </html>
