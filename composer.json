@@ -9,8 +9,7 @@
                 "mj/breadcrumb": "dev-master",
 		"felixkiss/uniquewith-validator": "1.*",
 		"google/apiclient": "1.*",
-		"silex/silex": "1.*",
-		"twig/twig": "1.*"
+                "cviebrock/image-validator": "1.0.*"
 	},
 	"autoload": {
 		"classmap": [

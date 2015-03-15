@@ -27,13 +27,14 @@
     </li>
 </ul>
 
+{{-- Creación --}}
 <div class="{{ $errors->hasBag('create') ? 'collapse in' : 'collapse' }}" id="collapseExample">
-    <div class="well">
+    <div class="well clearfix">
         {{ Form::open(['route' => "admin.$restful.store", 'files' => true, 'method' => 'POST']) }}
 
         @include("admin.includes.forms.$restful")    
 
-        <div class="form-group">
+        <div class="form-group row">
             <div class="input-group col-md-12">
                 {{ Form::submit('Guardar', ['class' => 'btn btn-primary  center-block']) }}
             </div>

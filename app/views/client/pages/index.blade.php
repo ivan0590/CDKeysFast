@@ -30,7 +30,7 @@
                             <div class="carousel-caption">
                                 <div class="h2">
                                     {{ $product->game->name }}
-                                    {{ HTML::image($product->platform->icon_path, $product->game->name) }}
+                                    {{ HTML::image($product->platform->icon_path, $product->game->name, ['class' => 'platform-image']) }}
                                 </div>
 
                                 <div class="h2">

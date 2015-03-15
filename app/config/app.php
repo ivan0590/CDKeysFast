@@ -123,6 +123,7 @@ return array(
 		'Illuminate\Workbench\WorkbenchServiceProvider',
                 'Mj\Breadcrumb\BreadcrumbServiceProvider',
                 'Felixkiss\UniqueWithValidator\UniqueWithValidatorServiceProvider',
+                'Cviebrock\ImageValidator\ImageValidatorServiceProvider'
 	),
 
 	/*

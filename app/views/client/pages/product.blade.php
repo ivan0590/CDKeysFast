@@ -6,7 +6,7 @@
     <div class="panel-heading clearfix">
 
         <h3 class="pull-left navbar-text">
-            {{ HTML::image($product->platform->icon_path, $product->platform->name) }}
+            {{ HTML::image($product->platform->icon_path, $product->platform->name, ['class' => 'platform-image']) }}
             {{ $product->game->name }}
         </h3>
 

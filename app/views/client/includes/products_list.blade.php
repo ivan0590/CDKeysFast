@@ -7,7 +7,7 @@
             {{-- Cabecera --}}
             <h3 class="pull-left navbar-text">
                 @if($header_icon_path)
-                {{ HTML::image($header_icon_path) }}
+                {{ HTML::image($header_icon_path, null, ['class' => 'platform-image']) }}
                 @endif
                 {{ $header_title }}
             </h3>
@@ -61,7 +61,7 @@
                                 <a href="{{ URL::route('platform.show',
                                                    ['platform_id' => $product->platform->id
                                                    ]) }}" class="pull-left">
-                                    {{ HTML::image($product->platform->icon_path, $product->platform->name, ['class' => 'img-responsive img-thumbnail']) }}
+                                    {{ HTML::image($product->platform->icon_path, $product->platform->name, ['class' => 'platform-image img-responsive img-thumbnail']) }}
                                 </a>
                                 @endif
                                 <a href="{{ URL::route('platform.category.product.show',

@@ -73,7 +73,7 @@ Route::resource('user', 'UserController', ['only' => ['create', 'store']]);
 
 
 //Para evitar accesos sin estar logueado
-Route::group(['before' => 'login-needed'], function() {
+Route::group(['before' => 'auth'], function() {
 
     Route::resource('user', 'UserController', ['only' => ['edit']]);
     Route::resource('session', 'SessionController', ['only' => ['destroy']]);

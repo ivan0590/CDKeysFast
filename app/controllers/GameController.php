@@ -27,8 +27,8 @@ class GameController extends \BaseController {
             'category_id' => 'exists:categories,id',
             'agerate_id' => 'exists:agerates,id',
             'description' => 'string',
-            'thumbnail_image_path' => 'mimes:jpeg,jpg,png,bmp,gif,svg',
-            'offer_image_path' => 'mimes:jpeg,jpg,png,bmp,gif,svg'
+            'thumbnail_image_path' => 'mimes:jpeg,jpg,png|image|max:1024|image_size:256,256',
+            'offer_image_path' => 'mimes:jpeg,jpg,png|image|max:2048|image_size:1920,1080'
         ];
 
         //Validación de los campos del formulario
@@ -123,8 +123,8 @@ class GameController extends \BaseController {
             'category_id' => 'exists:categories,id',
             'agerate_id' => 'exists:agerates,id',
             'description' => 'string',
-            'thumbnail_image_path' => 'mimes:jpeg,jpg,png,bmp,gif,svg',
-            'offer_image_path' => 'mimes:jpeg,jpg,png,bmp,gif,svg'
+            'thumbnail_image_path' => 'mimes:jpeg,jpg,png|image|max:1024|image_size:256,256',
+            'offer_image_path' => 'mimes:jpeg,jpg,png|image|max:2048|image_size:1920,1080'
         ];
 
 

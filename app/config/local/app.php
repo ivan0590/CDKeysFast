@@ -40,7 +40,7 @@ return array(
             |
             */
 
-            'locale' => 'es',
+            'locale' => 'en',
 
             /*
             |--------------------------------------------------------------------------
@@ -53,6 +53,6 @@ return array(
             |
             */
 
-            'fallback_locale' => 'es',
+            'fallback_locale' => 'en',
 
 );

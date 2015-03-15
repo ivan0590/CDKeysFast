@@ -183,5 +183,13 @@
         "offer_image_extension": "jpg",
         "category_id": "13",
         "agerate_id": "5"
+    },
+    {
+        "name": "Grand Theft Auto San Andreas",
+        "description": "Versión para dispositivos móviles del mítico GTA San Andreas. California, años 90. Carl Jonson vuelve a su barrio natal para asistir al funeral de su madre tras haber pasado cinco largos años en Liberty City. Aunque no tenía la más mínima intención de dejarse arrastrar de nuevo por la vida callejera, las circunstancias le obligarán a embarcarse en una frenética aventura luchando para conservar su familia, su banda y su propia vida.",
+        "thumbnail_image_extension": "png",
+        "offer_image_extension": "jpg",
+        "category_id": "1",
+        "agerate_id": "5"
     }
 ]

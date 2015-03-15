@@ -244,6 +244,10 @@ dl:not(.dl-horizontal) dd {
 [class*="alert-"] a {
   color: #337ab7 !important;
 }
+.platform-image {
+  height: 36px;
+  width: 36px;
+}
 .vertical-align {
   position: relative;
   top: 50%;

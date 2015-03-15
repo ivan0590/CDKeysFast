@@ -24,7 +24,7 @@ class PlatformController extends \BaseController {
         //Reglas de validación
         $rules = [
             'name' => 'required|unique:platforms',
-            'icon_path' => 'mimes:jpeg,jpg,png,bmp,gif,svg',
+            'icon_path' => 'mimes:svg',
             'description' => 'string',
         ];
 
@@ -140,7 +140,7 @@ class PlatformController extends \BaseController {
         //Reglas de validación
         $rules = [
             'name' => "required|unique:platforms,name,$id",
-            'icon_path' => 'mimes:jpeg,jpg,png,bmp,gif,svg',
+            'icon_path' => 'mimes:svg',
             'description' => 'string',
         ];
 
