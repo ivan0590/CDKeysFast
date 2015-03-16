@@ -16,7 +16,7 @@ class GameController extends \BaseController {
     public function store() {
 
         //Campos del formulario
-        $fields = Input::only([
+        $data = Input::only([
                     'name', 'category_id', 'agerate_id', 'description', 'thumbnail_image_path',
                     'offer_image_path'
         ]);
@@ -32,15 +32,15 @@ class GameController extends \BaseController {
         ];
 
         //Validación de los campos del formulario
-        $validator = Validator::make($fields, $rules);
+        $validator = Validator::make($data, $rules);
 
         //Los campos no son válidos
         if ($validator->fails()) {
             return Redirect::back()
                             ->withErrors($validator, 'create')
-                            ->withInput($fields);
+                            ->withInput($data);
         }
-        
+
         //Imagenes
         $thumbnail = Input::file('thumbnail_image_path');
         $offer = Input::file('offer_image_path');
@@ -48,31 +48,25 @@ class GameController extends \BaseController {
         //Para el alamacenamiento de la imagen de miniatura
         if ($thumbnail !== null) {
             $thumbnailDirectory = Config::get('constants.GAME_THUMBNAIL_IMAGE_DIR') . '/';
-            $thumbnailFileName = "{$fields['name']}.{$thumbnail->getClientOriginalExtension()}";
-            $fields['thumbnail_image_path'] = $thumbnailDirectory . $thumbnailFileName;
+            $thumbnailFileName = "{$data['name']}.{$thumbnail->getClientOriginalExtension()}";
+            $data['thumbnail_image_path'] = $thumbnailDirectory . $thumbnailFileName;
         }
 
         //Para el alamacenamiento de la imagen de oferta
         if ($offer !== null) {
             $offerDirectory = Config::get('constants.GAME_OFFER_IMAGE_DIR') . '/';
-            $offerFileName = "{$fields['name']}.{$offer->getClientOriginalExtension()}";
-            $fields['offer_image_path'] = $offerDirectory . $offerFileName;
+            $offerFileName = "{$data['name']}.{$offer->getClientOriginalExtension()}";
+            $data['offer_image_path'] = $offerDirectory . $offerFileName;
         }
 
-        //Se guardan las imagenes en la aplicación
+        $this->game->create($data);
+        
+        //Se guardan las imagenes del juego
         $thumbnail === null ? : $thumbnail->move($thumbnailDirectory, $thumbnailFileName);
         $offer === null ? : $offer->move($offerDirectory, $offerFileName);
 
-        //Éxito al guardar
-        if ($this->game->create($fields)) {
-
-            return Redirect::back()->with('save_success', 'Juego creado correctamente.');
-        }
-
-        //Error de SQL
-        return Redirect::back()
-                        ->withErrors(['error' => 'Error al intentar crear el juego.'], 'create')
-                        ->withInput(Input::all());
+        
+        return Redirect::back()->with('save_success', 'Juego creado correctamente.');
     }
 
     /**
@@ -90,7 +84,7 @@ class GameController extends \BaseController {
             return Redirect::back();
         }
 
-        $game = $this->game->find($id);
+        $game = $this->game->getById($id);
 
         //Miga de pan
         Breadcrumb::addBreadcrumb('Edición de juegos', URL::route('admin.game.index'));
@@ -112,7 +106,7 @@ class GameController extends \BaseController {
     public function update($id) {
 
         //Campos del formulario
-        $fields = Input::only([
+        $data = Input::only([
                     'name', 'category_id', 'agerate_id', 'description', 'thumbnail_image_path',
                     'offer_image_path'
         ]);
@@ -129,15 +123,15 @@ class GameController extends \BaseController {
 
 
         //Validación de los campos del formulario
-        $validator = Validator::make($fields, $rules);
+        $validator = Validator::make($data, $rules);
 
         //Los campos no son válidos
         if ($validator->fails()) {
             return Redirect::back()
                             ->withErrors($validator, 'update')
-                            ->withInput($fields);
+                            ->withInput($data);
         }
-        
+
         //Imagenes
         $thumbnail = Input::file('thumbnail_image_path');
         $offer = Input::file('offer_image_path');
@@ -145,35 +139,29 @@ class GameController extends \BaseController {
         //Para el alamacenamiento de la imagen de miniatura
         if ($thumbnail !== null) {
             $thumbnailDirectory = Config::get('constants.GAME_THUMBNAIL_IMAGE_DIR') . '/';
-            $thumbnailFileName = "{$fields['name']}.{$thumbnail->getClientOriginalExtension()}";
-            $fields['thumbnail_image_path'] = $thumbnailDirectory . $thumbnailFileName;
+            $thumbnailFileName = "{$data['name']}.{$thumbnail->getClientOriginalExtension()}";
+            $data['thumbnail_image_path'] = $thumbnailDirectory . $thumbnailFileName;
         } else {
-            $fields['thumbnail_image_path'] = $this->game->find($id)->thumbnail_image_path;
+            $data['thumbnail_image_path'] = $this->game->getById($id)->thumbnail_image_path;
         }
 
         //Para el alamacenamiento de la imagen de oferta
         if ($offer !== null) {
             $offerDirectory = Config::get('constants.GAME_OFFER_IMAGE_DIR') . '/';
-            $offerFileName = "{$fields['name']}.{$offer->getClientOriginalExtension()}";
-            $fields['offer_image_path'] = $offerDirectory . $offerFileName;
+            $offerFileName = "{$data['name']}.{$offer->getClientOriginalExtension()}";
+            $data['offer_image_path'] = $offerDirectory . $offerFileName;
         } else {
-            $fields['offer_image_path'] = $this->game->find($id)->offer_image_path;
+            $data['offer_image_path'] = $this->game->getById($id)->offer_image_path;
         }
 
-        //Se guardan las imagenes en la aplicación
+        $this->game->updateById($id, $data);
+        
+        //Se guardan las imagenes del juego
         $thumbnail === null ? : $thumbnail->move($thumbnailDirectory, $thumbnailFileName);
         $offer === null ? : $offer->move($offerDirectory, $offerFileName);
 
-        //Éxito al guardar el juego y las imagenes
-        if ($this->game->update($id, $fields)) {
 
-            return Redirect::back()->with('save_success', 'Juego modificado correctamente.');
-        }
-
-        //Error de SQL
-        return Redirect::back()
-                        ->withErrors(['error' => 'Error al intentar modificar el juego.'], 'update')
-                        ->withInput(Input::all());
+        return Redirect::back()->with('save_success', 'Juego modificado correctamente.');
     }
 
     /**
@@ -195,43 +183,16 @@ class GameController extends \BaseController {
         }
 
         //Ruta de la imagen para borrarla
-        $thumbnail_image_path = $this->game->find($id)->thumbnail_image_path;
-        $offer_image_path = $this->game->find($id)->offer_image_path;
+        $thumbnail_image_path = $this->game->getById($id)->thumbnail_image_path;
+        $offer_image_path = $this->game->getById($id)->offer_image_path;
 
-        //Éxito al eliminar
-        if ($this->game->erase($id)) {
-            File::delete($thumbnail_image_path);
-            File::delete($offer_image_path);
+        $this->game->deleteById($id);
+        
+        //Se borran las imagenes del juego
+        File::delete($thumbnail_image_path);
+        File::delete($offer_image_path);
 
-            return Response::json(['success' => true], 200);
-        }
-
-        //Error de SQL
-        return Response::json([
-                    'success' => false,
-                    'errors' => ['error' => 'Error al intentar borrar el juego.']
-                        ], 400);
-
-//        //El id no existe
-//        if ($validator->fails()) {
-//            return Redirect::back();
-//        }
-//
-//        //Ruta de la imagen para borrarla
-//        $thumbnail_image_path = $this->game->find($id)->thumbnail_image_path;
-//        $offer_image_path = $this->game->find($id)->offer_image_path;
-//
-//        //Éxito al eliminar
-//        if ($this->game->erase($id)) {
-//            File::delete($thumbnail_image_path);
-//            File::delete($offer_image_path);
-//
-//            return Redirect::back();
-//        }
-//
-//        //Error de SQL
-//        return Redirect::back()
-//                        ->withErrors(['error' => 'Error al intentar borrar el juego.'], 'erase');
+        return Response::json(['success' => true], 200);
     }
 
     public function index() {

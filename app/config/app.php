@@ -123,7 +123,8 @@ return array(
 		'Illuminate\Workbench\WorkbenchServiceProvider',
                 'Mj\Breadcrumb\BreadcrumbServiceProvider',
                 'Felixkiss\UniqueWithValidator\UniqueWithValidatorServiceProvider',
-                'Cviebrock\ImageValidator\ImageValidatorServiceProvider'
+                'Cviebrock\ImageValidator\ImageValidatorServiceProvider',
+                'KyleNoland\LaravelBaseRepository\LaravelBaseRepositoryServiceProvider'
 	),
 
 	/*

@@ -1,4 +1,4 @@
-@extends('client.layouts.client')
+@extends('client.client_layout')
 @section('content')
 
 
@@ -123,8 +123,8 @@
 @include('client.includes.products_list', ['header_title' => "Resultados de busqueda",
                                             'header_icon_path'  => null,
                                             'show_platform_icon' => true])
-@stop
 @endif
+@stop
 
 
 

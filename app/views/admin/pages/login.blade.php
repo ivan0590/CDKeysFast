@@ -34,7 +34,7 @@
                         <div class="alert alert-danger login-error col-md-12" role="alert">
                             <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
                             <small>
-                                {{ $error }}
+                                {{{ $error }}}
                                 @if($errors->login->get('userNotConfirmed') === [$error])
                                 {{ HTML::linkAction('send_verify', 'Volver a enviar email de confirmación', Input::old('email')) }}
                                 @endif

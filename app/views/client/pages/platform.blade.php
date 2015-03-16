@@ -1,10 +1,10 @@
-@extends('client.layouts.client')
+@extends('client.client_layout')
 @section('content')
 
 <div>
     <div class="panel panel-default">
         <div class="panel-heading clearfix">
-            <h3 class="navbar-text">Categorías en {{ $platform->name }}</h3>
+            <h3 class="navbar-text">Categorías en {{{ $platform->name }}}</h3>
         </div>
 
         <div class="panel-body">
@@ -12,8 +12,8 @@
             <ul class="nav">
                 @foreach ($categories as $category)
                 <li class=" nav-pills text-left col-md-3">
-                    <a href="{{ URL::route('platform.category.show', ['platform_id' => $platform->id, 'category_id' => $category->id]) }}" >
-                        {{ $category->name.' ('.$category->products_count.')' }}
+                    <a href="{{{ URL::route('platform.category.show', ['platform_id' => $platform->id, 'category_id' => $category->id]) }}}" >
+                        {{{ $category->name.' ('.$category->products_count.')' }}}
                     </a>
                 </li>
                 @endforeach

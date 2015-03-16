@@ -1,4 +1,4 @@
-@extends('client.layouts.client')
+@extends('client.client_layout')
 @section('content')
 <div class="panel panel-default">
 
@@ -7,18 +7,18 @@
 
         <h3 class="pull-left navbar-text">
             {{ HTML::image($product->platform->icon_path, $product->platform->name, ['class' => 'platform-image']) }}
-            {{ $product->game->name }}
+            {{{ $product->game->name }}}
         </h3>
 
 
         <h3 class="navbar-text pull-right">
             @if(Auth::check() && $product->discount)
-            {{ round($product->price * ((100 - $product->discount) / 100), 2, PHP_ROUND_HALF_UP ) }} € 
+            {{{ round($product->price * ((100 - $product->discount) / 100), 2, PHP_ROUND_HALF_UP ) }}} € 
             <span class="h4">
-                <span class="label label-primary">-{{ round($product->discount, 2, PHP_ROUND_HALF_UP ) }}%</span>
+                <span class="label label-primary">-{{{ round($product->discount, 2, PHP_ROUND_HALF_UP ) }}}%</span>
             </span>
             @else
-            {{ round($product->price, 2, PHP_ROUND_HALF_UP ) }} €
+            {{{ round($product->price, 2, PHP_ROUND_HALF_UP ) }}} €
             @endif
         </h3>
     </div>
@@ -37,7 +37,7 @@
                     <dt>Idiomas del audio:</dt>
                     <dd>
                         @foreach($product->audioLanguages as $language)
-                        {{ $language->name }}
+                        {{{ $language->name }}}
                         @if($language !== $product->audioLanguages->last())
                         ,
                         @endif
@@ -47,7 +47,7 @@
                     <dt>Idiomas del texto:</dt>
                     <dd>
                         @foreach($product->textLanguages as $language)
-                        {{ $language->name }}
+                        {{{ $language->name }}}
                         @if($language !== $product->textLanguages->last())
                         ,
                         @endif
@@ -86,7 +86,7 @@
         <div class="col-md-8 col-md-offset-1">
             {{-- Barra con el stock --}}
             <div class="row text-center product-info">
-                <span class="h3">Unidades en stock:  {{ $product->stock }}</span>
+                <span class="h3">Unidades en stock:  {{{ $product->stock }}}</span>
             </div>
 
             {{-- Datos generales --}}
@@ -95,12 +95,12 @@
                 <h4>Datos generales</h4>
                 <dl class="dl-horizontal col-md-6 col-md-offset-3">
                     <dt>Categoria:</dt>
-                    <dd> {{ $product->game->category->name }} </dd>
+                    <dd> {{{ $product->game->category->name }}} </dd>
 
                     <dt>Desarrolladoras:</dt>
                     <dd>
                         @foreach($product->developers as $developer)
-                        {{ $developer->name }}
+                        {{{ $developer->name }}}
                         @if($language !== $product->textLanguages->last())
                         ,
                         @endif
@@ -108,13 +108,13 @@
                     </dd>
 
                     <dt>Distribuidora:</dt>
-                    <dd> {{ $product->publisher->name }} </dd>
+                    <dd> {{{ $product->publisher->name }}} </dd>
 
                     <dt>Calificación por edad:</dt>
-                    <dd> {{ $product->game->agerate->name }} </dd>
+                    <dd> {{{ $product->game->agerate->name }}} </dd>
 
                     <dt>Fecha de lanzamiento:</dt>
-                    <dd> {{ $product->launch_date }} </dd>
+                    <dd> {{{ $product->launch_date }}} </dd>
                 </dl>
             </div>
 
@@ -122,7 +122,7 @@
             <div class="row product-info">
 
                 <h4>Descripción</h4>
-                <p class="product-info-content"> {{ $product->game->description }} </p>
+                <p class="product-info-content"> {{{ $product->game->description }}} </p>
             </div>
         </div>
     </div>

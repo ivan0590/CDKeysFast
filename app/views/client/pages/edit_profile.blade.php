@@ -1,4 +1,4 @@
-@extends('client.layouts.client')
+@extends('client.client_layout')
 @section('specific_head')
 <script type="text/javascript">
     (function () {
@@ -54,7 +54,7 @@
 
             </div>
             {{ Form::close() }}
-            
+
             {{-- Cambiar email con Google --}}
             <div id="email-google" class="form-group  table-bordered clearfix">
                 <div class="text-center">
@@ -65,7 +65,7 @@
                         <button class="g-signin"
                                 data-scope="https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email"
                                 data-requestvisibleactions="http://schemas.google.com/AddActivity"
-                                data-clientId="{{ Config::get('constants.GOOGLE_CLIENT_ID') }}"
+                                data-clientId="{{{ Config::get('constants.GOOGLE_CLIENT_ID') }}}"
                                 data-accesstype="offline"
                                 data-callback="signInCallback"
                                 data-theme="light"
@@ -123,7 +123,6 @@
             </div>
 
             <div class="form-group row">
-                @if(Auth::user()->userable_type !== 'Admin')
                 <div class="col-md-7">
                     <div class="input-group">
                         <div class="input-group-addon">
@@ -141,10 +140,9 @@
                         {{ Form::text('dni', null, ['class' => 'form-control']) }}
                     </div>
                 </div>
-                @endif
             </div>
 
-            <div class="form-group">
+            <div class="form-group row">
                 <div class="input-group col-md-12">
                     {{ Form::submit('Cambiar datos personales', ['class' => 'btn btn-primary  center-block']) }}
                 </div>
@@ -172,7 +170,7 @@
                 @if(Session::get('save_success'))
                 <div class="alert alert-success">
                     <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                    {{ Session::get('save_success') }}
+                    {{{ Session::get('save_success') }}}
                 </div>
                 @endif
 
@@ -180,7 +178,7 @@
                 <div class="alert alert-danger login-error" role="alert">
                     <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
                     <small>
-                        {{ $error }}
+                        {{{ $error }}}
                     </small>
                 </div>        
                 @endforeach
@@ -193,13 +191,13 @@
 <script type="text/javascript">
     function signInCallback(authResult) {
         if (authResult['code']) {
-            
+
             $('#email-google').hide();
 
             // Envía el código al servidor
             $.ajax({
                 type: 'POST',
-                url: "{{ URL::route('index') }}/googlePlus?state={{ $state }}",
+                url: "{{{ URL::route('index') }}}/googlePlus?state={{{ $state }}}",
                 contentType: 'application/octet-stream; charset=utf-8',
                 success: function (result) {
 

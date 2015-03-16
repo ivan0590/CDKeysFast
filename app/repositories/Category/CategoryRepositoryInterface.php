@@ -8,14 +8,6 @@ namespace Repositories\Category;
  */
 interface CategoryRepositoryInterface {
     
-    public function find($id);
-
-    public function create($data);
-    
-    public function update($id, $data);
-    
-    public function erase($id);
-    
     public function exists($id, $platformId = null);
     
     public function getByName($name);

@@ -2,6 +2,7 @@
 
 namespace Repositories\Game;
 
+use KyleNoland\LaravelBaseRepository\BaseRepository as BaseRepository;
 use \Game as Game;
 
 /**
@@ -9,37 +10,10 @@ use \Game as Game;
  *
  * @author Ivan
  */
-class GameRepository implements GameRepositoryInterface {
+class GameRepository extends BaseRepository implements GameRepositoryInterface {
 
-    public function find($id) {
-        return Game::find($id);
-    }
-
-    public function create($data) {
-
-        \Eloquent::unguard();
-
-        $game = new Game($data);
-        $result = $game->save();
-
-        \Eloquent::reguard();
-
-        return $result;
-    }
-
-    public function update($id, $data) {
-
-        \Eloquent::unguard();
-
-        $result = Game::find($id)->update($data);
-
-        \Eloquent::reguard();
-
-        return $result;
-    }
-
-    public function erase($id) {
-        return Game::find($id)->delete();
+    public function __construct(Game $model) {
+        $this->model = $model;
     }
 
     public function getByName($name) {
@@ -57,7 +31,7 @@ class GameRepository implements GameRepositoryInterface {
             'agerates.name as agerate_name']);
 
         \Paginator::setCurrentPage(($games->count() / $pagination) < $page ? ceil($games->count() / $pagination) : $page);
-        
+
         return $games->orderBy($sort, $sortDir)->paginate($pagination);
     }
 

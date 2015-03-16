@@ -2,6 +2,7 @@
 
 namespace Repositories\Language;
 
+use KyleNoland\LaravelBaseRepository\BaseRepository as BaseRepository;
 use \Language as Language;
 
 /**
@@ -9,37 +10,10 @@ use \Language as Language;
  *
  * @author Ivan
  */
-class LanguageRepository implements LanguageRepositoryInterface {
+class LanguageRepository extends BaseRepository implements LanguageRepositoryInterface {
 
-    public function find($id) {
-        return Language::find($id);
-    }
-
-    public function create($data) {
-
-        \Eloquent::unguard();
-
-        $language = new Language($data);
-        $result = $language->save();
-
-        \Eloquent::reguard();
-
-        return $result;
-    }
-
-    public function update($id, $data) {
-
-        \Eloquent::unguard();
-
-        $result = Language::find($id)->update($data);
-
-        \Eloquent::reguard();
-
-        return $result;
-    }
-
-    public function erase($id) {
-        return Language::find($id)->delete();
+    public function __construct(Language $model) {
+        $this->model = $model;
     }
 
     public function getByName($name) {

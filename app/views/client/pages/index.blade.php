@@ -1,4 +1,4 @@
-@extends('client.layouts.client')
+@extends('client.client_layout')
 @section('content')
 <div>
 
@@ -21,26 +21,26 @@
                     @else
                     <div class="item ">
                         @endif            
-                        <a href="{{ URL::route('platform.category.product.show',
+                        <a href="{{{ URL::route('platform.category.product.show',
                                                        ['platform_id' => $product->platform->id,
                                                         'category_id' => $product->game->category_id,
                                                         'product_id'  => $product->id
-                                                       ]) }}">
+                                                       ]) }}}">
                             {{ HTML::image($product->game->offer_image_path, $product->game->name, ['class' => 'img-responsive  img-thumbnail center-block']) }}
                             <div class="carousel-caption">
                                 <div class="h2">
-                                    {{ $product->game->name }}
+                                    {{{ $product->game->name }}}
                                     {{ HTML::image($product->platform->icon_path, $product->game->name, ['class' => 'platform-image']) }}
                                 </div>
 
                                 <div class="h2">
                                     @if(Auth::check() && $product->discount)
-                                    {{ round($product->price * ((100 - $product->discount) / 100), 2, PHP_ROUND_HALF_UP ) }} € 
+                                    {{{ round($product->price * ((100 - $product->discount) / 100), 2, PHP_ROUND_HALF_UP ) }}} € 
                                     <span class="h4">
-                                        <span class="label label-primary"> -{{ round($product->discount, 2, PHP_ROUND_HALF_UP ) }}%</span>
+                                        <span class="label label-primary"> -{{{ round($product->discount, 2, PHP_ROUND_HALF_UP ) }}}%</span>
                                     </span>
                                     @else
-                                    {{ round($product->price, 2, PHP_ROUND_HALF_UP ) }} €
+                                    {{{ round($product->price, 2, PHP_ROUND_HALF_UP ) }}} €
                                     @endif
                                 </div>
                             </div>

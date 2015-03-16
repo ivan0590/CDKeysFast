@@ -24,7 +24,7 @@ class SearchController extends \BaseController {
         Breadcrumb::addBreadcrumb('Inicio', URL::route('index'));
         Breadcrumb::addBreadcrumb("Búsqueda");
 
-        return View::make('client.pages.simple_search')
+        return View::make('client.pages.search.simple')
                         ->with('breadcrumbs', Breadcrumb::generate())
                         ->with('products', $foundProducts);
     }
@@ -48,7 +48,7 @@ class SearchController extends \BaseController {
         Breadcrumb::addBreadcrumb('Inicio', URL::route('index'));
         Breadcrumb::addBreadcrumb('Búsqueda avanzada');
 
-        return View::make('client.pages.advanced_search')
+        return View::make('client.pages.search.advanced')
                         ->with('breadcrumbs', Breadcrumb::generate())
                         ->with('products', $foundProducts)
                         ->withInput(Input::all());

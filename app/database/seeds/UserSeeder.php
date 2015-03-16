@@ -29,6 +29,8 @@ class UserSeeder extends DatabaseSeeder {
                         'password' => Hash::make("userTest$index"),
                         'name' => "userTest$index",
                         'surname' => "userTest$index",
+                        'birthdate' => new DateTime('05-01-1990'),
+                        'dni' => str_repeat($index, 8) . 'A',
                         'confirmed' => false,
                         'confirmation_code' => str_random(30),
                         'change_email_code' => '',

@@ -1,4 +1,4 @@
-@extends('admin.layouts.admin')
+@extends('admin.admin_layout')
 @section('specific_head')
 {{-- Labda --}}
 {{ HTML::style('vendor/ladda-bootstrap-master/dist/ladda-themeless.css') }}
@@ -13,10 +13,10 @@
 {{-- Selección de creación --}}
 <ul class="nav nav-tabs">
     @foreach($tabs as $resource => $label)
-    <li role="presentation" class="{{ $restful === $resource ? 'active' : '' }}">
+    <li role="presentation" class="{{{ $restful === $resource ? 'active' : '' }}}">
 
-        <a href="{{ URL::route("admin.$resource.index") }}">
-            {{ $label }}
+        <a href="{{{ URL::route("admin.$resource.index") }}}">
+            {{{ $label }}}
         </a>
     </li>
     @endforeach
@@ -28,7 +28,7 @@
 </ul>
 
 {{-- Creación --}}
-<div class="{{ $errors->hasBag('create') ? 'collapse in' : 'collapse' }}" id="collapseExample">
+<div class="{{{ $errors->hasBag('create') ? 'collapse in' : 'collapse' }}}" id="collapseExample">
     <div class="well clearfix">
         {{ Form::open(['route' => "admin.$restful.store", 'files' => true, 'method' => 'POST']) }}
 
@@ -45,7 +45,7 @@
 
 {{-- Tabla de edición --}}
 <div class="panel panel-default">
-    <div id="table-container" data-url="{{ URL::route("admin.$restful.index") }}" class="panel-body">
+    <div id="table-container" data-url="{{{ URL::route("admin.$restful.index") }}}" class="panel-body">
         @include('admin.includes.index_table')
     </div>
 </div>
@@ -66,7 +66,7 @@
                 <button  type="button" class="pull-left btn btn-default cancel-erase" data-dismiss="modal">Cancelar</button>
 
                 <button id="multiple-delete" type="button" class="pull-right btn btn-danger ladda-button" data-style="expand-left"
-                        data-base-url="{{ URL::route("admin.$restful.index") }}">
+                        data-base-url="{{{ URL::route("admin.$restful.index") }}}">
                     <span class="ladda-label">Borrar</span>
                 </button>
             </div>
@@ -74,7 +74,7 @@
     </div>
 </div>
 
-{{-- Ventana modal para mensajes de error --}}
+{{-- Ventana modal para mensajes de error y confimación --}}
 <div class="modal fade" id="modal-results" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -87,10 +87,17 @@
                     @foreach($bag->all() as $error)
                     <div class="alert alert-danger">
                         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                        {{ $error }}
+                        {{{ $error }}}
                     </div>
                     @endforeach
                 @endforeach
+                
+                @if(Session::get('save_success'))
+                <div class="alert alert-success">
+                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                    {{{ Session::get('save_success') }}}
+                </div>
+                @endif
             </div>
         </div>
     </div>

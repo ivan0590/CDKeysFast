@@ -2,6 +2,7 @@
 
 namespace Repositories\Platform;
 
+use KyleNoland\LaravelBaseRepository\BaseRepository as BaseRepository;
 use \Platform as Platform;
 
 /**
@@ -9,37 +10,10 @@ use \Platform as Platform;
  *
  * @author Ivan
  */
-class PlatformRepository implements PlatformRepositoryInterface {
+class PlatformRepository extends BaseRepository implements PlatformRepositoryInterface {
 
-    public function find($id) {
-        return Platform::find($id);
-    }
-
-    public function create($data) {
-
-        \Eloquent::unguard();
-
-        $platform = new Platform($data);
-        $result = $platform->save();
-
-        \Eloquent::reguard();
-
-        return $result;
-    }
-
-    public function update($id, $data) {
-
-        \Eloquent::unguard();
-
-        $result = Platform::find($id)->update($data);
-
-        \Eloquent::reguard();
-
-        return $result;
-    }
-
-    public function erase($id) {
-        return Platform::find($id)->delete();
+    public function __construct(Platform $model) {
+        $this->model = $model;
     }
 
     public function getByName($name) {

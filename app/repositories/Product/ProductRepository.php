@@ -2,6 +2,8 @@
 
 namespace Repositories\Product;
 
+use KyleNoland\LaravelBaseRepository\BaseRepository as BaseRepository;
+
 use \Product as Product;
 
 /**
@@ -9,40 +11,12 @@ use \Product as Product;
  *
  * @author Ivan
  */
-class ProductRepository implements ProductRepositoryInterface {
+class ProductRepository extends BaseRepository implements ProductRepositoryInterface {
 
-    public function find($id) {
-        return Product::find($id);
+    public function __construct(Product $model) {
+        $this->model = $model;
     }
-
-    public function create($data) {
-
-        \Eloquent::unguard();
-
-        $product = new Product($data);
-        $result = $product->save();
-
-        \Eloquent::reguard();
-
-        return $result;
-    }
-
-    public function update($id, $data) {
-
-        \Eloquent::unguard();
-
-        $result = Product::find($id)->update($data);
-
-        \Eloquent::reguard();
-
-        return $result;
-    }
-
-    public function erase($id) {
-
-        return Product::find($id)->delete();
-    }
-
+    
     public function addDeveloper($id, $developer) {
         return Product::find($id)->developers()->save($developer);
     }

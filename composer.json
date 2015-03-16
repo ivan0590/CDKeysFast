@@ -6,10 +6,11 @@
 	"type": "project",
 	"require": {
 		"laravel/framework": "4.2.*",
+		"google/apiclient": "1.*",
                 "mj/breadcrumb": "dev-master",
 		"felixkiss/uniquewith-validator": "1.*",
-		"google/apiclient": "1.*",
-                "cviebrock/image-validator": "1.0.*"
+                "cviebrock/image-validator": "1.0.*",
+                "kyle-noland/laravel-base-repository": "dev-master"
 	},
 	"autoload": {
 		"classmap": [

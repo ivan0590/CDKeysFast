@@ -19,7 +19,7 @@ class PlatformController extends \BaseController {
      */
     public function store() {
         //Campos del formulario
-        $fields = Input::only(['name', 'icon_path', 'description']);
+        $data = Input::only(['name', 'icon_path', 'description']);
 
         //Reglas de validación
         $rules = [
@@ -31,13 +31,13 @@ class PlatformController extends \BaseController {
 
 
         //Validación de los campos del formulario
-        $validator = Validator::make($fields, $rules);
+        $validator = Validator::make($data, $rules);
 
         //Los campos no son válidos
         if ($validator->fails()) {
             return Redirect::back()
                             ->withErrors($validator, 'create')
-                            ->withInput($fields);
+                            ->withInput($data);
         }
 
         //Icono
@@ -45,22 +45,15 @@ class PlatformController extends \BaseController {
 
         if ($icon !== null) {
             $iconDirectory = Config::get('constants.PLATFORM_ICON_DIR') . '/';
-            $iconFileName = "{$fields['name']}.{$icon->getClientOriginalExtension()}";
-            $fields['icon_path'] = $iconDirectory . $iconFileName;
+            $iconFileName = "{$data['name']}.{$icon->getClientOriginalExtension()}";
+            $data['icon_path'] = $iconDirectory . $iconFileName;
         }
 
         $icon === null ? : $icon->move($iconDirectory, $iconFileName);
 
-        //Éxito al guardar
-        if ($this->platform->create($fields)) {
+        $this->platform->create($data);
 
-            return Redirect::back()->with('save_success', 'Plataforma creada correctamente.');
-        }
-
-        //Error de SQL
-        return Redirect::back()
-                        ->withErrors(['error' => 'Error al intentar crear la plataforma.'], 'create')
-                        ->withInput(Input::only(['name', 'description']));
+        return Redirect::back()->with('save_success', 'Plataforma creada correctamente.');
     }
 
     /**
@@ -77,7 +70,7 @@ class PlatformController extends \BaseController {
             return Redirect::back();
         }
 
-        $platform = $this->platform->find($id);
+        $platform = $this->platform->getById($id);
 
         //Miga de pan
         Breadcrumb::addBreadcrumb('Edición de plataformas', URL::route('admin.platform.index'));
@@ -107,7 +100,7 @@ class PlatformController extends \BaseController {
         Input::replace(array_merge(['platform_id' => $id], Input::all()));
 
         //Plataforma
-        $platform = $this->platform->find($id);
+        $platform = $this->platform->getById($id);
 
         //Categorías
         $categories = $this->category->getByPlatformWhereHasProducts($platform->id);
@@ -135,7 +128,7 @@ class PlatformController extends \BaseController {
     public function update($id) {
 
         //Campos del formulario
-        $fields = Input::only(['name', 'icon_path', 'description']);
+        $data = Input::only(['name', 'icon_path', 'description']);
 
         //Reglas de validación
         $rules = [
@@ -146,14 +139,14 @@ class PlatformController extends \BaseController {
 
 
         //Validación de los campos del formulario
-        $validator = Validator::make($fields, $rules);
+        $validator = Validator::make($data, $rules);
 
         //Los campos no son válidos
         if ($validator->fails()) {
 
             return Redirect::back()
                             ->withErrors($validator, 'update')
-                            ->withInput($fields);
+                            ->withInput($data);
         }
 
         //Icono
@@ -161,24 +154,17 @@ class PlatformController extends \BaseController {
 
         if ($icon !== null) {
             $iconDirectory = Config::get('constants.PLATFORM_ICON_DIR') . '/';
-            $iconFileName = "{$fields['name']}.{$icon->getClientOriginalExtension()}";
-            $fields['icon_path'] = $iconDirectory . $iconFileName;
+            $iconFileName = "{$data['name']}.{$icon->getClientOriginalExtension()}";
+            $data['icon_path'] = $iconDirectory . $iconFileName;
         } else {
-            $fields['icon_path'] = $this->platform->find($id)->icon_path;
+            $data['icon_path'] = $this->platform->getById($id)->icon_path;
         }
 
         $icon === null ? : $icon->move($iconDirectory, $iconFileName);
 
-        //Éxito al guardar
-        if ($this->platform->update($id, $fields)) {
+        $this->platform->updateById($id, $data);
 
-            return Redirect::back()->with('save_success', 'Plataforma modificada correctamente.');
-        }
-
-        //Error de SQL
-        return Redirect::back()
-                        ->withErrors(['error' => 'Error al intentar modificar la plataforma.'], 'update')
-                        ->withInput(Input::only(['name', 'description']));
+        return Redirect::back()->with('save_success', 'Plataforma modificada correctamente.');
     }
 
     /**
@@ -200,40 +186,14 @@ class PlatformController extends \BaseController {
         }
 
         //Ruta de la imagen para borrarla
-        $icon_path = $this->platform->find($id)->icon_path;
+        $icon_path = $this->platform->getById($id)->icon_path;
 
-        //Éxito al eliminar
-        if ($this->platform->erase($id)) {
-            File::delete($icon_path);
+        $this->platform->deleteById($id);
 
-            return Response::json(['success' => true], 200);
-        }
+        //Se borra el icono de la plataforma
+        File::delete($icon_path);
 
-        //Error de SQL
-        return Response::json([
-                    'success' => false,
-                    'errors' => ['error' => 'Error al intentar borrar la plataforma.']
-                        ], 400);
-
-//        //El id no existe
-//        if ($validator->fails()) {
-//            return Redirect::back();
-//        }
-//
-//        //Ruta de la imagen para borrarla
-//        $icon_path = $this->platform->find($id)->icon_path;
-//        
-//        //Éxito al eliminar
-//        if ($this->platform->erase($id)) {
-//            
-//            File::delete($icon_path);
-//            
-//            return Redirect::back();
-//        }
-//
-//        //Error de SQL
-//        return Redirect::back()
-//                        ->withErrors(['error' => 'Error al intentar borrar la plataforma.'], 'erase');
+        return Response::json(['success' => true], 200);
     }
 
     public function index() {

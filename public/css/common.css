@@ -161,6 +161,7 @@ header .dropdown-menu li a,
   height: 5em;
 }
 .products-list .thumbnail .caption .img-thumbnail {
+  width: 4em !important;
   padding: 0.5em !important;
 }
 .products-list .thumbnail a:hover {

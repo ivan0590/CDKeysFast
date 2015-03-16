@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
     <head>
-        @include('admin.includes.head')
+        @yield('common_head')
         @yield('specific_head')
     </head>
 
@@ -9,8 +9,12 @@
         <div class="wrap">
             <div>
                 <header>
-                    @include('admin.includes.header')
+                    @yield('header')
                 </header>
+
+                <nav id="platforms">
+                    @yield('nav')
+                </nav>
 
                 {{ $breadcrumbs }}
 
@@ -23,7 +27,8 @@
         </div>
 
         <footer class="clearfix">
-            @include('admin.includes.footer')
+            @yield('footer')
         </footer>
+
     </body>
 </html>

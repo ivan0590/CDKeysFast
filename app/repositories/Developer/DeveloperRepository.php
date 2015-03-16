@@ -2,6 +2,7 @@
 
 namespace Repositories\Developer;
 
+use KyleNoland\LaravelBaseRepository\BaseRepository as BaseRepository;
 use \Developer as Developer;
 
 /**
@@ -9,50 +10,22 @@ use \Developer as Developer;
  *
  * @author Ivan
  */
-class DeveloperRepository implements DeveloperRepositoryInterface {
-    
-    public function find($id) {
-        return Developer::find($id);
-    }
-    
-    public function create($data) {
+class DeveloperRepository extends BaseRepository implements DeveloperRepositoryInterface {
 
-        \Eloquent::unguard();
-
-        $developer = new Developer($data);
-        $result = $developer->save();
-
-        \Eloquent::reguard();
-
-        return $result;
+    public function __construct(Developer $model) {
+        $this->model = $model;
     }
 
-    public function update($id, $data) {
-
-        \Eloquent::unguard();
-
-        $result = Developer::find($id)->update($data);
-
-        \Eloquent::reguard();
-
-        return $result;
-    }
-
-    public function erase($id) {
-        
-        return Developer::find($id)->delete();
-    }
-    
     public function getByName($name) {
         return Developer::where('name', '=', $name)->first();
     }
-    
+
     public function paginateForIndexTable($sort = 'name', $sortDir = 'asc', $pagination = 15, $page = 1) {
 
         $developers = Developer::select(['id', 'name']);
 
         \Paginator::setCurrentPage(($developers->count() / $pagination) < $page ? ceil($developers->count() / $pagination) : $page);
-        
+
         return $developers->orderBy($sort, $sortDir)->paginate($pagination);
     }
 

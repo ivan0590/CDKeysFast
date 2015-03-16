@@ -12,6 +12,8 @@
 */
 
 App::bind('Repositories\\User\\UserRepositoryInterface', 'Repositories\\User\\UserRepository');
+App::bind('Repositories\\Admin\\AdminRepositoryInterface', 'Repositories\\Admin\\AdminRepository');
+App::bind('Repositories\\Client\\ClientRepositoryInterface', 'Repositories\\Client\\ClientRepository');
 App::bind('Repositories\\Product\\ProductRepositoryInterface', 'Repositories\\Product\\ProductRepository');
 App::bind('Repositories\\Platform\\PlatformRepositoryInterface', 'Repositories\\Platform\\PlatformRepository');
 App::bind('Repositories\\Category\\CategoryRepositoryInterface', 'Repositories\\Category\\CategoryRepository');

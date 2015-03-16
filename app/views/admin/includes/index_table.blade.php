@@ -2,7 +2,7 @@
     <thead>
         <tr>
             @foreach($header as $th)
-            <th class="col-md-2">{{ $th }}</th>
+            <th class="col-md-2">{{{ $th }}}</th>
             @endforeach
             <th></th>
             <th class="col-md-2">
@@ -16,12 +16,12 @@
     </thead>
     <tbody>
         @foreach($data->getCollection()->toArray() as $tr)
-        <tr data-row-id="{{ $tr['id'] }}">
+        <tr data-row-id="{{{ $tr['id'] }}}">
             @foreach($tr as $td)
-            <td class='col-md-2'>{{ $td }}</td>
+            <td class='col-md-2'>{{{ $td }}}</td>
             @endforeach
             <td class="text-right">
-                <a href = "{{ URL::route("admin.$restful.edit", ['id' => $tr['id']]) }}">
+                <a href = "{{{ URL::route("admin.$restful.edit", ['id' => $tr['id']]) }}}">
                     <span class = "glyphicon glyphicon-pencil"></span>
                 </a>
             </td>

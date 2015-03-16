@@ -19,7 +19,7 @@ class CategoryController extends \BaseController {
      */
     public function store() {
         //Campos del formulario
-        $fields = Input::only(['name', 'description']);
+        $data = Input::only(['name', 'description']);
 
         //Reglas de validación
         $rules = [
@@ -28,25 +28,18 @@ class CategoryController extends \BaseController {
         ];
 
         //Validación de los campos del formulario
-        $validator = Validator::make($fields, $rules);
+        $validator = Validator::make($data, $rules);
 
         //Los campos no son válidos
         if ($validator->fails()) {
             return Redirect::back()
                             ->withErrors($validator, 'create')
-                            ->withInput($fields);
+                            ->withInput($data);
         }
 
-        //Éxito al guardar
-        if ($this->category->create($fields)) {
+        $this->category->create($data);
 
-            return Redirect::back()->with('save_success', 'Categoría creada correctamente.');
-        }
-
-        //Error de SQL
-        return Redirect::back()
-                        ->withErrors(['error' => 'Error al intentar crear la categoría.'], 'create')
-                        ->withInput(Input::all());
+        return Redirect::back()->with('save_success', 'Categoría creada correctamente.');
     }
 
     /**
@@ -64,7 +57,7 @@ class CategoryController extends \BaseController {
             return Redirect::back();
         }
 
-        $category = $this->category->find($id);
+        $category = $this->category->getById($id);
 
         //Miga de pan
         Breadcrumb::addBreadcrumb('Edición de categorías', URL::route('admin.category.index'));
@@ -95,10 +88,10 @@ class CategoryController extends \BaseController {
 
 
         //Plataforma
-        $platform = $this->platform->find($platformId);
+        $platform = $this->platform->getById($platformId);
 
         //Categoría
-        $category = $this->category->find($categoryId);
+        $category = $this->category->getById($categoryId);
 
         //Productos para esa plataforma y categoría
         $products = $this->product->paginateByPlatformAndCategory($platformId, $categoryId, Input::get('sort', 'name'), Input::get('sort_dir', 'asc'));
@@ -124,7 +117,7 @@ class CategoryController extends \BaseController {
     public function update($id) {
 
         //Campos del formulario
-        $fields = Input::only(['name', 'description']);
+        $data = Input::only(['name', 'description']);
 
         //Reglas de validación
         $rules = [
@@ -133,25 +126,18 @@ class CategoryController extends \BaseController {
         ];
 
         //Validación de los campos del formulario
-        $validator = Validator::make($fields, $rules);
+        $validator = Validator::make($data, $rules);
 
         //Los campos no son válidos
         if ($validator->fails()) {
             return Redirect::back()
                             ->withErrors($validator, 'update')
-                            ->withInput($fields);
+                            ->withInput($data);
         }
 
-        //Éxito al guardar
-        if ($this->category->update($id, $fields)) {
+        $this->category->updateById($id, $data);
 
-            return Redirect::back()->with('save_success', 'Categoría modificada correctamente.');
-        }
-
-        //Error de SQL
-        return Redirect::back()
-                        ->withErrors(['error' => 'Error al intentar modificar la categoría.'], 'update')
-                        ->withInput(Input::all());
+        return Redirect::back()->with('save_success', 'Categoría modificada correctamente.');
     }
 
     /**
@@ -171,30 +157,9 @@ class CategoryController extends \BaseController {
                             ], 400); // 400 being the HTTP code for an invalid request.
         }
 
-        //Éxito al eliminar
-        if ($this->category->erase($id)) {
-            return Response::json(['success' => true], 200);
-        }
-
-        //Error de SQL
-        return Response::json([
-                    'success' => false,
-                    'errors' => ['error' => 'Error al intentar borrar la categoría.']
-                        ], 400);
-
-//        //El id no existe
-//        if ($validator->fails()) {
-//            return Redirect::back();
-//        }
-//
-//        //Éxito al eliminar
-//        if ($this->category->erase($id)) {
-//            return Redirect::back();
-//        }
-//
-//        //Error de SQL
-//        return Redirect::back()
-//                        ->withErrors(['error' => 'Error al intentar borrar la categoría.'], 'erase');
+        $this->category->deleteById($id);
+        
+        return Response::json(['success' => true], 200);
     }
 
     public function index() {

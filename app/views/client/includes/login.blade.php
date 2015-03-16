@@ -25,7 +25,7 @@
         @foreach ($errors->login->all() as $key => $error)
         <div class="alert alert-danger login-error h6" role="alert">
             <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-            {{ $error }}
+            {{{ $error }}}
             @if($errors->login->get('userNotConfirmed') === [$error])
             {{ HTML::linkAction('send_verify', 'Volver a enviar email de confirmación', Input::old('email')) }}
             @endif

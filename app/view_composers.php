@@ -38,7 +38,7 @@ View::composer(['client.includes.products_list'], function($view) {
 });
 
 //Para cargar los valores de las listas cerradas en el formulario de búsqueda
-View::composer(['client.pages.advanced_search',
+View::composer(['client.pages.search.advanced',
                 'admin.pages.create',
                 'admin.pages.index',
                 'admin.pages.edit'], function($view) {
@@ -56,7 +56,7 @@ View::composer(['client.pages.advanced_search',
         $data[$key] = array_combine($model::orderBy('id', 'asc')->lists('id'),
                                     $model::orderBy('id', 'asc')->lists('name'));
         
-        if($view->getName() === 'client.pages.advanced_search'){
+        if($view->getName() === 'client.pages.search.advanced'){
             $data[$key] = [null => 'Cualquiera'] + $data[$key];
         }
     }

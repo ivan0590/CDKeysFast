@@ -79,14 +79,14 @@ class MassiveUploadController extends \BaseController {
 
             $categoryName = strval($categoryIterator->attributes()->nombre);
 
-            $fields = ['name' => $categoryName];
+            $data = ['name' => $categoryName];
 
             $rules = ['name' => 'unique:categories,name'];
 
             $messages = ['name.unique' => "Ya existe una categoría con el nombre '$categoryName'."];
 
             //Se comprueba que no haya ya una categoría con ese nombre
-            $categoryValidator = Validator::make($fields, $rules, $messages);
+            $categoryValidator = Validator::make($data, $rules, $messages);
 
             if ($categoryValidator->passes()) {
 
@@ -111,7 +111,7 @@ class MassiveUploadController extends \BaseController {
                 $categoryName = strval($categoryIterator->attributes()->nombre);
                 $agerateName = strval($gameIterator->{'calificacion-edad'});
 
-                $fields = [
+                $data = [
                     'game' => $gameName,
                     'category' => $categoryName,
                     'agerate' => $agerateName
@@ -130,7 +130,7 @@ class MassiveUploadController extends \BaseController {
                 ];
 
                 //Se comprueba que no haya ya un juego con ese nombre
-                $gameValidator = Validator::make($fields, $rules, $messages);
+                $gameValidator = Validator::make($data, $rules, $messages);
 
                 if ($gameValidator->passes()) {
 
@@ -170,11 +170,11 @@ class MassiveUploadController extends \BaseController {
                 //Se comprueba que existan
                 if ($game !== null && $platform !== null && $publisher !== null) {
 
-                    $fields = ['game_id' => $game->id, 'platform_id' => $platform->id];
+                    $data = ['game_id' => $game->id, 'platform_id' => $platform->id];
                     $rules = ['game_id' => 'unique_with:products,platform_id'];
 
                     //Se comprueba que no haya ya un producto para dicho juego y plataforma
-                    $validator = Validator::make($fields, $rules);
+                    $validator = Validator::make($data, $rules);
 
                     if ($validator->passes()) {
 

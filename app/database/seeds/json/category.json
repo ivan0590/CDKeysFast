@@ -1,54 +1,54 @@
-[
-    {
+{
+    "1":  {
         "name": "Shooter",
         "description": "Juegos de disparos."
     },
-    {
+    "2":  {
         "name": "Estrategía",
         "description": "Juegos de estrategía por turnos y en tiempo real."
     },
-    {
+    "3":  {
         "name": "Aventura gráfica",
         "description": "Juegos de aventura e ingenio."
     },
-    {
+    "4":  {
         "name": "RPG",
         "description": "Juegos de rol."
     },
-    {
+    "5":  {
         "name": "Deportes",
         "description": "Juegos de deportes."
     },
-    {
+    "6":  {
         "name": "Survival",
         "description": "Juegos de superviencia."
     },
-    {
+    "7":  {
         "name": "Puzzle",
         "description": "Juegos de resolución de acertijos."
     },
-    {
+    "8":  {
         "name": "Lucha",
         "description": "Juegos de enfrentamientos."
     },
-    {
+    "9":  {
         "name": "Simulación",
         "description": "Juegos de realistas."
     },
-    {
+    "10":  {
         "name": "Plataformas",
         "description": "Juegos de plataformas."
     },
-    {
+    "11":  {
         "name": "Horror",
         "description": "Juegos de miedo."
     },
-    {
+    "12":  {
         "name": "Arcade",
         "description": "Juegos arcade."
     },
-    {
+    "13":  {
         "name": "Aventuras",
         "description": "Juegos de aventuras."
     }
-]
+}

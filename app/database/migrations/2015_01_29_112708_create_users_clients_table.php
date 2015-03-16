@@ -14,8 +14,6 @@ class CreateUsersClientsTable extends Migration {
 
         Schema::create('users_clients', function ($table) {
             $table->increments('id');
-            $table->date('birthdate')->nullable();
-            $table->string('dni', 9)->nullable()->unique();
             $table->timestamps();
         });
     }

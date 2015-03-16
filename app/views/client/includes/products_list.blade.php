@@ -9,7 +9,7 @@
                 @if($header_icon_path)
                 {{ HTML::image($header_icon_path, null, ['class' => 'platform-image']) }}
                 @endif
-                {{ $header_title }}
+                {{{ $header_title }}}
             </h3>
 
             {{-- Ordenación de productos --}}
@@ -26,9 +26,9 @@
                         <li role="presentation">
                             <a role="menuitem"
                                tabindex="-1" 
-                               href="{{ URL::route(Route::currentRouteName(),
-                                                   array_merge(Input::all(), $order['parameters'])) }}">
-                                {{ $order['label'] }}
+                               href="{{{ URL::route(Route::currentRouteName(),
+                                                   array_merge(Input::all(), $order['parameters'])) }}}">
+                                {{{ $order['label'] }}}
                             </a>
                         </li>
                         @endforeach
@@ -47,36 +47,36 @@
                     <li class="col-md-3">
                         <div class="thumbnail">
 
-                            <a href="{{ URL::route('platform.category.product.show',
+                            <a href="{{{ URL::route('platform.category.product.show',
                                                    ['platform_id' => $product->platform->id,
                                                     'category_id' => $product->game->category_id,
                                                     'product_id'  => $product->id
-                                                   ]) }}">
+                                                   ]) }}}">
                                 {{ HTML::image($product->game->thumbnail_image_path, $product->game->name, ['class' => 'img-responsive']) }}
                             </a>
 
                             <div class="caption clearfix">
 
                                 @if($show_platform_icon)
-                                <a href="{{ URL::route('platform.show',
+                                <a href="{{{ URL::route('platform.show',
                                                    ['platform_id' => $product->platform->id
-                                                   ]) }}" class="pull-left">
+                                                   ]) }}}" class="pull-left">
                                     {{ HTML::image($product->platform->icon_path, $product->platform->name, ['class' => 'platform-image img-responsive img-thumbnail']) }}
                                 </a>
                                 @endif
-                                <a href="{{ URL::route('platform.category.product.show',
+                                <a href="{{{ URL::route('platform.category.product.show',
                                                    ['platform_id' => $product->platform->id,
                                                     'category_id' => $product->game->category_id,
                                                     'product_id'  => $product->id
-                                                   ]) }}">
+                                                   ]) }}}">
                                     <div class="text-center h3 price">
                                         @if(Auth::check() && $product->discount && $product->discount > 0)
-                                        {{ round($product->price * ((100 - $product->discount) / 100), 2, PHP_ROUND_HALF_UP ) }} € 
+                                        {{{ round($product->price * ((100 - $product->discount) / 100), 2, PHP_ROUND_HALF_UP ) }}} € 
                                         <div class="h4">
-                                            <span class="label label-primary">-{{ round($product->discount, 2, PHP_ROUND_HALF_UP ) }}%</span>
+                                            <span class="label label-primary">-{{{ round($product->discount, 2, PHP_ROUND_HALF_UP ) }}}%</span>
                                         </div>
                                         @else
-                                        {{ round($product->price, 2, PHP_ROUND_HALF_UP ) }} €
+                                        {{{ round($product->price, 2, PHP_ROUND_HALF_UP ) }}} €
                                         @endif
                                     </div>
                                 </a>

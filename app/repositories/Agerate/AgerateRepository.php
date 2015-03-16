@@ -2,6 +2,8 @@
 
 namespace Repositories\Agerate;
 
+use KyleNoland\LaravelBaseRepository\BaseRepository as BaseRepository;
+
 use \Agerate as Agerate;
 
 /**
@@ -9,54 +11,14 @@ use \Agerate as Agerate;
  *
  * @author Ivan
  */
-class AgerateRepository implements AgerateRepositoryInterface {
+class AgerateRepository extends BaseRepository implements AgerateRepositoryInterface {
 
-    public function find($id) {
-        return Agerate::find($id);
+    public function __construct(Agerate $model) {
+        $this->model = $model;
     }
-
-    public function create($data) {
-
-        \Eloquent::unguard();
-
-        $game = new Agerate($data);
-        $result = $game->save();
-
-        \Eloquent::reguard();
-
-        return $result;
-    }
-
-    public function update($id, $data) {
-
-        \Eloquent::unguard();
-
-        $result = Agerate::find($id)->update($data);
-
-        \Eloquent::reguard();
-
-        return $result;
-    }
-
-    public function erase($id) {
-        return Agerate::find($id)->delete();
-    }
-
+    
     public function getByName($name) {
         return Agerate::where('name', '=', $name)->first();
-    }
-
-    public function paginateForIndexTable($sort = 'name', $sortDir = 'asc', $pagination = 15) {
-
-        $games = Agerate::
-                leftJoin('categories', 'games.category_id', '=', 'categories.id')
-                ->leftJoin('agerates', 'games.agerate_id', '=', 'agerates.id')
-                ->select(['games.id as id',
-            'games.name as game_name',
-            'categories.name as category_name',
-            'agerates.name as agerate_name']);
-
-        return $games->orderBy($sort, $sortDir)->paginate($pagination);
     }
 
 }

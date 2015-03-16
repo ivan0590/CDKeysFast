@@ -8,7 +8,7 @@
 
         <div>
             <p>Si has decidido cambiar tu email accede al siguiente enlace para confirmarlo:<br/>
-                {{ URL::route('confirm_email', ['id' => $id, 'change_email_code' => $change_email_code]) }}.</p>
+                {{{ URL::route('confirm_email', ['id' => $id, 'change_email_code' => $change_email_code]) }}}.</p>
         </div>
 
     </body>

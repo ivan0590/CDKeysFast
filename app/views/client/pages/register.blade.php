@@ -1,4 +1,4 @@
-@extends('client.layouts.client')
+@extends('client.client_layout')
 @section('content')
 <div>
     <div class="panel panel-default">
@@ -61,7 +61,7 @@
                     @foreach ($errors->register->all() as $error)
                     <div class="alert alert-danger h6" role="alert">
                         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                        {{ $error }}
+                        {{{ $error }}}
                     </div>        
                     @endforeach
                 </div>

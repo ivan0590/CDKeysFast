@@ -1,74 +1,74 @@
-[
-    {
+{
+    "0": {
         "name": "Valve"
     },
-    {
+    "1": {
         "name": "Hidden Path Entertainment"
     },
-    {
+    "2": {
         "name": "Haemimont Games"
     },
-    {
+    "3": {
         "name": "Irrational Games"
     },
-    {
+    "4": {
         "name": "Sony Online Entertainment"
     },
-    {
+    "5": {
         "name": "Relic Entertainment"
     },
-    {
+    "6": {
         "name": "DICE"
     },
-    {
+    "7": {
         "name": "Ubisoft"
     },
-    {
+    "8": {
         "name": "4A Games"
     },
-    {
+    "9": {
         "name": "Overkill Software"
     },
-    {
+    "10": {
         "name": "Infinity Ward"
     },
-    {
+    "11": {
         "name": "Bohemia Interactive"
     },
-    {
+    "12": {
         "name": "Crytek"
     },
-    {
+    "13": {
         "name": "MachineGames"
     },
-    {
+    "14": {
         "name": "Gearbox"
     },
-    {
+    "15": {
         "name": "GSC Game World"
     },
-    {
+    "16": {
         "name": "Techland"
     },
-    {
+    "17": {
         "name": "Bethesda Game Studios"
     },
-    {
+    "18": {
         "name": "Deck 13"
     },
-    {
+    "19": {
         "name": "EA Sports"
     },
-    {
+    "20": {
         "name": "EA LA"
     },
-    {
+    "21": {
         "name": "Hidden Path"
     },
-    {
+    "22": {
         "name": "Scott Cawthon"
     },
-    {
+    "23": {
         "name": "Rockstar Games"
     }
-]
+}

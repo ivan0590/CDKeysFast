@@ -1,11 +1,13 @@
 <?php
 
 use Repositories\User\UserRepositoryInterface as UserRepositoryInterface;
+use Repositories\Client\ClientRepositoryInterface as ClientRepositoryInterface;
 
 class UserController extends \BaseController {
 
-    public function __construct(UserRepositoryInterface $user) {
+    public function __construct(UserRepositoryInterface $user, ClientRepositoryInterface $client) {
         $this->user = $user;
+        $this->client = $client;
     }
 
     /**
@@ -31,14 +33,15 @@ class UserController extends \BaseController {
 
         //Reglas de validación
         $rules = [
-            'email' => 'required|email|confirmed', //Email requerido
+            'email' => 'required|email|confirmed|unique:users,email', //Email requerido
             'password' => 'required|alpha_dash|min:6|confirmed' //Contraseña alfanumérica de 6 caracteres requerida'
         ];
 
         //Mensajes de error
         $messages = ['email.required' => 'Formato de email incorrecto.',
             'email.email' => 'Formato de email incorrecto.',
-            'email.confirmed' => 'Los emails no coinciden',
+            'email.confirmed' => 'Los emails no coinciden.',
+            'email.unique' => 'Ya existe un usuario con ese email.',
             'password.alpha_dash' => 'Solo se admiten letras, números, guiones bajos y barras.',
             'password.required' => 'La contraseña ha de tener al menos 6 caracteres.',
             'password.min' => 'La contraseña ha de tener al menos 6 caracteres.',
@@ -55,16 +58,19 @@ class UserController extends \BaseController {
                             ->withInput(Input::except('password'));
         }
 
-        //Ya existe un usuario con ese email
-        if ($this->user->emailExists(Input::get('email'))) {
-            return Redirect::back()
-                            ->withErrors(['userExists' => 'Ya existe un usuario con ese email.'], 'register')
-                            ->withInput(Input::except('password'));
-        }
+        $data = [
+            'email' => Input::get('email'),
+            'password' => Hash::make(Input::get('password')),
+            'confirmed' => false,
+            'confirmation_code' => str_random(30)
+        ];
 
-        $this->user->create(Input::get('email'), Input::get('password'), 'client');
+        $user = $this->user->create($data);
 
-        $user = $this->user->getByEmail(Input::get('email'));
+        $client = $this->client->create([]);
+
+        $client->user()->save($user);
+
 
         //Se envía el email
         Mail::send('emails.verify', ['id' => $user->id, 'confirmation_code' => $user->confirmation_code], function($message) {
@@ -92,15 +98,16 @@ class UserController extends \BaseController {
         Breadcrumb::addBreadcrumb('Inicio', URL::route('index'));
         Breadcrumb::addBreadcrumb('Editar perfil');
 
-        $userData = ['email' => Auth::user()->email,
+        $userData = [
+            'email' => Auth::user()->email,
             'name' => Auth::user()->name,
             'surname' => Auth::user()->surname,
-            'birthdate' => date_format(new dateTime(Auth::user()->userable->birthdate), 'd-m-Y'),
-            'dni' => Auth::user()->userable->dni];
+            'birthdate' => Auth::user()->birthdate > 0 ? date_format(new dateTime(Auth::user()->birthdate), 'd-m-Y') : '',
+            'dni' => Auth::user()->dni
+        ];
 
 
         //GOOGLE
-
         $state = md5(rand());
         Session::set('state', $state);
 
@@ -109,8 +116,6 @@ class UserController extends \BaseController {
         $client->setClientId(Config::get('constants.GOOGLE_CLIENT_ID'));
         $client->setClientSecret(Config::get('constants.GOOGLE_SECRET'));
         $client->setRedirectUri('postmessage');
-
-
 
 
         return View::make('client.pages.edit_profile')
@@ -126,7 +131,7 @@ class UserController extends \BaseController {
         }
 
         //Campos
-        $fields = Input::only('email');
+        $data = Input::only('email');
 
         //Reglas de validación
         $rules = ['email' => 'required|email|unique:users'];
@@ -138,13 +143,13 @@ class UserController extends \BaseController {
             'email.unique' => 'El email es el mismo o ya existe otro usuario con ese email.'];
 
         //Validación de los campos del formulario
-        $validator = Validator::make($fields, $rules, $messages);
+        $validator = Validator::make($data, $rules, $messages);
 
         //Los campos no son válidos
         if ($validator->fails()) {
             return Redirect::back()
                             ->withErrors($validator, 'edit_profile')
-                            ->withInput($fields);
+                            ->withInput($data);
         }
 
         $this->user->setChangeEmail(Auth::id(), Input::get('email'));
@@ -165,7 +170,7 @@ class UserController extends \BaseController {
         }
 
         //Campos
-        $fields = Input::only('password');
+        $data = Input::only('password');
 
         //Reglas de validación
         $rules = ['password' => 'required|alpha_dash|min:6'];
@@ -178,13 +183,13 @@ class UserController extends \BaseController {
         ];
 
         //Validación de los campos del formulario
-        $validator = Validator::make($fields, $rules, $messages);
+        $validator = Validator::make($data, $rules, $messages);
 
         //Los campos no son válidos
         if ($validator->fails()) {
             return Redirect::back()
                             ->withErrors($validator, 'edit_profile')
-                            ->withInput($fields);
+                            ->withInput($data);
         }
 
         $this->user->setChangePassword(Auth::id(), Hash::make(Input::get('password')));
@@ -205,32 +210,31 @@ class UserController extends \BaseController {
         }
 
         //Campos
-        $fields = Input::only(['name', 'surname', 'birthdate', 'dni']);
+        $data = Input::only(['name', 'surname', 'birthdate', 'dni']);
 
         //Reglas de validación
         $rules = ['date' => 'date'];
 
         //Mensajes de error
         $messages = [
-            'birthdate.date' => 'Fecha incorrecta'];
+            'birthdate.date' => 'Fecha incorrecta'
+        ];
 
         //Validación de los campos del formulario
-        $validator = Validator::make($fields, $rules, $messages);
+        $validator = Validator::make($data, $rules, $messages);
 
         //Los campos no son válidos
         if ($validator->fails()) {
             return Redirect::back()
                             ->withErrors($validator, 'edit_profile')
-                            ->withInput($fields);
+                            ->withInput($data);
         }
 
-        if (Auth::user()->userable_type === 'Admin') {
-            $this->user->updateAdminPersonalData(Auth::id(), Input::get('name') ? : Auth::user()->name, Input::get('surname') ? : Auth::user()->surname);
-        } else {
-            $this->user->updateClientPersonalData(
-                    Auth::id(), Input::get('name') ? : Auth::user()->name, Input::get('surname') ? : Auth::user()->surname, Input::get('birthdate') ? : Auth::user()->userable->birthdate, Input::get('dni') ? : Auth::user()->userable->dni
-            );
+        if ($data['birthdate'] > 0) {
+            $data['birthdate'] = new DateTime($data['birthdate']);
         }
+
+        $this->user->updateById(Auth::id(), $data);
 
         return Redirect::back()
                         ->with('save_success', 'Los datos personales se han modificado correctamente.');
@@ -372,7 +376,7 @@ class UserController extends \BaseController {
 
         //Se remueve el token del cliente
         $client->revokeToken();
-        
+
         $this->user->setChangeEmail(Auth::id(), $email);
 
         //Se envía el email

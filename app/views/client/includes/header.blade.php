@@ -4,7 +4,7 @@
         {{-- Logo --}}
         <div class="col-md-4 navbar-btn">
             <div class="navbar-left navbar-link">
-                <a href="{{ URL::route('index') }}">
+                <a href="{{{ URL::route('index') }}}">
                     {{ HTML::image('img/cdkeysfast.svg', 'CDKeysFast', ['class' => 'img-responsive']) }}
                 </a>
             </div>

@@ -7,6 +7,21 @@
  */
 class Product extends Eloquent {
 
+    protected $fillable = [
+        'id',
+        'price',
+        'discount',
+        'stock',
+        'highlighted',
+        'launch_date',
+        'singleplayer',
+        'multiplayer',
+        'cooperative',
+        'game_id',
+        'platform_id',
+        'publisher_id'
+    ];
+
     public function game() {
         return $this->belongsTo('Game');
     }

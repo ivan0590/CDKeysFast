@@ -1,4 +1,4 @@
-@extends('admin.layouts.admin')
+@extends('admin.admin_layout')
 @section('content')
 
 <div class="col-md-6 col-md-offset-3">
@@ -29,11 +29,11 @@
                 @foreach((Session::get('save_success') ?: [] ) as $key => $successBag)
                 @if(!empty($successBag))
                 <div class="alert alert-success">
-                    <h4 class="alert-success">Acciones realizadas con éxito en el grupo de {{ $key }}</h4>
+                    <h4 class="alert-success">Acciones realizadas con éxito en el grupo de {{{ $key }}}</h4>
                     @foreach($successBag as $message)
                     <div class="alert-success">
                         <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                        {{ $message }}
+                        {{{ $message }}}
                     </div>
                     @endforeach
                 </div>
@@ -43,11 +43,11 @@
                 @foreach($errors->getBags() as $key => $errorBag)
                 @if(!$errorBag->isEmpty())
                 <div class="alert alert-danger">
-                    <h4 class="alert-danger">{{ $key }}</h4>
+                    <h4 class="alert-danger">{{{ $key }}}</h4>
                     @foreach($errorBag->all() as $error)
                     <div class="alert-danger">
                         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                        {{ $error }}
+                        {{{ $error }}}
                     </div>
                     @endforeach
                 </div>

@@ -15,7 +15,7 @@ class DeveloperController extends \BaseController {
      */
     public function store() {
         //Campos del formulario
-        $fields = Input::only(['name']);
+        $data = Input::only(['name']);
 
         //Reglas de validación
         $rules = [
@@ -23,25 +23,18 @@ class DeveloperController extends \BaseController {
         ];
 
         //Validación de los campos del formulario
-        $validator = Validator::make($fields, $rules);
+        $validator = Validator::make($data, $rules);
 
         //Los campos no son válidos
         if ($validator->fails()) {
             return Redirect::back()
                             ->withErrors($validator, 'create')
-                            ->withInput($fields);
+                            ->withInput($data);
         }
-
-        //Éxito al guardar
-        if ($this->developer->create($fields)) {
-
-            return Redirect::back()->with('save_success', 'Desarrolladora creada correctamente.');
-        }
-
-        //Error de SQL
-        return Redirect::back()
-                        ->withErrors(['error' => 'Error al intentar crear la desarrolladora.'], 'create')
-                        ->withInput(Input::all());
+        
+        $this->developer->create($data);
+        
+        return Redirect::back()->with('save_success', 'Desarrolladora creada correctamente.');
     }
 
     /**
@@ -59,7 +52,7 @@ class DeveloperController extends \BaseController {
             return Redirect::back();
         }
 
-        $developer = $this->developer->find($id);
+        $developer = $this->developer->getById($id);
 
         //Miga de pan
         Breadcrumb::addBreadcrumb('Edición de desarrolladoras', URL::route('admin.developer.index'));
@@ -81,7 +74,7 @@ class DeveloperController extends \BaseController {
     public function update($id) {
 
         //Campos del formulario
-        $fields = Input::only(['name']);
+        $data = Input::only(['name']);
 
         //Reglas de validación
         $rules = [
@@ -89,25 +82,18 @@ class DeveloperController extends \BaseController {
         ];
 
         //Validación de los campos del formulario
-        $validator = Validator::make($fields, $rules);
+        $validator = Validator::make($data, $rules);
 
         //Los campos no son válidos
         if ($validator->fails()) {
             return Redirect::back()
                             ->withErrors($validator, 'update')
-                            ->withInput($fields);
+                            ->withInput($data);
         }
 
-        //Éxito al guardar
-        if ($this->developer->update($id, $fields)) {
+        $this->developer->updateById($id, $data);
 
-            return Redirect::back()->with('save_success', 'Desarrolladora modificada correctamente.');
-        }
-
-        //Error de SQL
-        return Redirect::back()
-                        ->withErrors(['error' => 'Error al intentar modificar la desarrolladora.'], 'update')
-                        ->withInput(Input::all());
+        return Redirect::back()->with('save_success', 'Desarrolladora modificada correctamente.');
     }
 
     /**
@@ -127,30 +113,9 @@ class DeveloperController extends \BaseController {
                             ], 400); // 400 being the HTTP code for an invalid request.
         }
 
-        //Éxito al eliminar
-        if ($this->developer->erase($id)) {
-            return Response::json(['success' => true], 200);
-        }
+        $this->developer->deleteById($id);
 
-        //Error de SQL
-        return Response::json([
-                    'success' => false,
-                    'errors' => ['error' => 'Error al intentar borrar la desarrolladora.']
-                        ], 400);
-
-//        //El id no existe
-//        if ($validator->fails()) {
-//            return Redirect::back();
-//        }
-//
-//        //Éxito al eliminar
-//        if ($this->developer->erase($id)) {
-//            return Redirect::back();
-//        }
-//
-//        //Error de SQL
-//        return Redirect::back()
-//                        ->withErrors(['error' => 'Error al intentar borrar la desarrolladora.'], 'erase');
+        return Response::json(['success' => true], 200);
     }
 
     public function index() {

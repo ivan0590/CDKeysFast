@@ -23,7 +23,7 @@ class ProductController extends \BaseController {
         Input::get('highlighted') !== null ? : Input::merge(['highlighted' => false]);
 
         //Campos del formulario
-        $fields = Input::only([
+        $data = Input::only([
                     'game_id', 'platform_id', 'publisher_id', 'price', 'discount',
                     'stock', 'launch_date', 'highlighted', 'singleplayer', 'multiplayer',
                     'cooperative',
@@ -34,7 +34,7 @@ class ProductController extends \BaseController {
             'game_id' => 'exists:games,id|unique_with:products,platform_id',
             'platform_id' => 'exists:platforms,id',
             'publisher_id' => 'exists:publishers,id',
-            'price' => 'numeric|min:1',
+            'price' => 'numeric|min:0.01',
             'discount' => 'numeric|min:0|max:100',
             'stock' => 'integer|min:0|max:100',
             'launch_date' => 'date',
@@ -45,24 +45,23 @@ class ProductController extends \BaseController {
         ];
 
         //Validación de los campos del formulario
-        $validator = Validator::make($fields, $rules);
+        $validator = Validator::make($data, $rules);
 
         //Los campos no son válidos
         if ($validator->fails()) {
             return Redirect::back()
                             ->withErrors($validator, 'create')
-                            ->withInput($fields);
+                            ->withInput($data);
         }
 
-        //Éxito al guardar
-        if ($this->product->create($fields)) {
-            return Redirect::back()->with('save_success', 'Producto creado correctamente.');
+
+        if ($data['launch_date'] > 0) {
+            $data['launch_date'] = new DateTime($data['launch_date']);
         }
 
-        //Error de SQL
-        return Redirect::back()
-                        ->withErrors(['error' => 'Error al intentar crear el producto.'], 'create')
-                        ->withInput(Input::all());
+        $this->product->create($data);
+
+        return Redirect::back()->with('save_success', 'Producto creado correctamente.');
     }
 
     /**
@@ -80,10 +79,10 @@ class ProductController extends \BaseController {
             return Redirect::back();
         }
 
-        $product = $this->product->find($id);
+        $product = $this->product->getById($id);
 
         //Para el formato de la fecha
-        $product->launch_date = date_format(new dateTime($product->launch_date), 'd-m-Y');
+        $product->launch_date = $product->launch_date > 0 ? date_format(new dateTime($product->launch_date), 'd-m-Y') : '';
 
         //Miga de pan
         Breadcrumb::addBreadcrumb('Edición de productos', URL::route('admin.product.index'));
@@ -113,7 +112,7 @@ class ProductController extends \BaseController {
         Input::replace(array_merge(['platform_id' => $platformId, 'category_id' => $categoryId, 'product_id' => $productId], Input::all()));
 
         //Producto
-        $product = $this->product->find($productId);
+        $product = $this->product->getById($productId);
 
         //Miga de pan
         Breadcrumb::addBreadcrumb('Inicio', URL::route('index'));
@@ -139,7 +138,7 @@ class ProductController extends \BaseController {
         Input::get('highlighted') !== null ? : Input::merge(['highlighted' => false]);
 
         //Campos del formulario
-        $fields = Input::only([
+        $data = Input::only([
                     'game_id', 'platform_id', 'publisher_id', 'price', 'discount',
                     'stock', 'launch_date', 'highlighted', 'singleplayer', 'multiplayer',
                     'cooperative',
@@ -150,7 +149,7 @@ class ProductController extends \BaseController {
             'game_id' => "exists:games,id|unique_with:products,platform_id,$id",
             'platform_id' => 'exists:platforms,id',
             'publisher_id' => 'exists:publishers,id',
-            'price' => 'numeric|min:1',
+            'price' => 'numeric|min:0.01',
             'discount' => 'numeric|min:0|max:100',
             'stock' => 'integer|min:0',
             'launch_date' => 'date',
@@ -161,24 +160,22 @@ class ProductController extends \BaseController {
         ];
 
         //Validación de los campos del formulario
-        $validator = Validator::make($fields, $rules);
+        $validator = Validator::make($data, $rules);
 
         //Los campos no son válidos
         if ($validator->fails()) {
             return Redirect::back()
                             ->withErrors($validator, 'update')
-                            ->withInput($fields);
+                            ->withInput($data);
         }
 
-        //Éxito al guardar
-        if ($this->product->update($id, $fields)) {
-            return Redirect::back()->with('save_success', 'Producto modificado correctamente.');
+        if ($data['launch_date'] > 0) {
+            $data['launch_date'] = new DateTime($data['launch_date']);
         }
 
-        //Error de SQL
-        return Redirect::back()
-                        ->withErrors(['error' => 'Error al intentar modificar el producto.'], 'update')
-                        ->withInput(Input::all());
+        $this->product->updateById($id, $data);
+
+        return Redirect::back()->with('save_success', 'Producto modificado correctamente.');
     }
 
     /**
@@ -199,36 +196,15 @@ class ProductController extends \BaseController {
                             ], 400); // 400 being the HTTP code for an invalid request.
         }
 
-        //Éxito al eliminar
-        if ($this->product->erase($id)) {
-            return Response::json(['success' => true], 200);
-        }
+        $this->product->deleteById($id);
 
-        //Error de SQL
-        return Response::json([
-                    'success' => false,
-                    'errors' => ['error' => 'Error al intentar borrar el producto.']
-                        ], 400);
-
-//        //El id no existe
-//        if ($validator->fails()) {
-//            return Redirect::back();
-//        }
-//
-//        //Éxito al eliminar
-//        if ($this->product->erase($id)) {
-//            return Redirect::back();
-//        }
-//        
-//        //Error de SQL
-//        return Redirect::back()
-//                        ->withErrors(['error' => 'Error al intentar borrar el producto.'], 'erase');
+        return Response::json(['success' => true], 200);
     }
 
     public function index() {
-        
+
         $products = $this->product->paginateForIndexTable('games.name', 'asc', 20, Input::get('page'));
-        
+
         if (Request::ajax()) {
             return Response::json(View::make('admin.includes.index_table')
                                     ->with([
@@ -236,7 +212,7 @@ class ProductController extends \BaseController {
                                         'header' => ['ID', 'Juego', 'Plataforma', 'Categoría', 'Distribuidora'],
                                         'restful' => 'product'])->render(), 200);
         }
-        
+
         //Miga de pan
         Breadcrumb::addBreadcrumb('Edición');
 
