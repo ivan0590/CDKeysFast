@@ -1,6 +1,6 @@
 @extends('client.client_layout')
 @section('specific_head')
-<script type="text/javascript">
+<!--<script type="text/javascript">
     (function () {
         var po = document.createElement('script');
         po.type = 'text/javascript';
@@ -9,7 +9,7 @@
         var s = document.getElementsByTagName('script')[0];
         s.parentNode.insertBefore(po, s);
     })();
-</script>
+</script>-->
 @stop
 @section('content')
 <div class="panel panel-default">
@@ -60,7 +60,8 @@
                 <div class="text-center">
                     {{ Form::label(null, 'Cambiar el email usando una cuenta de Google Plus')}}
                 </div>
-                <div class="col-md-4 col-md-offset-4">
+                
+<!--                <div class="col-md-4 col-md-offset-4">
                     <div id="gConnect" class="input-group-btn">
                         <button class="g-signin"
                                 data-scope="https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email"
@@ -72,7 +73,7 @@
                                 data-cookiepolicy="single_host_origin">
                         </button>
                     </div>
-                </div>
+                </div>-->
             </div>
 
             {{-- Cambiar contraseña --}}
@@ -188,7 +189,8 @@
     </div>
 </div>
 
-<script type="text/javascript">
+
+<!--<script type="text/javascript">
     function signInCallback(authResult) {
         if (authResult['code']) {
 
@@ -219,5 +221,5 @@
             });
         }
     }
-</script>
+</script>-->
 @stop

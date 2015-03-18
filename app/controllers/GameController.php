@@ -60,12 +60,12 @@ class GameController extends \BaseController {
         }
 
         $this->game->create($data);
-        
+
         //Se guardan las imagenes del juego
         $thumbnail === null ? : $thumbnail->move($thumbnailDirectory, $thumbnailFileName);
         $offer === null ? : $offer->move($offerDirectory, $offerFileName);
 
-        
+
         return Redirect::back()->with('save_success', 'Juego creado correctamente.');
     }
 
@@ -91,9 +91,10 @@ class GameController extends \BaseController {
         Breadcrumb::addBreadcrumb($game->name);
 
         return View::make('admin.pages.edit')
-                        ->with('restful', 'game')
-                        ->with('model', $game)
-                        ->with('header_title', "Editar juego (id: {$game->id})")
+                        ->with([
+                            'restful' => 'game',
+                            'model' => $game,
+                            'header_title' => "Editar juego (id: {$game->id})"])
                         ->with('breadcrumbs', Breadcrumb::generate());
     }
 
@@ -155,7 +156,7 @@ class GameController extends \BaseController {
         }
 
         $this->game->updateById($id, $data);
-        
+
         //Se guardan las imagenes del juego
         $thumbnail === null ? : $thumbnail->move($thumbnailDirectory, $thumbnailFileName);
         $offer === null ? : $offer->move($offerDirectory, $offerFileName);
@@ -179,7 +180,7 @@ class GameController extends \BaseController {
             return Response::json([
                         'success' => false,
                         'errors' => $validator->getMessageBag()->toArray()
-                            ], 400); // 400 being the HTTP code for an invalid request.
+                            ], 400); 
         }
 
         //Ruta de la imagen para borrarla
@@ -187,7 +188,7 @@ class GameController extends \BaseController {
         $offer_image_path = $this->game->getById($id)->offer_image_path;
 
         $this->game->deleteById($id);
-        
+
         //Se borran las imagenes del juego
         File::delete($thumbnail_image_path);
         File::delete($offer_image_path);

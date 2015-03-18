@@ -31,9 +31,9 @@ class PublisherController extends \BaseController {
                             ->withErrors($validator, 'create')
                             ->withInput($data);
         }
-        
+
         $this->publisher->create($data);
-        
+
         return Redirect::back()->with('save_success', 'Distribuidora creada correctamente.');
     }
 
@@ -58,9 +58,10 @@ class PublisherController extends \BaseController {
         Breadcrumb::addBreadcrumb($publisher->name);
 
         return View::make('admin.pages.edit')
-                        ->with('restful', 'publisher')
-                        ->with('model', $publisher)
-                        ->with('header_title', "Editar distribuidora (id: {$publisher->id})")
+                        ->with([
+                            'restful' => 'publisher',
+                            'model' => $publisher,
+                            'header_title' => "Editar distribuidora (id: {$publisher->id})"])
                         ->with('breadcrumbs', Breadcrumb::generate());
     }
 
@@ -108,7 +109,7 @@ class PublisherController extends \BaseController {
             return Response::json([
                         'success' => false,
                         'errors' => $validator->getMessageBag()->toArray()
-                            ], 400); // 400 being the HTTP code for an invalid request.
+                            ], 400); 
         }
 
         $this->publisher->deleteById($id);

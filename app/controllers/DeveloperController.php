@@ -31,9 +31,9 @@ class DeveloperController extends \BaseController {
                             ->withErrors($validator, 'create')
                             ->withInput($data);
         }
-        
+
         $this->developer->create($data);
-        
+
         return Redirect::back()->with('save_success', 'Desarrolladora creada correctamente.');
     }
 
@@ -59,9 +59,10 @@ class DeveloperController extends \BaseController {
         Breadcrumb::addBreadcrumb($developer->name);
 
         return View::make('admin.pages.edit')
-                        ->with('restful', 'developer')
-                        ->with('model', $developer)
-                        ->with('header_title', "Editar desarrolladora (id: {$developer->id})")
+                        ->with([
+                            'restful' => 'developer',
+                            'model' => $developer,
+                            'header_title' => "Editar desarrolladora (id: {$developer->id})"])
                         ->with('breadcrumbs', Breadcrumb::generate());
     }
 
@@ -110,7 +111,7 @@ class DeveloperController extends \BaseController {
             return Response::json([
                         'success' => false,
                         'errors' => $validator->getMessageBag()->toArray()
-                            ], 400); // 400 being the HTTP code for an invalid request.
+                            ], 400); 
         }
 
         $this->developer->deleteById($id);

@@ -108,19 +108,19 @@ class UserController extends \BaseController {
 
 
         //GOOGLE
-        $state = md5(rand());
-        Session::set('state', $state);
-
-        $client = new Google_Client();
-        $client->setApplicationName(Config::get('constants.GOOGLE_APPLICATION_NAME'));
-        $client->setClientId(Config::get('constants.GOOGLE_CLIENT_ID'));
-        $client->setClientSecret(Config::get('constants.GOOGLE_SECRET'));
-        $client->setRedirectUri('postmessage');
+//        $state = md5(rand());
+//        Session::set('state', $state);
+//
+//        $client = new Google_Client();
+//        $client->setApplicationName(Config::get('constants.GOOGLE_APPLICATION_NAME'));
+//        $client->setClientId(Config::get('constants.GOOGLE_CLIENT_ID'));
+//        $client->setClientSecret(Config::get('constants.GOOGLE_SECRET'));
+//        $client->setRedirectUri('postmessage');
 
 
         return View::make('client.pages.edit_profile')
                         ->with('model', $userData)
-                        ->with('state', $state)
+//                        ->with('state', $state)
                         ->with('breadcrumbs', Breadcrumb::generate());
     }
 
@@ -348,44 +348,45 @@ class UserController extends \BaseController {
         return Redirect::back();
     }
 
-    public function updateEmailByGooglePlus() {
+    /*
+      public function updateEmailByGooglePlus() {
 
-        //Cliente de google
-        $client = new Google_Client();
-        $client->setApplicationName(Config::get('constants.GOOGLE_APPLICATION_NAME'));
-        $client->setClientId(Config::get('constants.GOOGLE_CLIENT_ID'));
-        $client->setClientSecret(Config::get('constants.GOOGLE_SECRET'));
-        $client->setRedirectUri('postmessage');
+      //Cliente de google
+      $client = new Google_Client();
+      $client->setApplicationName(Config::get('constants.GOOGLE_APPLICATION_NAME'));
+      $client->setClientId(Config::get('constants.GOOGLE_CLIENT_ID'));
+      $client->setClientSecret(Config::get('constants.GOOGLE_SECRET'));
+      $client->setRedirectUri('postmessage');
 
-        //Comprobación de estado para evitar peticiones falsas
-        if (Input::get('state') != (Session::get('state'))) {
-            return Response::json('error', 400);
-        }
+      //Comprobación de estado para evitar peticiones falsas
+      if (Input::get('state') != (Session::get('state'))) {
+      return Response::json('error', 400);
+      }
 
-        //Código de autentificación
-        $code = Request::getContent();
+      //Código de autentificación
+      $code = Request::getContent();
 
-        //Se autentifica el cliente
-        $client->authenticate($code);
+      //Se autentifica el cliente
+      $client->authenticate($code);
 
-        //Servicio Oauth 2
-        $plus = new Google_Service_Oauth2($client);
+      //Servicio Oauth 2
+      $plus = new Google_Service_Oauth2($client);
 
-        //Email del cliente
-        $email = $plus->userinfo_v2_me->get()->email;
+      //Email del cliente
+      $email = $plus->userinfo_v2_me->get()->email;
 
-        //Se remueve el token del cliente
-        $client->revokeToken();
+      //Se remueve el token del cliente
+      $client->revokeToken();
 
-        $this->user->setChangeEmail(Auth::id(), $email);
+      $this->user->setChangeEmail(Auth::id(), $email);
 
-        //Se envía el email
-        Mail::send('emails.update_email', ['id' => Auth::id(), 'change_email_code' => Auth::user()->change_email_code], function($message) {
-            $message->to(Auth::user()->email)->subject('Confirmación de cambio de correo electrónico');
-        });
+      //Se envía el email
+      Mail::send('emails.update_email', ['id' => Auth::id(), 'change_email_code' => Auth::user()->change_email_code], function($message) {
+      $message->to(Auth::user()->email)->subject('Confirmación de cambio de correo electrónico');
+      });
 
 
-        return Response::json($email, 200);
-    }
-
+      return Response::json($email, 200);
+      }
+     */
 }

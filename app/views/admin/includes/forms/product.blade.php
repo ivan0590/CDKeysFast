@@ -42,7 +42,7 @@
             <div class="input-group-addon">
                 {{ Form::label('price', 'Precio')}}
             </div>
-            {{ Form::number('price', null, ['min' => '0.01', 'step' => '0.01', 'class' => 'form-control']) }}
+            {{ Form::number('price', (isset($model)? null : '0.01'), ['min' => '0.01', 'step' => '0.01', 'class' => 'form-control']) }}
         </div>
     </div>
 
@@ -90,3 +90,16 @@
     </div>
     @endforeach
 </div>
+
+
+@foreach($lists as $listName => $list)
+<div class="form-group">
+    <select class="form-control" multiple="multiple" name="{{{ $listName }}}[]">
+        @foreach($list as $key => $side)
+            @foreach($side as $option)
+            <option value="{{{ $option->id }}}" {{{ $key !== 'selected' ? '' : 'selected' }}} >{{{ $option->name }}}</option>
+            @endforeach
+        @endforeach
+    </select>
+</div>
+@endforeach

@@ -1,25 +1,25 @@
 {
-    "0": {
+    "1": {
         "name": "Windows",
         "description": "Sistema operativo de Microsoft.",
         "icon_path": "/windows.svg"
     },
-    "1": {
+    "2": {
         "name": "Mac",
         "description": "Sistema operativo de Apple.",
         "icon_path": "/mac.svg"
     },
-    "2": {
+    "3": {
         "name": "PS4",
         "description": "Consola de Sony.",
         "icon_path": "/ps4.svg"
     },
-    "3": {
+    "4": {
         "name": "XBOX ONE",
         "description": "Consola de Microsoft.",
         "icon_path": "/xboxone.svg"
     },
-    "4": {
+    "5": {
         "name": "Android",
         "description": "Sistema operativo de Google.",
         "icon_path": "/android.svg"

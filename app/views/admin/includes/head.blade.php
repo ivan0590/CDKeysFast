@@ -14,8 +14,8 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
 <!-- Bootstrap dual list box -->
-<!--{{ HTML::style('vendor/bootstrap-duallistbox-master/dist/bootstrap-duallistbox.min.css') }}
-{{ HTML::script('vendor/bootstrap-duallistbox-master/dist/jquery.bootstrap-duallistbox.min.js') }}-->
+{{ HTML::style('vendor/bootstrap-duallistbox-master/dist/bootstrap-duallistbox.min.css') }}
+{{ HTML::script('vendor/bootstrap-duallistbox-master/dist/jquery.bootstrap-duallistbox.min.js') }}
 
 <!--
 {{ HTML::style('vendor/bootstrap-3.3.2-dist/css/bootstrap.min.css') }}

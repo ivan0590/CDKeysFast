@@ -17,18 +17,22 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         $this->model = $model;
     }
     
-    public function addDeveloper($id, $developer) {
-        return Product::find($id)->developers()->save($developer);
+    public function addDeveloper($id, $developerId) {
+        return Product::find($id)->developers()->attach($developerId);
     }
 
-    public function addAudio($id, $language) {
-        return Product::find($id)->audioLanguages()->save($language);
+    public function addLanguage($id, $languageId, $type) {
+        return Product::find($id)->languages()->attach($languageId, ['type' => $type]);
+    }
+    
+    public function removeDevelopers($id) {
+        return Product::find($id)->developers()->detach();
     }
 
-    public function addText($id, $language) {
-        return Product::find($id)->textLanguages()->save($language);
+    public function removeLanguages($id) {
+        return Product::find($id)->languages()->detach();
     }
-
+    
     public function getByGameAndPlatform($gameId, $platformId) {
 
         return Product::where('game_id', '=', $gameId)->where('platform_id', '=', $platformId)->first();

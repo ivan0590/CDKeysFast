@@ -113,6 +113,9 @@ header .dropdown-menu li a,
   background: none !important;
   color: #5ca110 !important;
 }
+.bootstrap-duallistbox-container {
+  margin-top: 2.5em;
+}
 #offers-carousel {
   margin-top: 1em;
   margin-bottom: 2em;

@@ -1,5 +1,5 @@
 {
-    "0": {
+    "1": {
         "name": "Counter Strike Global Offensive",
         "description": "El gran clásico del multijugador vuelve a la carga renovado y con nuevas fuerzas. El título con el que muchos tuvieron su bautismo de fuego en el juego online se presenta en una nueva versión, dispuesto a demostrar que la validez de su forma es incombustible.",
         "thumbnail_image_extension": "png",
@@ -7,7 +7,7 @@
         "category_id": "1",
         "agerate_id": "1"
     },
-    "1": {
+    "2": {
         "name": "Tropico 4",
         "description": "El simulador civil Tropico llega a su cuarta entrega. Desarrollado de nuevo por Haemimont Games, supondrá el retorno de El Presidente a la isla paradisíaca de Trópico para hacer de su nación una superpotencia a nivel mundial.",
         "thumbnail_image_extension": "png",
@@ -15,7 +15,7 @@
         "category_id": "2",
         "agerate_id": "4"
     },
-    "2": {
+    "3": {
         "name": "BioShock Infinite",
         "description": "Uno de los juegos más esperados de los últimos años llega al mercado con Irrational dandon una nueva lección de imaginación, ingenio y ambición. Tras System Shock y BioShock, las puertas del cielo se abren en Columbia para un rescate imposible.",
         "thumbnail_image_extension": "png",
@@ -23,7 +23,7 @@
         "category_id": "1",
         "agerate_id": "5"
     },
-    "3": {
+    "4": {
         "name": "Goat Simulator",
         "description": "Disparatado videojuego de acción protagonizado por una cabra, con la que tendremos que hacer toda clase de locuras. Saltar, lanzarla al vacío, destrozar cosas e incluso golpear a personas. Todo ello con un gran sentido del humor.",
         "thumbnail_image_extension": "png",
@@ -31,7 +31,7 @@
         "category_id": "9",
         "agerate_id": "1"
     },
-    "4": {
+    "5": {
         "name": "Company of Heroes 2",
         "description": "Company of Heroes 2 sube el listón en estrategia en tiempo real para PC. Desarrollado por la nueva esencia del motor 3.0, Company of Heroes 2 ofrece características increíbles como la fidelidad gráfica y tecnología de vanguardia.",
         "thumbnail_image_extension": "png",
@@ -39,7 +39,7 @@
         "category_id": "2",
         "agerate_id": "5"
     },
-    "5": {
+    "6": {
         "name": "Battlefield 3",
         "description": "Tercera entrega de la popular saga de acción bélica Battlefield. Un poderoso nuevo motor gráfico llamado Frostbite 2 y una experiencia más cruda y más realista de lo conocido hasta ahora en la franquicia son algunas de sus principales bazas.",
         "thumbnail_image_extension": "png",
@@ -47,7 +47,7 @@
         "category_id": "1",
         "agerate_id": "5"
     },
-    "6": {
+    "7": {
         "name": "FarCry3",
         "description": "Ubisoft Montreal vuelve a las islas paradisíacas de la serie FPS que inauguró Crytek para poner al límite de la supervivencia en un entorno salvaje y demencial a Jason Brody. Abierto, precioso, intenso y variado, Far Cry 3, que no despertaba demasiadas esperanzas entre algunos, es una de las sorpresas de la temporada en PS3, Xbox 360 y PC.",
         "thumbnail_image_extension": "png",
@@ -55,7 +55,7 @@
         "category_id": "1",
         "agerate_id": "5"
     },
-    "7": {
+    "8": {
         "name": "Metro Last Light",
         "description": "El héroe de Metro 2033, Artyom, regresa en esta secuela del first person shooter de 4A Games y Deep Silver. Metro: Last Light está disponible para PlayStation 3, Xbox 360 y PC.",
         "thumbnail_image_extension": "png",
@@ -63,7 +63,7 @@
         "category_id": "1",
         "agerate_id": "5"
     },
-    "8": {
+    "9": {
         "name": "PayDay2",
         "description": "Payday 2 es la segunda entrega del videojuego de acción en primera persona de Overkill Software, que vuelve a invitarnos a tomar parte en todo tipo de trabajos con hasta 3 compañeros de forma simultánea. Un multijugador cooperativo que nos pondrá en la piel de un criminal, buscando el golpe de su vida para poder retirarse tranquilamente, a algún lugar paradisíaco y con una buena pensión vitalicia. Consigue todo el dinero que puedas, y no dejes que la policía te cace, en este título para PC, PlayStation 3 y Xbox 360 que hoy analizamos.",
         "thumbnail_image_extension": "png",
@@ -71,7 +71,7 @@
         "category_id": "1",
         "agerate_id": "5"
     },
-    "9": {
+    "10": {
         "name": "Call of Duty 4 Modern Warfare",
         "description": " La saga creada por Infinity Ward hace unos años, por fin vuelve a manos de sus creadores. Y lo hace en un ejercicio brillante de continuidad en el fondo y novedoso en la forma. Todo un ejemplo de cómo mejorar un juego ya de por sí de gran calidad. El deber os llama...",
         "thumbnail_image_extension": "png",
@@ -79,7 +79,7 @@
         "category_id": "1",
         "agerate_id": "4"
     },
-    "10": {
+    "11": {
         "name": "Arma III",
         "description": "ArmA 3 es la tercera entrega del juego de acción bélica de Bohemia Interactive para PC, en la que nuestro soldado totalmente personalizable puede subir a vehículos aéreos, terrestres y navales para superar las diferentes misiones.",
         "thumbnail_image_extension": "png",
@@ -87,7 +87,7 @@
         "category_id": "1",
         "agerate_id": "5"
     },
-    "11": {
+    "12": {
         "name": "Crysis 3",
         "description": "En Crysis 3, Prophet pisa Nueva York enfundado en un Nanosuit mejorado para convertirse en el cazador definitivo. Enfoque first person shooter sandbox de Crytek para un título que se asienta sobre la última versión del cryENGINE, para PlayStation 3, Xbox 360 y PC",
         "thumbnail_image_extension": "png",
@@ -95,7 +95,7 @@
         "category_id": "1",
         "agerate_id": "4"
     },
-    "12": {
+    "13": {
         "name": "Lords of the Fallen",
         "description": "Del antiguo productor de The Witcher 2, llega este RPG ambientado en un mundo de fantasía medieval que domina un dios caído. Un videojuego inspirado por obras como Dark Souls o el propio The Witcher.",
         "thumbnail_image_extension": "png",
@@ -103,7 +103,7 @@
         "category_id": "4",
         "agerate_id": "4"
     },
-    "13": {
+    "14": {
         "name": "Left 4 Dead 2",
         "description": "Valve saca a la luz la segunda entrega de Left 4 Dead, el juego de zombies con un componente cooperativo que tantas horas de diversión y acción directa ofreció el año pasado. Una segunda entrega que explota al maximo la idea original. Las posibilidades, así como los tipos de infectados, se han mulitplicado. Es la hora de los muertos vivientes.",
         "thumbnail_image_extension": "png",
@@ -111,7 +111,7 @@
         "category_id": "1",
         "agerate_id": "5"
     },
-    "14": {
+    "15": {
         "name": "Borderlands 2",
         "description": "El mundo de Pandora necesita nuevos héroes. Borderlands 2 reproduce la fórmula de la primera parte de esta propiedad intelectual de Gearbox Software y 2K Games, la maximiza y la nutre de humor, profundidad y horas de juego para ofrecer lo más granado del rol y lo destacado de la acción en primera persona. Bienvenidos a la tierra de las oportunidades.",
         "thumbnail_image_extension": "png",
@@ -119,7 +119,7 @@
         "category_id": "13",
         "agerate_id": "5"
     },
-    "15": {
+    "16": {
         "name": "FIFA 15",
         "description": "Videojuego de la serie FIFA para la temporada de fútbol 2014-2015. El título presenta licencias de más de 25 competiciones oficiales, y entre sus novedades destacan un comportamiento de los porteros mucho más reales, nuevas animaciones para los jugadores, cambios en el comportamiento del esférico y un ritmo de juego más rápido, entre otros tantos.",
         "thumbnail_image_extension": "png",
@@ -127,15 +127,15 @@
         "category_id": "5",
         "agerate_id": "1"
     },
-    "16": {
+    "17": {
         "name": "Dead Island",
         "description": "La tranquilidad de las vacaciones en una isla tropical se pueden convertir en una pesadilla ante una invasión zombie en Dead Island.",
         "thumbnail_image_extension": "png",
         "offer_image_extension": "jpg",
-        "category_id": "6",
+        "category_id": "12",
         "agerate_id": "5"
     },
-    "17": {
+    "18": {
         "name": "Call of Juarez Gunslinger",
         "description": "Call of Juarez: Gunslinger, desarrollado por Techland y distribuido por Ubisoft para PlayStation 3, Xbox 360 y PC, representa el regreso de la saga Call of Juarez, esta vez como spin-off ambientado en el lejano oeste. Llega como FPS y en formato descargable.",
         "thumbnail_image_extension": "png",
@@ -143,7 +143,7 @@
         "category_id": "1",
         "agerate_id": "4"
     },
-    "18": {
+    "19": {
         "name": "Medal of Honor",
         "description": "Nueva entrega de Medal of Honor en la que EA reinventa esta popular saga de juegos bélicos. El título estará ambientado en Afganistán, poniéndonos en la piel de la unidad especial de combate Tier 1 Operator, bajo supervisión del Gobierno de Estados Unidos y encargados de “asumir las misiones que nadie más puede llevar a cabo”.",
         "thumbnail_image_extension": "png",
@@ -151,7 +151,7 @@
         "category_id": "1",
         "agerate_id": "5"
     },
-    "19": {
+    "20": {
         "name": "Fallout 3",
         "description": "Llega uno de los juegos del año. Bethesda consigue rozar la obra maestra con Fallout 3, además de traer lo mejor de la saga hasta nuestros días. Tras dejar el bunker 101, el PipBoy 2000 será nuestro guía entre zombies, mutantes, raiders, alienígenas y criaturas radioactivas. Feliz retorno a la realidad postnuclear.",
         "thumbnail_image_extension": "png",
@@ -159,7 +159,7 @@
         "category_id": "4",
         "agerate_id": "5"
     },
-    "20": {
+    "21": {
         "name": "Age of Empires II HD",
         "description": "El clásico Age of Empires II regresa al mercado con esta remasterización a la alta definición que incluye gráficos adaptados a las 1080p, texturas más definidas, así como mejores efectos de iluminación. El juego trae consigo además la expansión Conquerors.",
         "thumbnail_image_extension": "png",
@@ -167,7 +167,7 @@
         "category_id": "2",
         "agerate_id": "3"
     },
-    "21": {
+    "22": {
         "name": "Outlast",
         "description": "Survival Horror en el que participan veteranos desarrolladores provenientes de Ubisoft y EA. El juego está protagonizado por el periodista Miles Upshur, que investiga una denuncia anónima en un hospital psiquiátrico, que desencadenará en una truculenta historia de terror y suspense.",
         "thumbnail_image_extension": "png",
@@ -175,7 +175,7 @@
         "category_id": "11",
         "agerate_id": "5"
     },
-    "22": {
+    "23": {
         "name": "Assassin's Creed Unity",
         "description": "Videojuego de la popular saga de acción y aventuras Assassin's Creed destinada en exclusiva a la nueva generación. El título se ambienta en el París del siglo XVIII, recreando con todo lujo de detalles escenarios reales como la Catedral de Notre Dame o el río Sena que recorre la capital gala.",
         "thumbnail_image_extension": "png",
@@ -183,12 +183,92 @@
         "category_id": "13",
         "agerate_id": "5"
     },
-    "23": {
+    "24": {
         "name": "Grand Theft Auto San Andreas",
         "description": "Versión para dispositivos móviles del mítico GTA San Andreas. California, años 90. Carl Jonson vuelve a su barrio natal para asistir al funeral de su madre tras haber pasado cinco largos años en Liberty City. Aunque no tenía la más mínima intención de dejarse arrastrar de nuevo por la vida callejera, las circunstancias le obligarán a embarcarse en una frenética aventura luchando para conservar su familia, su banda y su propia vida.",
         "thumbnail_image_extension": "png",
         "offer_image_extension": "jpg",
         "category_id": "1",
+        "agerate_id": "5"
+    },
+    "25": {
+        "name": "Sid Meier's Civilization Beyond Earth",
+        "description": "Entrega de la serie Civilization ambientada, por vez primera, en el espacio. El título de Firaxis nos pone en el pellejo de diferentes facciones humanas tratando de colonizar planetas, y relacionándonos de muy distintas formas con las desconocidas razas extraterrestres que moran esos recónditos lugares de fantasía.",
+        "thumbnail_image_extension": "png",
+        "offer_image_extension": "jpg",
+        "category_id": "2",
+        "agerate_id": "5"
+    },
+    "26": {
+        "name": "Crusader Kings II",
+        "description": "Juego de alta estrategia desarrollado por Paradox en el que se nos propone llevar a la gloria a una dinastía real durante la Baja Edad Media en Europa. Cuenta con un modo multijugador para 32 jugadores a la vez.",
+        "thumbnail_image_extension": "png",
+        "offer_image_extension": "jpg",
+        "category_id": "2",
+        "agerate_id": "3"
+    },
+    "27": {
+        "name": "Dragon Age II",
+        "description": "Segunda entrega del exitoso RPG de BioWare que apuesta por un aumento exponencial de la accesibilidad y un acercamiento mucho más frenético y espectacular a la fórmula del original, incrementando notablemente el ritmo y la acción.",
+        "thumbnail_image_extension": "png",
+        "offer_image_extension": "jpg",
+        "category_id": "4",
+        "agerate_id": "5"
+    },
+    "28": {
+        "name": "Final Fantasy XIII",
+        "description": "Nueva entrega de la popular saga JRPG de Square Enix que promete explotar como ningún otro JRPG hasta ahora las posibilidades gráficas, sonoras y de almacenamiento que ofrecen las consolas de nueva generación.",
+        "thumbnail_image_extension": "png",
+        "offer_image_extension": "jpg",
+        "category_id": "4",
+        "agerate_id": "4"
+    },
+    "29": {
+        "name": "Castlevania - LoS Mirror of Fate HD",
+        "description": "Videojuego de la serie Castlevania que argumentalmente se sitúa entre Lords of Shadow y Lords of Shadow 2. Cuatro protagonistas y el objetivo de derrotar a Drácula regresa de manos de los Belmont, embutidos en una aventura de scroll lateral \"metroid-castlevaniana\" que, tras pasar por 3DS, se estrena en alta resolución.",
+        "thumbnail_image_extension": "png",
+        "offer_image_extension": "jpg",
+        "category_id": "4",
+        "agerate_id": "4"
+    },
+    "30": {
+        "name": "The Elder Scrolls IV Oblivion",
+        "description": "Cuarta entrega de la saga de juegos de Rol, The Elder Scrolls. Con una impresionante calidad grafica y cuidado guión, la saga “Oblivion” no sólo pretende superarse a si misma en esta entrega, sino que viene con visos de ser el nuevo referente en lo que a Rol se refiere.",
+        "thumbnail_image_extension": "png",
+        "offer_image_extension": "jpg",
+        "category_id": "4",
+        "agerate_id": "4"
+    },
+    "31": {
+        "name": "RUST",
+        "description": "Survival Sandbox con componentes de acción pero también estratégicos en el que la libertad del usuario está por encima de todas las cosas. Un mundo multijugador persistente en el que hay tanto libre albedrío que podemos colaborar con otros jugadores o vivir temiendo de sus actos.",
+        "thumbnail_image_extension": "png",
+        "offer_image_extension": "jpg",
+        "category_id": "6",
+        "agerate_id": "4"
+    },
+    "32": {
+        "name": "7 Days to Die",
+        "description": "Videojuego de supervivencia de hordas zombies en el que tendremos que construir nuestros propios métodos de supervivencia en un gran mundo abierto. Sacado adelante a través de Kickstarter, el lanzamiento cuenta con mundo destructible y un ambicioso planteamiento.",
+        "thumbnail_image_extension": "png",
+        "offer_image_extension": "jpg",
+        "category_id": "6",
+        "agerate_id": "5"
+    },
+    "33": {
+        "name": "This War of Mine",
+        "description": "Sobrevive a las penurias de la guerra en la piel de un civil, que por el día debe velar por la seguridad de su refugio, mientras que por las noches sale al exterior en busca de recursos para mantenerse con vida.",
+        "thumbnail_image_extension": "png",
+        "offer_image_extension": "jpg",
+        "category_id": "6",
+        "agerate_id": "5"
+    },
+    "34": {
+        "name": "DayZ Standalone",
+        "description": "Juego de acción y supervivencia en primera persona basado en el popular mod DayZ de Arma 2.",
+        "thumbnail_image_extension": "png",
+        "offer_image_extension": "jpg",
+        "category_id": "6",
         "agerate_id": "5"
     }
 }

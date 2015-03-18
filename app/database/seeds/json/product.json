@@ -1,5 +1,5 @@
 {
-    "0": {
+    "1": {
         "price": "10.99",
         "discount": "0",
         "stock": "23",
@@ -15,7 +15,7 @@
         "text": [1, 2, 4, 5, 6, 8, 9, 10],
         "developers": [1, 2]
     },
-    "1": {
+    "2": {
         "price": "10.99",
         "discount": "10",
         "stock": "30",
@@ -31,7 +31,7 @@
         "text": [1, 2, 4, 5, 6, 8, 9, 10],
         "developers": [1, 2]
     },
-    "2": {
+    "3": {
         "price": "29.99",
         "discount": "0",
         "stock": "43",
@@ -47,7 +47,7 @@
         "text": [1, 2, 4, 5, 6, 8, 9, 10],
         "developers": [3]
     },
-    "3": {
+    "4": {
         "price": "29.99",
         "discount": "15",
         "stock": "20",
@@ -63,7 +63,7 @@
         "text": [1, 2, 4, 5, 6, 7],
         "developers": [4]
     },
-    "4": {
+    "5": {
         "price": "49.99",
         "discount": "2",
         "stock": "250",
@@ -79,7 +79,7 @@
         "text": [1, 2, 4, 5, 6, 7],
         "developers": [4]
     },
-    "5": {
+    "6": {
         "price": "49.99",
         "discount": "0",
         "stock": "200",
@@ -95,7 +95,7 @@
         "text": [1, 2, 4, 5, 6, 7],
         "developers": [4]
     },
-    "6": {
+    "7": {
         "price": "20",
         "discount": "0",
         "stock": "75",
@@ -111,7 +111,7 @@
         "text": [2],
         "developers": [5]
     },
-    "7": {
+    "8": {
         "price": "8",
         "discount": "0",
         "stock": "65",
@@ -127,7 +127,7 @@
         "text": [2],
         "developers": [5]
     },
-    "8": {
+    "9": {
         "price": "50.99",
         "discount": "70",
         "stock": "178",
@@ -143,7 +143,7 @@
         "text": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
         "developers": [6]
     },
-    "9": {
+    "10": {
         "price": "49.99",
         "discount": "60",
         "stock": "140",
@@ -159,7 +159,7 @@
         "text": [1, 2, 3, 4, 5, 6],
         "developers": [7]
     },
-    "10": {
+    "11": {
         "price": "35.99",
         "discount": "16.66",
         "stock": "99",
@@ -175,7 +175,7 @@
         "text": [1, 2, 3, 4, 5, 6],
         "developers": [8]
     },
-    "11": {
+    "12": {
         "price": "29.99",
         "discount": "0",
         "stock": "45",
@@ -191,7 +191,7 @@
         "text": [1, 2, 3, 4, 5, 6],
         "developers": [9]
     },
-    "12": {
+    "13": {
         "price": "39.99",
         "discount": "0",
         "stock": "54",
@@ -207,7 +207,7 @@
         "text": [1, 2, 3, 4, 5, 6],
         "developers": [9]
     },
-    "13": {
+    "14": {
         "price": "25",
         "discount": "0",
         "stock": "34",
@@ -223,7 +223,7 @@
         "text": [1, 2, 3, 4, 5, 6],
         "developers": [10]
     },
-    "14": {
+    "15": {
         "price": "25",
         "discount": "0",
         "stock": "37",
@@ -239,7 +239,7 @@
         "text": [1, 2, 3, 4, 5, 6],
         "developers": [10]
     },
-    "15": {
+    "16": {
         "price": "50",
         "discount": "60",
         "stock": "12",
@@ -255,7 +255,7 @@
         "text": [1, 2, 3, 4, 5, 6],
         "developers": [11]
     },
-    "16": {
+    "17": {
         "price": "35",
         "discount": "3",
         "stock": "19",
@@ -271,7 +271,7 @@
         "text": [1, 2, 3, 4, 5, 6],
         "developers": [12]
     },
-    "17": {
+    "18": {
         "price": "23",
         "discount": "10",
         "stock": "87",
@@ -287,7 +287,7 @@
         "text": [1, 2, 3, 4, 5, 6],
         "developers": [13]
     },
-    "18": {
+    "19": {
         "price": "60",
         "discount": "15",
         "stock": "24",
@@ -303,7 +303,7 @@
         "text": [1, 2, 3, 4, 5, 6],
         "developers": [19]
     },
-    "19": {
+    "20": {
         "price": "70",
         "discount": "15",
         "stock": "35",
@@ -319,7 +319,7 @@
         "text": [1, 2, 3, 4, 5, 6],
         "developers": [19]
     },
-    "20": {
+    "21": {
         "price": "70",
         "discount": "15",
         "stock": "45",
@@ -335,7 +335,7 @@
         "text": [1, 2, 3, 4, 5, 6],
         "developers": [19]
     },
-    "21": {
+    "22": {
         "price": "12.99",
         "discount": "0",
         "stock": "14",
@@ -351,7 +351,7 @@
         "text": [1, 2, 3, 4, 5, 6],
         "developers": [1]
     },
-    "22": {
+    "23": {
         "price": "12.99",
         "discount": "0",
         "stock": "19",
@@ -367,7 +367,7 @@
         "text": [1, 2, 3, 4, 5, 6],
         "developers": [1]
     },
-    "23": {
+    "24": {
         "price": "20",
         "discount": "0",
         "stock": "99",
@@ -383,7 +383,7 @@
         "text": [1, 2, 3, 4, 5, 6],
         "developers": [15]
     },
-    "24": {
+    "25": {
         "price": "59.99",
         "discount": "0",
         "stock": "3",
@@ -399,7 +399,7 @@
         "text": [1, 2, 3, 4, 5, 6],
         "developers": [20]
     },
-    "25": {
+    "26": {
         "price": "59.99",
         "discount": "0",
         "stock": "13",
@@ -415,7 +415,7 @@
         "text": [1, 2, 3, 4, 5, 6],
         "developers": [20]
     },
-    "26": {
+    "27": {
         "price": "9.99",
         "discount": "0",
         "stock": "32",
@@ -431,7 +431,7 @@
         "text": [1, 2, 3, 4, 5, 6],
         "developers": [20]
     },
-    "27": {
+    "28": {
         "price": "29.99",
         "discount": "5",
         "stock": "4",
@@ -447,7 +447,7 @@
         "text": [1, 2, 3, 4, 5, 6],
         "developers": [17]
     },
-    "28": {
+    "29": {
         "price": "15",
         "discount": "0",
         "stock": "6",
@@ -463,7 +463,7 @@
         "text": [1, 2, 3, 4, 5, 6],
         "developers": [17]
     },
-    "29": {
+    "30": {
         "price": "24",
         "discount": "0",
         "stock": "2",
@@ -479,7 +479,7 @@
         "text": [1, 2, 3, 4, 5, 6],
         "developers": [21]
     },
-    "30": {
+    "31": {
         "price": "12.99",
         "discount": "0",
         "stock": "12",
@@ -495,7 +495,7 @@
         "text": [1, 2, 3, 4, 5, 6],
         "developers": [18]
     },
-    "31": {
+    "32": {
         "price": "15",
         "discount": "0",
         "stock": "3",
@@ -511,7 +511,7 @@
         "text": [1, 2, 3, 4, 5, 6],
         "developers": [22]
     },
-    "32": {
+    "33": {
         "price": "19.99",
         "discount": "10",
         "stock": "100",
@@ -527,7 +527,7 @@
         "text": [1, 2, 3, 4, 5, 6],
         "developers": [23]
     },
-    "33": {
+    "34": {
         "price": "19.99",
         "discount": "0",
         "stock": "100",
@@ -543,7 +543,7 @@
         "text": [1, 2, 3, 4, 5, 6],
         "developers": [23]
     },
-    "34": {
+    "35": {
         "price": "19.99",
         "discount": "15",
         "stock": "100",
@@ -559,7 +559,7 @@
         "text": [1, 2, 3, 4, 5, 6],
         "developers": [23]
     },
-    "35": {
+    "36": {
         "price": "19.99",
         "discount": "0",
         "stock": "100",
@@ -575,7 +575,7 @@
         "text": [1, 2, 3, 4, 5, 6],
         "developers": [23]
     },
-    "36": {
+    "37": {
         "price": "19.99",
         "discount": "14",
         "stock": "100",
@@ -591,7 +591,7 @@
         "text": [1, 2, 3, 4, 5, 6],
         "developers": [23]
     },
-    "37": {
+    "38": {
         "price": "59.99",
         "discount": "0",
         "stock": "76",
@@ -607,7 +607,7 @@
         "text": [1, 2, 3, 4, 5, 6],
         "developers": [8]
     },
-    "38": {
+    "39": {
         "price": "59.99",
         "discount": "0",
         "stock": "70",
@@ -623,7 +623,7 @@
         "text": [1, 2, 3, 4, 5, 6],
         "developers": [8]
     },
-    "39": {
+    "40": {
         "price": "59.99",
         "discount": "0",
         "stock": "20",
@@ -639,7 +639,7 @@
         "text": [1, 2, 3, 4, 5, 6],
         "developers": [8]
     },
-    "40": {
+    "41": {
         "price": "59.99",
         "discount": "10",
         "stock": "10",
@@ -655,7 +655,7 @@
         "text": [1, 2, 3, 4, 5, 6],
         "developers": [8]
     },
-    "41": {
+    "42": {
         "price": "59.99",
         "discount": "0",
         "stock": "95",
@@ -671,7 +671,7 @@
         "text": [1, 2, 3, 4, 5, 6],
         "developers": [8]
     },
-    "42": {
+    "43": {
         "price": "6.99",
         "discount": "0",
         "stock": "13",
@@ -686,5 +686,261 @@
         "audio": [1, 2, 3, 4, 5, 6],
         "text": [1, 2, 3, 4, 5, 6],
         "developers": [24]
+    },
+    "44": {
+        "price": "50",
+        "discount": "10",
+        "stock": "17",
+        "highlighted": "1",
+        "launch_date": "24-10-2014",
+        "singleplayer": true,
+        "multiplayer": true,
+        "cooperative": false,
+        "game_id": "25",
+        "platform_id": "1",
+        "publisher_id": "2",
+        "audio": [1, 2, 3, 4, 5, 6],
+        "text": [1, 2, 3, 4, 5, 6],
+        "developers": [25]
+    },
+    "45": {
+        "price": "50",
+        "discount": "0",
+        "stock": "2",
+        "highlighted": "1",
+        "launch_date": "24-10-2014",
+        "singleplayer": true,
+        "multiplayer": true,
+        "cooperative": false,
+        "game_id": "25",
+        "platform_id": "2",
+        "publisher_id": "2",
+        "audio": [1, 2, 3, 4, 5, 6],
+        "text": [1, 2, 3, 4, 5, 6],
+        "developers": [25]
+    },
+    "46": {
+        "price": "19.99",
+        "discount": "0",
+        "stock": "54",
+        "highlighted": "1",
+        "launch_date": "14-02-2012",
+        "singleplayer": true,
+        "multiplayer": true,
+        "cooperative": false,
+        "game_id": "26",
+        "platform_id": "1",
+        "publisher_id": "19",
+        "audio": [1, 2, 3, 4, 5, 6],
+        "text": [1, 2, 3, 4, 5, 6],
+        "developers": [26]
+    },
+    "47": {
+        "price": "19.99",
+        "discount": "0",
+        "stock": "54",
+        "highlighted": "1",
+        "launch_date": "14-02-2012",
+        "singleplayer": true,
+        "multiplayer": true,
+        "cooperative": false,
+        "game_id": "26",
+        "platform_id": "2",
+        "publisher_id": "19",
+        "audio": [1, 2, 3, 4, 5, 6],
+        "text": [1, 2, 3, 4, 5, 6],
+        "developers": [26]
+    },
+    "48": {
+        "price": "19.99",
+        "discount": "50",
+        "stock": "45",
+        "highlighted": "1",
+        "launch_date": "10-03-2011",
+        "singleplayer": true,
+        "multiplayer": false,
+        "cooperative": false,
+        "game_id": "27",
+        "platform_id": "1",
+        "publisher_id": "5",
+        "audio": [1, 2, 3, 4, 5, 6],
+        "text": [1, 2, 3, 4, 5, 6],
+        "developers": [27]
+    },
+    "49": {
+        "price": "29.99",
+        "discount": "50",
+        "stock": "48",
+        "highlighted": "1",
+        "launch_date": "09-03-2010",
+        "singleplayer": true,
+        "multiplayer": false,
+        "cooperative": false,
+        "game_id": "28",
+        "platform_id": "1",
+        "publisher_id": "20",
+        "audio": [1, 2, 3, 4, 5, 6],
+        "text": [1, 2, 3, 4, 5, 6],
+        "developers": [28]
+    },
+    "50": {
+        "price": "19.99",
+        "discount": "0",
+        "stock": "84",
+        "highlighted": "1",
+        "launch_date": "27-03-2014",
+        "singleplayer": true,
+        "multiplayer": false,
+        "cooperative": false,
+        "game_id": "29",
+        "platform_id": "1",
+        "publisher_id": "21",
+        "audio": [1, 2, 3, 4, 5, 6],
+        "text": [1, 2, 3, 4, 5, 6],
+        "developers": [29]
+    },
+    "51": {
+        "price": "9.99",
+        "discount": "10",
+        "stock": "53",
+        "highlighted": "1",
+        "launch_date": "24-03-2006",
+        "singleplayer": true,
+        "multiplayer": false,
+        "cooperative": false,
+        "game_id": "30",
+        "platform_id": "1",
+        "publisher_id": "18",
+        "audio": [1, 2, 3, 4, 5, 6],
+        "text": [1, 2, 3, 4, 5, 6],
+        "developers": [18]
+    },
+    "52": {
+        "price": "19.99",
+        "discount": "0",
+        "stock": "28",
+        "highlighted": "1",
+        "launch_date": "31-11-2013",
+        "singleplayer": false,
+        "multiplayer": true,
+        "cooperative": false,
+        "game_id": "31",
+        "platform_id": "1",
+        "publisher_id": "1",
+        "audio": [1, 2, 3, 4, 5, 6],
+        "text": [1, 2, 3, 4, 5, 6],
+        "developers": [30]
+    },
+    "53": {
+        "price": "19.99",
+        "discount": "0",
+        "stock": "28",
+        "highlighted": "1",
+        "launch_date": "31-11-2013",
+        "singleplayer": false,
+        "multiplayer": true,
+        "cooperative": false,
+        "game_id": "31",
+        "platform_id": "2",
+        "publisher_id": "1",
+        "audio": [1, 2, 3, 4, 5, 6],
+        "text": [1, 2, 3, 4, 5, 6],
+        "developers": [30]
+    },
+    "54": {
+        "price": "29.99",
+        "discount": "15",
+        "stock": "40",
+        "highlighted": "1",
+        "launch_date": "31-11-2013",
+        "singleplayer": true,
+        "multiplayer": false,
+        "cooperative": true,
+        "game_id": "32",
+        "platform_id": "1",
+        "publisher_id": "1",
+        "audio": [1, 2, 3, 4, 5, 6],
+        "text": [1, 2, 3, 4, 5, 6],
+        "developers": [31]
+    },
+    "55": {
+        "price": "29.99",
+        "discount": "0",
+        "stock": "49",
+        "highlighted": "1",
+        "launch_date": "31-11-2013",
+        "singleplayer": true,
+        "multiplayer": false,
+        "cooperative": true,
+        "game_id": "32",
+        "platform_id": "2",
+        "publisher_id": "1",
+        "audio": [1, 2, 3, 4, 5, 6],
+        "text": [1, 2, 3, 4, 5, 6],
+        "developers": [31]
+    },
+    "56": {
+        "price": "29.99",
+        "discount": "0",
+        "stock": "53",
+        "highlighted": "1",
+        "launch_date": "14-11-2014",
+        "singleplayer": true,
+        "multiplayer": false,
+        "cooperative": true,
+        "game_id": "33",
+        "platform_id": "1",
+        "publisher_id": "7",
+        "audio": [1, 2, 3, 4, 5, 6],
+        "text": [1, 2, 3, 4, 5, 6],
+        "developers": [32]
+    },
+    "57": {
+        "price": "24.99",
+        "discount": "0",
+        "stock": "16",
+        "highlighted": "1",
+        "launch_date": "14-11-2014",
+        "singleplayer": true,
+        "multiplayer": false,
+        "cooperative": true,
+        "game_id": "33",
+        "platform_id": "2",
+        "publisher_id": "7",
+        "audio": [1, 2, 3, 4, 5, 6],
+        "text": [1, 2, 3, 4, 5, 6],
+        "developers": [32]
+    },
+    "58": {
+        "price": "29.99",
+        "discount": "20",
+        "stock": "16",
+        "highlighted": "1",
+        "launch_date": "",
+        "singleplayer": false,
+        "multiplayer": true,
+        "cooperative": false,
+        "game_id": "34",
+        "platform_id": "1",
+        "publisher_id": "10",
+        "audio": [1, 2, 3, 4, 5, 6],
+        "text": [1, 2, 3, 4, 5, 6],
+        "developers": [10]
+    },
+    "59": {
+        "price": "29.99",
+        "discount": "20",
+        "stock": "16",
+        "highlighted": "1",
+        "launch_date": "",
+        "singleplayer": false,
+        "multiplayer": true,
+        "cooperative": false,
+        "game_id": "34",
+        "platform_id": "3",
+        "publisher_id": "10",
+        "audio": [1, 2, 3, 4, 5, 6],
+        "text": [1, 2, 3, 4, 5, 6],
+        "developers": [10]
     }
 }

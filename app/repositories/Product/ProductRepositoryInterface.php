@@ -9,11 +9,13 @@ namespace Repositories\Product;
  */
 interface ProductRepositoryInterface {
         
-    public function addDeveloper($id, $developer);
+    public function addDeveloper($id, $developerId);
     
-    public function addAudio($id, $language);
+    public function addLanguage($id, $languageId, $type);
     
-    public function addText($id, $language);
+    public function removeDevelopers($id);
+    
+    public function removeLanguages($id);
     
     public function getByGameAndPlatform($gameId, $platformId);
     

@@ -77,9 +77,10 @@ class PlatformController extends \BaseController {
         Breadcrumb::addBreadcrumb($platform->name);
 
         return View::make('admin.pages.edit')
-                        ->with('restful', 'platform')
-                        ->with('model', $platform)
-                        ->with('header_title', "Editar plataforma (id: {$platform->id})")
+                        ->with([
+                           'restful' => 'platform',
+                           'model' => $platform,
+                           'header_title' => "Editar plataforma (id: {$platform->id})"])
                         ->with('breadcrumbs', Breadcrumb::generate());
     }
 
@@ -182,7 +183,7 @@ class PlatformController extends \BaseController {
             return Response::json([
                         'success' => false,
                         'errors' => $validator->getMessageBag()->toArray()
-                            ], 400); // 400 being the HTTP code for an invalid request.
+                            ], 400); 
         }
 
         //Ruta de la imagen para borrarla

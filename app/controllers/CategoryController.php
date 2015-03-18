@@ -64,9 +64,11 @@ class CategoryController extends \BaseController {
         Breadcrumb::addBreadcrumb($category->name);
 
         return View::make('admin.pages.edit')
-                        ->with('restful', 'category')
-                        ->with('model', $category)
-                        ->with('header_title', "Editar categoría (id: {$category->id})")
+                        ->with([
+                            'restful' => 'category',
+                            'model' => $category,
+                            'header_title' => "Editar categoría (id: {$category->id})"
+                        ])
                         ->with('breadcrumbs', Breadcrumb::generate());
     }
 
@@ -154,11 +156,11 @@ class CategoryController extends \BaseController {
             return Response::json([
                         'success' => false,
                         'errors' => $validator->getMessageBag()->toArray()
-                            ], 400); // 400 being the HTTP code for an invalid request.
+                            ], 400); 
         }
 
         $this->category->deleteById($id);
-        
+
         return Response::json(['success' => true], 200);
     }
 

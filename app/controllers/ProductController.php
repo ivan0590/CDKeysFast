@@ -3,13 +3,19 @@
 use Repositories\Platform\PlatformRepositoryInterface as PlatformRepositoryInterface;
 use Repositories\Category\CategoryRepositoryInterface as CategoryRepositoryInterface;
 use Repositories\Product\ProductRepositoryInterface as ProductRepositoryInterface;
+use Repositories\Language\LanguageRepositoryInterface as LanguageRepositoryInterface;
+use Repositories\Developer\DeveloperRepositoryInterface as DeveloperRepositoryInterface;
 
 class ProductController extends \BaseController {
 
-    public function __construct(PlatformRepositoryInterface $platform, CategoryRepositoryInterface $category, ProductRepositoryInterface $product) {
+    public function __construct(
+    PlatformRepositoryInterface $platform, CategoryRepositoryInterface $category, ProductRepositoryInterface $product, LanguageRepositoryInterface $language, DeveloperRepositoryInterface $developer
+    ) {
         $this->platform = $platform;
         $this->category = $category;
         $this->product = $product;
+        $this->language = $language;
+        $this->developer = $developer;
     }
 
     /**
@@ -26,7 +32,7 @@ class ProductController extends \BaseController {
         $data = Input::only([
                     'game_id', 'platform_id', 'publisher_id', 'price', 'discount',
                     'stock', 'launch_date', 'highlighted', 'singleplayer', 'multiplayer',
-                    'cooperative',
+                    'cooperative', 'text', 'audio', 'developer'
         ]);
 
         //Reglas de validación
@@ -42,6 +48,9 @@ class ProductController extends \BaseController {
             'singleplayer' => 'boolean',
             'multiplayer' => 'boolean',
             'cooperative' => 'boolean',
+            'text' => 'array|exists:languages,id',
+            'audio' => 'array|exists:languages,id',
+            'developer' => 'array|exists:developers,id'
         ];
 
         //Validación de los campos del formulario
@@ -59,7 +68,20 @@ class ProductController extends \BaseController {
             $data['launch_date'] = new DateTime($data['launch_date']);
         }
 
-        $this->product->create($data);
+        $product = $this->product->create($data);
+
+        //Idiomas del texto y del audio
+        foreach ((array)$data['text'] as $id) {
+            $this->product->addLanguage($product->id, $id, 'text');
+        }
+        foreach ((array)$data['audio'] as $id) {
+            $this->product->addLanguage($product->id, $id, 'audio');
+        }
+
+        //Desarrolladoras
+        foreach ((array)$data['developer'] as $id) {
+            $this->product->addDeveloper($product->id, $id);
+        }
 
         return Redirect::back()->with('save_success', 'Producto creado correctamente.');
     }
@@ -84,14 +106,32 @@ class ProductController extends \BaseController {
         //Para el formato de la fecha
         $product->launch_date = $product->launch_date > 0 ? date_format(new dateTime($product->launch_date), 'd-m-Y') : '';
 
+        //Listas duales (audio, texto y desarrolladoras)
+        $lists = [
+            'text' => [
+                'selected' => $product->textLanguages()->get(),
+                'available' => $this->language->all()->diff($product->textLanguages()->get())
+            ],
+            'audio' => [
+                'selected' => $product->audioLanguages()->get(),
+                'available' => $this->language->all()->diff($product->audioLanguages()->get())
+            ],
+            'developer' => [
+                'selected' => $product->developers()->get(),
+                'available' => $this->developer->all()->diff($product->developers()->get())
+            ]
+        ];
+
         //Miga de pan
         Breadcrumb::addBreadcrumb('Edición de productos', URL::route('admin.product.index'));
         Breadcrumb::addBreadcrumb("ID: $product->id");
 
         return View::make('admin.pages.edit')
-                        ->with('restful', 'product')
-                        ->with('model', $product)
-                        ->with('header_title', "Editar producto (id: {$product->id})")
+                        ->with([
+                            'restful' => 'product',
+                            'model' => $product,
+                            'header_title' => "Editar producto (id: {$product->id})",
+                            'lists' => $lists])
                         ->with('breadcrumbs', Breadcrumb::generate());
     }
 
@@ -141,7 +181,7 @@ class ProductController extends \BaseController {
         $data = Input::only([
                     'game_id', 'platform_id', 'publisher_id', 'price', 'discount',
                     'stock', 'launch_date', 'highlighted', 'singleplayer', 'multiplayer',
-                    'cooperative',
+                    'cooperative', 'text', 'audio', 'developer'
         ]);
 
         //Reglas de validación
@@ -157,6 +197,9 @@ class ProductController extends \BaseController {
             'singleplayer' => 'boolean',
             'multiplayer' => 'boolean',
             'cooperative' => 'boolean',
+            'text' => 'array|exists:languages,id',
+            'audio' => 'array|exists:languages,id',
+            'developer' => 'array|exists:developers,id'
         ];
 
         //Validación de los campos del formulario
@@ -173,7 +216,22 @@ class ProductController extends \BaseController {
             $data['launch_date'] = new DateTime($data['launch_date']);
         }
 
-        $this->product->updateById($id, $data);
+        $product = $this->product->updateById($id, $data);
+
+        //Idiomas del texto y del audio
+        $this->product->removeLanguages($product->id);
+        foreach ((array)$data['text'] as $id) {
+            $this->product->addLanguage($product->id, $id, 'text');
+        }
+        foreach ((array)$data['audio'] as $id) {
+            $this->product->addLanguage($product->id, $id, 'audio');
+        }
+
+        //Desarrolladoras
+        $this->product->removeDevelopers($product->id);
+        foreach ((array)$data['developer'] as $id) {
+            $this->product->addDeveloper($product->id, $id);
+        }
 
         return Redirect::back()->with('save_success', 'Producto modificado correctamente.');
     }
@@ -193,7 +251,7 @@ class ProductController extends \BaseController {
             return Response::json([
                         'success' => false,
                         'errors' => $validator->getMessageBag()->toArray()
-                            ], 400); // 400 being the HTTP code for an invalid request.
+                            ], 400);
         }
 
         $this->product->deleteById($id);
@@ -213,6 +271,22 @@ class ProductController extends \BaseController {
                                         'restful' => 'product'])->render(), 200);
         }
 
+        //Listas duales (audio, texto y desarrolladoras)
+        $lists = [
+            'text' => [
+                'selected' => [],
+                'available' => $this->language->all()
+            ],
+            'audio' => [
+                'selected' => [],
+                'available' => $this->language->all()
+            ],
+            'developer' => [
+                'selected' => [],
+                'available' => $this->developer->all()
+            ]
+        ];
+
         //Miga de pan
         Breadcrumb::addBreadcrumb('Edición');
 
@@ -220,7 +294,8 @@ class ProductController extends \BaseController {
                         ->with([
                             'data' => $products,
                             'header' => ['ID', 'Juego', 'Plataforma', 'Categoría', 'Distribuidora'],
-                            'restful' => 'product'])
+                            'restful' => 'product',
+                            'lists' => $lists])
                         ->with('breadcrumbs', Breadcrumb::generate());
     }
 

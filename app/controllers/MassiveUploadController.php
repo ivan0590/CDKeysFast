@@ -201,7 +201,7 @@ class MassiveUploadController extends \BaseController {
                             $developer = $this->developer->getByName($developerIterator->desarrolladora);
 
                             if ($developer !== null) {
-                                $this->product->addDeveloper($product->id, $developer);
+                                $this->product->addDeveloper($product->id, $developer->id);
                             } else {
                                 $warning = true;
                                 array_push($errorMessagesProducts, "La desarrolladora '{$developerIterator->desarrolladora}' no existe (plataforma: $platformName, juego: $gameName).");
@@ -213,7 +213,7 @@ class MassiveUploadController extends \BaseController {
                             $language = $this->language->getByName($audioIterator->idioma);
 
                             if ($language !== null) {
-                                $this->product->addAudio($product->id, $language);
+                                $this->product->addLanguage($product->id, $language->id, 'audio');
                             } else {
                                 $warning = true;
                                 array_push($errorMessagesProducts, "El idioma '{$audioIterator->idioma}' no existe (plataforma: $platformName, juego: $gameName).");
@@ -225,7 +225,7 @@ class MassiveUploadController extends \BaseController {
                             $language = $this->language->getByName($textIterator->idioma);
 
                             if ($language !== null) {
-                                $this->product->addText($product->id, $language);
+                                $this->product->addLanguage($product->id, $language->id, 'text');
                             } else {
                                 $warning = true;
                                 array_push($errorMessagesProducts, "El idioma '{$textIterator->idioma}' no existe (plataforma: $platformName, juego: $gameName).");

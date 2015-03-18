@@ -1,56 +1,65 @@
 {
-    "0": {
+    "1": {
         "name": "Steam"
     },
-    "1": {
+    "2": {
         "name": "2K Games"
     },
-    "2": {
+    "3": {
         "name": "Sony"
     },
-    "3": {
+    "4": {
         "name": "Sega"
     },
-    "4": {
+    "5": {
         "name": "Electronic Arts"
     },
-    "5": {
+    "6": {
         "name": "Ubisoft"
     },
-    "6": {
+    "7": {
         "name": "Deep Silver"
     },
-    "7": {
+    "8": {
         "name": "505 Games"
     },
-    "8": {
+    "9": {
         "name": "Activision"
     },
-    "9": {
+    "10": {
         "name": "Bohemia Interactive"
     },
-    "10": {
+    "11": {
         "name": "Bethesda Softworks"
     },
-    "11": {
+    "12": {
         "name": "THQ"
     },
-    "12": {
+    "13": {
         "name": "Atari"
     },
-    "13": {
+    "14": {
         "name": "Kalypso Media"
     },
-    "14": {
+    "15": {
         "name": "Coffee Stain Studios"
     },
-    "15": {
+    "16": {
         "name": "City Interactive"
     },
-    "16": {
+    "17": {
         "name": "Microsoft"
     },
-    "17": {
+    "18": {
         "name": "Take 2"
+    },
+    "19": {
+        "name": "Paradox Interactive"
+    },
+    "20": {
+        "name": "Koch Media"
+    },
+    "21": {
+        "name": "Konami"
     }
 }
