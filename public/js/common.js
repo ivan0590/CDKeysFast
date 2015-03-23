@@ -36,36 +36,40 @@ $(function () {
         $('#modal-results').modal('show');
     }
 
-    //Lista dual del texto
-    $('select[name="text[]"]').bootstrapDualListbox(
-            {
-                nonSelectedListLabel: 'Lenguajes del texto disponibles',
-                selectedListLabel: 'Lenguajes del texto seleccionados',
-                filterPlaceHolder: 'Filtrar',
-                moveOnSelect: false
-            }
-    );
-    
-    //Lista dual del audio
-    $('select[name="audio[]"]').bootstrapDualListbox(
-            {
-                nonSelectedListLabel: 'Lenguajes del audio disponibles',
-                selectedListLabel: 'Lenguajes del audio seleccionados',
-                filterPlaceHolder: 'Filtrar',
-                moveOnSelect: false
-            }
-    );
-    
-    //Lista dual de los desarrolladoras
-    $('select[name="developer[]"]').bootstrapDualListbox(
-            {
-                nonSelectedListLabel: 'Desarrolladoras disponibles',
-                selectedListLabel: 'Desarrolladoras seleccionadas',
-                filterPlaceHolder: 'Filtrar',
-                moveOnSelect: false
-            }
-    );
+    //Listas duales
+    if ($('select[name$="[]"]').length === 3) {
 
+        //Lista dual del texto
+        $('select[name="text[]"]').bootstrapDualListbox(
+                {
+                    nonSelectedListLabel: 'Lenguajes del texto disponibles',
+                    selectedListLabel: 'Lenguajes del texto seleccionados',
+                    filterPlaceHolder: 'Filtrar',
+                    moveOnSelect: false
+                }
+        );
+
+
+        //Lista dual del audio
+        $('select[name="audio[]"]').bootstrapDualListbox(
+                {
+                    nonSelectedListLabel: 'Lenguajes del audio disponibles',
+                    selectedListLabel: 'Lenguajes del audio seleccionados',
+                    filterPlaceHolder: 'Filtrar',
+                    moveOnSelect: false
+                }
+        );
+
+        //Lista dual de los desarrolladoras
+        $('select[name="developer[]"]').bootstrapDualListbox(
+                {
+                    nonSelectedListLabel: 'Desarrolladoras disponibles',
+                    selectedListLabel: 'Desarrolladoras seleccionadas',
+                    filterPlaceHolder: 'Filtrar',
+                    moveOnSelect: false
+                }
+        );
+    }
     //Para rellenar imagenes SVG
     jQuery('img.svg').each(function () {
         var $img = jQuery(this);

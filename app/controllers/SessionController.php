@@ -1,6 +1,7 @@
 <?php
 
 use Repositories\User\UserRepositoryInterface as UserRepositoryInterface;
+use Services\Validation\Laravel\SessionValidator as SessionValidator;
 
 class SessionController extends \BaseController {
 
@@ -8,18 +9,16 @@ class SessionController extends \BaseController {
         $this->user = $user;
     }
 
-        
     /**
      * 
      *
      * @return Response
      */
-    public function getAdminLogin() {
-        
-        return View::make('admin.pages.login');
+    public function getLogin() {
+
+        return View::make('client.pages.login');
     }
-     
-    
+
     /**
      * 
      *
@@ -27,54 +26,43 @@ class SessionController extends \BaseController {
      */
     public function store() {
 
-        //Reglas de validación
-        $rules = [
-            'email' => 'required|email', //Email requerido
-            'password' => 'required|alpha_dash|min:6' //Contraseña alfanumérica de 6 caracteres requerida
-        ];
-
-        //Mensajes de error
-        $messages = ['email.required' => 'Formato de email incorrecto.',
-            'email.email' => 'Formato de email incorrecto.',
-            'password.alpha_dash' => 'Solo se admiten letras, números, guiones bajos y barras.',
-            'password.required' => 'La contraseña ha de tener al menos 6 caracteres.',
-            'password.min' => 'La contraseña ha de tener al menos 6 caracteres.'];
+        //Campos del formulario
+        $data = Input::only(['email', 'password']);
 
         //Validación de los campos del formulario
-        $validator = Validator::make(Input::all(), $rules, $messages);
+        $validator = new SessionValidator(App::make('validator'));
 
         //Los campos no son válidos
-        if ($validator->fails()) {
+        if ($validator->with($data)->passes()) {
+            
+            //Las credenciales del usuario son válidas
+            if (Auth::validate(Input::only('email', 'password'))) {
+
+                $role = $this->user->getByEmail(Input::get('email'))->userable_type;
+
+                //El cliente todavía no ha confirmado su email
+                if ($role === 'Client' && !$this->user->emailConfirmed(Input::get('email'))) {
+                    return Redirect::back()
+                                    ->withErrors(['userNotConfirmed' => 'Has de confirmar tu email antes de poder loguearte.'], 'login')
+                                    ->withInput(Input::except('password'));
+                }
+
+                //Se intenta iniciar sesión
+                if (Auth::attempt(Input::only('email', 'password'), true)) {
+                    return $role === 'Admin' ?
+                            Redirect::route('admin.product.index') : //Admin
+                            Redirect::back(); //Cliente
+                }
+            }
+
+            //No existe usuario con esas credenciales 
             return Redirect::back()
-                            ->withErrors($validator, 'login')
+                            ->withErrors(['userNotExists' => 'El email o la contraseña son incorrectos.'], 'login')
                             ->withInput(Input::except('password'));
         }
-
-
-
-        //Las credenciales del usuario son válidas
-        if (Auth::validate(Input::only('email', 'password'))) {
-
-            $role = $this->user->getByEmail(Input::get('email'))->userable_type;
-
-            //El cliente todavía no ha confirmado su email
-            if ($role === 'Client' && !$this->user->emailConfirmed(Input::get('email'))) {
-                return Redirect::back()
-                                ->withErrors(['userNotConfirmed' => 'Has de confirmar tu email antes de poder loguearte.'], 'login')
-                                ->withInput(Input::except('password'));
-            }
-
-            //Se intenta iniciar sesión
-            if (Auth::attempt(Input::only('email', 'password'), true)) {
-                return $role === 'Admin' ?
-                        Redirect::route('admin.product.index') : //Admin
-                        Redirect::back(); //Cliente
-            }
-        }
-
-        //No existe usuario con esas credenciales 
+        
         return Redirect::back()
-                        ->withErrors(['userNotExists' => 'El email o la contraseña son incorrectas.'], 'login')
+                        ->withErrors($validator->errors(), 'login')
                         ->withInput(Input::except('password'));
     }
 

@@ -98,7 +98,7 @@
                 </div>
                 @endforeach
 
-                <div class="col-md-3">
+                <div class="col-xs-12 col-sm-12 col-md-3">
                     <div class="input-group">
                         <label class="checkbox-inline">
                             {{ Form::checkbox('stock', 'stock', true) }}
@@ -109,7 +109,7 @@
             </div>
 
             <div class="form-group row">
-                <div class="input-group col-md-12">
+                <div class="input-group col-xs-12 col-sm-12">
                     {{ Form::submit('Buscar', ['class' => 'btn btn-primary  center-block']) }}
                 </div>
             </div>

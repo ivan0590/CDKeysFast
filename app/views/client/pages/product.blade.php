@@ -5,7 +5,7 @@
     {{-- Cabecera con el nombre, precio y plataforma --}}
     <div class="panel-heading clearfix">
 
-        <h3 class="pull-left navbar-text">
+        <h3 class="col-xs-6 pull-left navbar-text">
             {{ HTML::image($product->platform->icon_path, $product->platform->name, ['class' => 'platform-image']) }}
             {{{ $product->game->name }}}
         </h3>
@@ -27,10 +27,10 @@
     <div class="panel-body">
 
         {{-- Columna izquierda con la imagen y los detalles técnicos --}}
-        <div class="col-md-3 product-info">
+        <div class="col-xs-12 col-sm-3 product-info">
             <div class="center-block">
 
-                {{ HTML::image($product->game->thumbnail_image_path, $product->game->name) }}
+                {{ HTML::image($product->game->thumbnail_image_path, $product->game->name, ['class' => 'img-responsive center-block']) }}
 
                 <h4>Datos técnicos</h4>
                 <dl class="product-info-content">
@@ -83,7 +83,7 @@
             </div>
         </div>
 
-        <div class="col-md-8 col-md-offset-1">
+        <div class="col-xs-12 col-sm-8 col-xs-offset-0 col-sm-offset-1">
             {{-- Barra con el stock --}}
             <div class="row text-center product-info">
                 <span class="h3">Unidades en stock:  {{{ $product->stock }}}</span>
@@ -93,7 +93,7 @@
             <div class="row product-info">
 
                 <h4>Datos generales</h4>
-                <dl class="dl-horizontal col-md-6 col-md-offset-3">
+                <dl class="dl-horizontal product-info-content">
                     <dt>Categoria:</dt>
                     <dd> {{{ $product->game->category->name }}} </dd>
 

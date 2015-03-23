@@ -25,7 +25,7 @@ class StoreFrontController extends \BaseController {
         } else {
             $offerProducts = $this->product->all(false, 'price', 'asc')->take(5);
         }
-        
+
         //Miga de pan
         Breadcrumb::addBreadcrumb('Inicio');
 
@@ -55,4 +55,14 @@ class StoreFrontController extends \BaseController {
                         ->with('message', Session::get('message'))
                         ->with('breadcrumbs', Breadcrumb::generate());
     }
+
+    public function getAbout() {
+
+        //Miga de pan
+        Breadcrumb::addBreadcrumb('Acerca de CDKeysFast');
+
+        return View::make('client.pages.about')
+                        ->with('breadcrumbs', Breadcrumb::generate());
+    }
+
 }

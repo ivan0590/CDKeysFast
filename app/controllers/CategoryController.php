@@ -1,8 +1,10 @@
 <?php
 
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException as NotFoundHttpException;
 use Repositories\Platform\PlatformRepositoryInterface as PlatformRepositoryInterface;
 use Repositories\Category\CategoryRepositoryInterface as CategoryRepositoryInterface;
 use Repositories\Product\ProductRepositoryInterface as ProductRepositoryInterface;
+use Services\Validation\Laravel\CategoryValidator as CategoryValidator;
 
 class CategoryController extends \BaseController {
 
@@ -18,28 +20,24 @@ class CategoryController extends \BaseController {
      * @return Response
      */
     public function store() {
+
         //Campos del formulario
         $data = Input::only(['name', 'description']);
 
-        //Reglas de validación
-        $rules = [
-            'name' => 'required|unique:categories',
-            'description' => 'string',
-        ];
+        //Validador de la categoría
+        $categoryValidator = new CategoryValidator(App::make('validator'));
 
-        //Validación de los campos del formulario
-        $validator = Validator::make($data, $rules);
+        //Los campos son válidos
+        if ($categoryValidator->with($data)->passes()) {
 
-        //Los campos no son válidos
-        if ($validator->fails()) {
-            return Redirect::back()
-                            ->withErrors($validator, 'create')
-                            ->withInput($data);
+            $this->category->create($data);
+
+            return Redirect::back()->with('save_success', 'Categoría creada correctamente.');
         }
 
-        $this->category->create($data);
-
-        return Redirect::back()->with('save_success', 'Categoría creada correctamente.');
+        return Redirect::back()
+                        ->withErrors($categoryValidator->errors(), 'create')
+                        ->withInput($data);
     }
 
     /**
@@ -50,12 +48,14 @@ class CategoryController extends \BaseController {
      */
     public function edit($id) {
 
-        $validator = Validator::make(['id' => $id], ['id' => 'exists:categories']);
+        //Validador del id
+        $idValidator = Validator::make(['id' => $id], ['id' => 'exists:categories,id']);
 
         //El id no existe
-        if ($validator->fails()) {
-            return Redirect::back();
+        if ($idValidator->fails()) {
+            throw new NotFoundHttpException;
         }
+
 
         $category = $this->category->getById($id);
 
@@ -82,12 +82,11 @@ class CategoryController extends \BaseController {
 
         //Categoría no existente para ese id y plataforma
         if (!$this->category->exists($categoryId, $platformId)) {
-            return Redirect::route('index');
+            throw new NotFoundHttpException;
         }
 
         //Se añade el id de la plataforma y de la categoría al input
         Input::replace(array_merge(['platform_id' => $platformId, 'category_id' => $categoryId], Input::all()));
-
 
         //Plataforma
         $platform = $this->platform->getById($platformId);
@@ -118,28 +117,32 @@ class CategoryController extends \BaseController {
      */
     public function update($id) {
 
+        //Validador del id
+        $idValidator = Validator::make(['id' => $id], ['id' => 'exists:categories,id']);
+
+        //El id no existe
+        if ($idValidator->fails()) {
+            throw new NotFoundHttpException;
+        }
+
         //Campos del formulario
         $data = Input::only(['name', 'description']);
 
-        //Reglas de validación
-        $rules = [
-            'name' => "required|unique:categories,name,$id",
-            'description' => 'string',
-        ];
+        //Validador de la categoría
+        $categoryValidator = new CategoryValidator(App::make('validator'), $id);
 
-        //Validación de los campos del formulario
-        $validator = Validator::make($data, $rules);
 
-        //Los campos no son válidos
-        if ($validator->fails()) {
-            return Redirect::back()
-                            ->withErrors($validator, 'update')
-                            ->withInput($data);
+        //Los campos son válidos
+        if ($categoryValidator->with($data)->passes()) {
+
+            $this->category->updateById($id, $data);
+
+            return Redirect::back()->with('save_success', 'Categoría modificada correctamente.');
         }
-
-        $this->category->updateById($id, $data);
-
-        return Redirect::back()->with('save_success', 'Categoría modificada correctamente.');
+        
+        return Redirect::back()
+                        ->withErrors($categoryValidator->errors(), 'update')
+                        ->withInput($data);
     }
 
     /**
@@ -149,14 +152,16 @@ class CategoryController extends \BaseController {
      * @return Response
      */
     public function destroy($id) {
-        $validator = Validator::make(['id' => $id], ['id' => 'exists:categories']);
+        
+        //Validador del id
+        $idValidator = Validator::make(['id' => $id], ['id' => 'exists:categories,id']);
 
         //El id no existe
-        if ($validator->fails()) {
+        if ($idValidator->fails()) {
             return Response::json([
                         'success' => false,
                         'errors' => $validator->getMessageBag()->toArray()
-                            ], 400); 
+                            ], 400);
         }
 
         $this->category->deleteById($id);

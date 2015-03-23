@@ -2,7 +2,7 @@
 @section('content')
 <div>
 
-    <div class="col-md-10 col-lg-offset-1">
+    <div class="col-sm-12 col-md-10 col-sm-offset-0 col-md-offset-1 hidden-xs">
         <div id="offers-carousel" class="carousel slide" data-ride="carousel">
             <!-- Indicators -->
             <ol class="carousel-indicators">

@@ -9,11 +9,11 @@
         </div>
 
         <div class="panel-body">
-            <div class="col-md-12">
+            <div class="col-sm-12">
 
                 {{ Form::open(['action' => 'user.store', 'method' => 'POST']) }}
 
-                <div class="form-group col-md-4 col-md-offset-4">
+                <div class="form-group col-sm-6 col-md-4 col-sm-offset-3 col-md-offset-4">
                     <div class="form-group">
                         <div class="input-group">
                             <div class="input-group-addon">
@@ -50,14 +50,14 @@
                     </div>
 
                     <div class="form-group">
-                        <div class="input-group col-md-12">
+                        <div class="input-group col-xs-12 col-sm-12">
                             {{ Form::submit('Registrarse', ['class' => 'btn btn-primary  center-block']) }}
                         </div>
                     </div>
 
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-sm-3 col-md-4">
                     @foreach ($errors->register->all() as $error)
                     <div class="alert alert-danger h6" role="alert">
                         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>

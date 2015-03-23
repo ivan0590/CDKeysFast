@@ -1,6 +1,8 @@
 <?php
 
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException as NotFoundHttpException;
 use Repositories\Publisher\PublisherRepositoryInterface as PublisherRepositoryInterface;
+use Services\Validation\Laravel\PublisherValidator as PublisherValidator;
 
 class PublisherController extends \BaseController {
 
@@ -14,27 +16,24 @@ class PublisherController extends \BaseController {
      * @return Response
      */
     public function store() {
+
         //Campos del formulario
         $data = Input::only(['name']);
 
-        //Reglas de validación
-        $rules = [
-            'name' => 'required|unique:publishers'
-        ];
+        //Validador de la distribuidora
+        $publisherValidator = new PublisherValidator(App::make('validator'));
 
-        //Validación de los campos del formulario
-        $validator = Validator::make($data, $rules);
+        //Los campos son válidos
+        if ($publisherValidator->with($data)->passes()) {
 
-        //Los campos no son válidos
-        if ($validator->fails()) {
-            return Redirect::back()
-                            ->withErrors($validator, 'create')
-                            ->withInput($data);
+            $this->publisher->create($data);
+
+            return Redirect::back()->with('save_success', 'Distribuidora creada correctamente.');
         }
 
-        $this->publisher->create($data);
-
-        return Redirect::back()->with('save_success', 'Distribuidora creada correctamente.');
+        return Redirect::back()
+                        ->withErrors($publisherValidator->errors(), 'create')
+                        ->withInput($data);
     }
 
     /**
@@ -44,11 +43,13 @@ class PublisherController extends \BaseController {
      * @return Response
      */
     public function edit($id) {
-        $validator = Validator::make(['id' => $id], ['id' => 'exists:publishers']);
+
+        //Validador del id
+        $idValidator = Validator::make(['id' => $id], ['id' => 'exists:publishers,id']);
 
         //El id no existe
-        if ($validator->fails()) {
-            return Redirect::back();
+        if ($idValidator->fails()) {
+            throw new NotFoundHttpException;
         }
 
         $publisher = $this->publisher->getById($id);
@@ -72,27 +73,32 @@ class PublisherController extends \BaseController {
      * @return Response
      */
     public function update($id) {
+
+        //Validador del id
+        $idValidator = Validator::make(['id' => $id], ['id' => 'exists:publishers,id']);
+
+        //El id no existe
+        if ($idValidator->fails()) {
+            throw new NotFoundHttpException;
+        }
+
         //Campos del formulario
         $data = Input::only(['name']);
 
-        //Reglas de validación
-        $rules = [
-            'name' => "required|unique:publishers,name,$id"
-        ];
+        //Validador de la distribuidora
+        $publisherValidator = new PublisherValidator(App::make('validator'), $id);
 
-        //Validación de los campos del formulario
-        $validator = Validator::make($data, $rules);
+        //Los campos son válidos
+        if ($publisherValidator->with($data)->passes()) {
+            
+            $this->publisher->updateById($id, $data);
 
-        //Los campos no son válidos
-        if ($validator->fails()) {
-            return Redirect::back()
-                            ->withErrors($validator, 'update')
-                            ->withInput($data);
+            return Redirect::back()->with('save_success', 'Distribuidora modificada correctamente.');
         }
-
-        $this->publisher->updateById($id, $data);
-
-        return Redirect::back()->with('save_success', 'Distribuidora modificada correctamente.');
+        
+        return Redirect::back()
+                        ->withErrors($publisherValidator->errors(), 'update')
+                        ->withInput($data);
     }
 
     /**
@@ -102,14 +108,16 @@ class PublisherController extends \BaseController {
      * @return Response
      */
     public function destroy($id) {
-        $validator = Validator::make(['id' => $id], ['id' => 'exists:publishers']);
+        
+        //Validador del id
+        $idValidator = Validator::make(['id' => $id], ['id' => 'exists:publishers,id']);
 
         //El id no existe
-        if ($validator->fails()) {
+        if ($idValidator->fails()) {
             return Response::json([
                         'success' => false,
-                        'errors' => $validator->getMessageBag()->toArray()
-                            ], 400); 
+                        'errors' => $idValidator->getMessageBag()->toArray()
+                            ], 400);
         }
 
         $this->publisher->deleteById($id);

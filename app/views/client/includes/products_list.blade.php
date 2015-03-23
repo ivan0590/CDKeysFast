@@ -21,7 +21,7 @@
                         Ordenar por 
                         <span class="caret"></span>
                     </button>
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="sorter">
+                    <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="sorter">
                         @foreach($orderBy as $order)                        
                         <li role="presentation">
                             <a role="menuitem"
@@ -40,11 +40,11 @@
 
         {{-- Productos --}}
         <div class="panel-body">
-            <div class="col-md-12">
+            <div class="col-sm-12">
 
-                <ul class="thumnails col-md-12">
+                <ul class="thumnails col-xs-12 col-sm-12">
                     @foreach ($products as $index => $product)
-                    <li class="col-md-3">
+                    <li class="col-xs-12 col-sm-4 col-md-3">
                         <div class="thumbnail">
 
                             <a href="{{{ URL::route('platform.category.product.show',
@@ -76,9 +76,10 @@
                                             <span class="label label-primary">-{{{ round($product->discount, 2, PHP_ROUND_HALF_UP ) }}}%</span>
                                         </div>
                                         @else
-                                        {{{ round($product->price, 2, PHP_ROUND_HALF_UP ) }}} €
+                                            {{{ round($product->price, 2, PHP_ROUND_HALF_UP ) }}} €
                                         @endif
                                     </div>
+
                                 </a>
                             </div>
                         </div>

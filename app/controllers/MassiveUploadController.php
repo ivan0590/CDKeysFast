@@ -74,14 +74,14 @@ class MassiveUploadController extends \BaseController {
         //Éxitos
         $successMessages = ['categorias' => [], 'juegos' => [], 'productos' => []];
 
+        $rules = ['name' => 'unique:categories,name'];
+
         //GRUPO-CATEGORIAS
         foreach ($iterator->{'grupo-categorias'}->categoria as $categoryIterator) {
 
             $categoryName = strval($categoryIterator->attributes()->nombre);
 
             $data = ['name' => $categoryName];
-
-            $rules = ['name' => 'unique:categories,name'];
 
             $messages = ['name.unique' => "Ya existe una categoría con el nombre '$categoryName'."];
 
@@ -101,6 +101,13 @@ class MassiveUploadController extends \BaseController {
             }
         }
 
+
+        $rules = [
+            'game' => 'unique:games,name',
+            'category' => 'exists:categories,name',
+            'agerate' => 'exists:agerates,name'
+        ];
+
         //GRUPO-JUEGOS
         foreach ($iterator->{'grupo-juegos'}->categoria as $categoryIterator) {
 
@@ -115,12 +122,6 @@ class MassiveUploadController extends \BaseController {
                     'game' => $gameName,
                     'category' => $categoryName,
                     'agerate' => $agerateName
-                ];
-
-                $rules = [
-                    'game' => 'unique:games,name',
-                    'category' => 'exists:categories,name',
-                    'agerate' => 'exists:agerates,name'
                 ];
 
                 $messages = [
@@ -152,6 +153,8 @@ class MassiveUploadController extends \BaseController {
         //Errores
         $errorMessagesProducts = [];
 
+        $rules = ['game_id' => 'unique_with:products,platform_id'];
+
         //GRUPO-PRODUCTOS
         foreach ($iterator->{'grupo-productos'}->plataforma as $platformIterator) {
 
@@ -171,7 +174,7 @@ class MassiveUploadController extends \BaseController {
                 if ($game !== null && $platform !== null && $publisher !== null) {
 
                     $data = ['game_id' => $game->id, 'platform_id' => $platform->id];
-                    $rules = ['game_id' => 'unique_with:products,platform_id'];
+
 
                     //Se comprueba que no haya ya un producto para dicho juego y plataforma
                     $validator = Validator::make($data, $rules);

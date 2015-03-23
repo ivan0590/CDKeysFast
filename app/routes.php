@@ -18,16 +18,16 @@ Route::get('/', [
     'before' => 'sort'
 ]);
 
-Route::post('/googlePlus', [
-    'as' => 'googlePlus',
-    'uses' => 'UserController@updateEmailByGooglePlus'
+Route::get('/about', [
+    'as' => 'about',
+    'uses' => 'StoreFrontController@getAbout'
 ]);
 
 //Login y logout
 Route::resource('session', 'SessionController', ['only' => ['store']]);
 
 //Login administrativo
-Route::get('admin/login', ['as' => 'admin.login', 'uses' => 'SessionController@getAdminLogin', 'before' => 'login-avoid']);
+Route::get('/login', ['as' => 'login', 'uses' => 'SessionController@getLogin', 'before' => 'login-avoid']);
 
 //Administración
 Route::group(['prefix' => 'admin', 'before' => 'admin'], function () {

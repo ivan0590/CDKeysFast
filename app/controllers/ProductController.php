@@ -1,10 +1,12 @@
 <?php
 
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException as NotFoundHttpException;
 use Repositories\Platform\PlatformRepositoryInterface as PlatformRepositoryInterface;
 use Repositories\Category\CategoryRepositoryInterface as CategoryRepositoryInterface;
 use Repositories\Product\ProductRepositoryInterface as ProductRepositoryInterface;
 use Repositories\Language\LanguageRepositoryInterface as LanguageRepositoryInterface;
 use Repositories\Developer\DeveloperRepositoryInterface as DeveloperRepositoryInterface;
+use Services\Validation\Laravel\ProductValidator as ProductValidator;
 
 class ProductController extends \BaseController {
 
@@ -35,70 +37,54 @@ class ProductController extends \BaseController {
                     'cooperative', 'text', 'audio', 'developer'
         ]);
 
-        //Reglas de validación
-        $rules = [
-            'game_id' => 'exists:games,id|unique_with:products,platform_id',
-            'platform_id' => 'exists:platforms,id',
-            'publisher_id' => 'exists:publishers,id',
-            'price' => 'numeric|min:0.01',
-            'discount' => 'numeric|min:0|max:100',
-            'stock' => 'integer|min:0|max:100',
-            'launch_date' => 'date',
-            'highlighted' => 'boolean',
-            'singleplayer' => 'boolean',
-            'multiplayer' => 'boolean',
-            'cooperative' => 'boolean',
-            'text' => 'array|exists:languages,id',
-            'audio' => 'array|exists:languages,id',
-            'developer' => 'array|exists:developers,id'
-        ];
-
         //Validación de los campos del formulario
-        $validator = Validator::make($data, $rules);
+        $productValidator = new ProductValidator(App::make('validator'));
 
-        //Los campos no son válidos
-        if ($validator->fails()) {
-            return Redirect::back()
-                            ->withErrors($validator, 'create')
-                            ->withInput($data);
+        //Los campos son válidos
+        if ($productValidator->with($data)->passes()) {
+
+            if ($data['launch_date'] > 0) {
+                $data['launch_date'] = new DateTime($data['launch_date']);
+            }
+
+            $product = $this->product->create($data);
+
+            //Idiomas del texto y del audio
+            foreach ((array) $data['text'] as $id) {
+                $this->product->addLanguage($product->id, $id, 'text');
+            }
+            foreach ((array) $data['audio'] as $id) {
+                $this->product->addLanguage($product->id, $id, 'audio');
+            }
+
+            //Desarrolladoras
+            foreach ((array) $data['developer'] as $id) {
+                $this->product->addDeveloper($product->id, $id);
+            }
+
+            return Redirect::back()->with('save_success', 'Producto creado correctamente.');
         }
 
-
-        if ($data['launch_date'] > 0) {
-            $data['launch_date'] = new DateTime($data['launch_date']);
-        }
-
-        $product = $this->product->create($data);
-
-        //Idiomas del texto y del audio
-        foreach ((array)$data['text'] as $id) {
-            $this->product->addLanguage($product->id, $id, 'text');
-        }
-        foreach ((array)$data['audio'] as $id) {
-            $this->product->addLanguage($product->id, $id, 'audio');
-        }
-
-        //Desarrolladoras
-        foreach ((array)$data['developer'] as $id) {
-            $this->product->addDeveloper($product->id, $id);
-        }
-
-        return Redirect::back()->with('save_success', 'Producto creado correctamente.');
+        return Redirect::back()
+                        ->withErrors($productValidator->errors(), 'create')
+                        ->withInput($data);
     }
 
-    /**
+    /*     * º
      * 
      *
      * @param  int  $id
      * @return Response
      */
+
     public function edit($id) {
 
-        $validator = Validator::make(['id' => $id], ['id' => 'exists:products']);
+        //Validador del id
+        $idValidator = Validator::make(['id' => $id], ['id' => 'exists:products,id']);
 
         //El id no existe
-        if ($validator->fails()) {
-            return Redirect::back();
+        if ($idValidator->fails()) {
+            throw new NotFoundHttpException;
         }
 
         $product = $this->product->getById($id);
@@ -145,7 +131,7 @@ class ProductController extends \BaseController {
 
         //Producto no existente para ese id, plataforma y categoría
         if (!$this->product->exists($productId, $platformId, $categoryId)) {
-            return Redirect::route('index');
+            throw new NotFoundHttpException;
         }
 
         //Se añaden los ids de la plataforma, la categoría y el producto  al input
@@ -174,6 +160,14 @@ class ProductController extends \BaseController {
      */
     public function update($id) {
 
+        //Validador del id
+        $idValidator = Validator::make(['id' => $id], ['id' => 'exists:products,id']);
+
+        //El id no existe
+        if ($idValidator->fails()) {
+            throw new NotFoundHttpException;
+        }
+
         //Cuando el checkbox del producto destacado está desmarcado su valor es null y se necesita un false
         Input::get('highlighted') !== null ? : Input::merge(['highlighted' => false]);
 
@@ -184,56 +178,39 @@ class ProductController extends \BaseController {
                     'cooperative', 'text', 'audio', 'developer'
         ]);
 
-        //Reglas de validación
-        $rules = [
-            'game_id' => "exists:games,id|unique_with:products,platform_id,$id",
-            'platform_id' => 'exists:platforms,id',
-            'publisher_id' => 'exists:publishers,id',
-            'price' => 'numeric|min:0.01',
-            'discount' => 'numeric|min:0|max:100',
-            'stock' => 'integer|min:0',
-            'launch_date' => 'date',
-            'highlighted' => 'boolean',
-            'singleplayer' => 'boolean',
-            'multiplayer' => 'boolean',
-            'cooperative' => 'boolean',
-            'text' => 'array|exists:languages,id',
-            'audio' => 'array|exists:languages,id',
-            'developer' => 'array|exists:developers,id'
-        ];
-
         //Validación de los campos del formulario
-        $validator = Validator::make($data, $rules);
+        $productValidator = new ProductValidator(App::make('validator'), $id);
 
-        //Los campos no son válidos
-        if ($validator->fails()) {
-            return Redirect::back()
-                            ->withErrors($validator, 'update')
-                            ->withInput($data);
+        //Los campos son válidos
+        if ($productValidator->with($data)->passes()) {
+
+            if ($data['launch_date'] > 0) {
+                $data['launch_date'] = new DateTime($data['launch_date']);
+            }
+
+            $product = $this->product->updateById($id, $data);
+
+            //Idiomas del texto y del audio
+            $this->product->removeLanguages($product->id);
+            foreach ((array) $data['text'] as $id) {
+                $this->product->addLanguage($product->id, $id, 'text');
+            }
+            foreach ((array) $data['audio'] as $id) {
+                $this->product->addLanguage($product->id, $id, 'audio');
+            }
+
+            //Desarrolladoras
+            $this->product->removeDevelopers($product->id);
+            foreach ((array) $data['developer'] as $id) {
+                $this->product->addDeveloper($product->id, $id);
+            }
+
+            return Redirect::back()->with('save_success', 'Producto modificado correctamente.');
         }
 
-        if ($data['launch_date'] > 0) {
-            $data['launch_date'] = new DateTime($data['launch_date']);
-        }
-
-        $product = $this->product->updateById($id, $data);
-
-        //Idiomas del texto y del audio
-        $this->product->removeLanguages($product->id);
-        foreach ((array)$data['text'] as $id) {
-            $this->product->addLanguage($product->id, $id, 'text');
-        }
-        foreach ((array)$data['audio'] as $id) {
-            $this->product->addLanguage($product->id, $id, 'audio');
-        }
-
-        //Desarrolladoras
-        $this->product->removeDevelopers($product->id);
-        foreach ((array)$data['developer'] as $id) {
-            $this->product->addDeveloper($product->id, $id);
-        }
-
-        return Redirect::back()->with('save_success', 'Producto modificado correctamente.');
+        return Redirect::back()
+                        ->withErrors($productValidator->errors(), 'update')
+                        ->withInput($data);
     }
 
     /**
@@ -244,13 +221,14 @@ class ProductController extends \BaseController {
      */
     public function destroy($id) {
 
-        $validator = Validator::make(['id' => $id], ['id' => 'exists:products']);
+        //Validador del id
+        $idValidator = Validator::make(['id' => $id], ['id' => 'exists:products,id']);
 
         //El id no existe
-        if ($validator->fails()) {
+        if ($idValidator->fails()) {
             return Response::json([
                         'success' => false,
-                        'errors' => $validator->getMessageBag()->toArray()
+                        'errors' => $idValidator->getMessageBag()->toArray()
                             ], 400);
         }
 

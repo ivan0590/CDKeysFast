@@ -1,6 +1,8 @@
 <?php
 
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException as NotFoundHttpException;
 use Repositories\Developer\DeveloperRepositoryInterface as DeveloperRepositoryInterface;
+use Services\Validation\Laravel\DeveloperValidator as DeveloperValidator;
 
 class DeveloperController extends \BaseController {
 
@@ -14,27 +16,24 @@ class DeveloperController extends \BaseController {
      * @return Response
      */
     public function store() {
+
         //Campos del formulario
         $data = Input::only(['name']);
 
-        //Reglas de validación
-        $rules = [
-            'name' => 'required|unique:developers'
-        ];
+        //Validador de la desarrolladora
+        $developerValidator = new DeveloperValidator(App::make('validator'));
 
-        //Validación de los campos del formulario
-        $validator = Validator::make($data, $rules);
+        //Los campos son válidos
+        if ($developerValidator->with($data)->passes()) {
 
-        //Los campos no son válidos
-        if ($validator->fails()) {
-            return Redirect::back()
-                            ->withErrors($validator, 'create')
-                            ->withInput($data);
+            $this->developer->create($data);
+
+            return Redirect::back()->with('save_success', 'Desarrolladora creada correctamente.');
         }
 
-        $this->developer->create($data);
-
-        return Redirect::back()->with('save_success', 'Desarrolladora creada correctamente.');
+        return Redirect::back()
+                        ->withErrors($developerValidator->errors(), 'create')
+                        ->withInput($data);
     }
 
     /**
@@ -45,11 +44,12 @@ class DeveloperController extends \BaseController {
      */
     public function edit($id) {
 
-        $validator = Validator::make(['id' => $id], ['id' => 'exists:developers']);
+        //Validador del id
+        $idValidator = Validator::make(['id' => $id], ['id' => 'exists:developers,id']);
 
         //El id no existe
-        if ($validator->fails()) {
-            return Redirect::back();
+        if ($idValidator->fails()) {
+            throw new NotFoundHttpException;
         }
 
         $developer = $this->developer->getById($id);
@@ -74,27 +74,31 @@ class DeveloperController extends \BaseController {
      */
     public function update($id) {
 
+        //Validador del id
+        $idValidator = Validator::make(['id' => $id], ['id' => 'exists:developers,id']);
+
+        //El id no existe
+        if ($idValidator->fails()) {
+            throw new NotFoundHttpException;
+        }
+
         //Campos del formulario
         $data = Input::only(['name']);
 
-        //Reglas de validación
-        $rules = [
-            'name' => "required|unique:developers,name,$id"
-        ];
+        //Validador de la desarrolladora
+        $developerValidator = new DeveloperValidator(App::make('validator'), $id);
 
-        //Validación de los campos del formulario
-        $validator = Validator::make($data, $rules);
+        //Los campos son válidos
+        if ($developerValidator->with($data)->passes()) {
+            
+            $this->developer->updateById($id, $data);
 
-        //Los campos no son válidos
-        if ($validator->fails()) {
-            return Redirect::back()
-                            ->withErrors($validator, 'update')
-                            ->withInput($data);
+            return Redirect::back()->with('save_success', 'Desarrolladora modificada correctamente.');
         }
 
-        $this->developer->updateById($id, $data);
-
-        return Redirect::back()->with('save_success', 'Desarrolladora modificada correctamente.');
+        return Redirect::back()
+                        ->withErrors($developerValidator->errors(), 'update')
+                        ->withInput($data);
     }
 
     /**
@@ -104,14 +108,16 @@ class DeveloperController extends \BaseController {
      * @return Response
      */
     public function destroy($id) {
-        $validator = Validator::make(['id' => $id], ['id' => 'exists:developers']);
+
+        //Validador del id
+        $idValidator = Validator::make(['id' => $id], ['id' => 'exists:developers,id']);
 
         //El id no existe
-        if ($validator->fails()) {
+        if ($idValidator->fails()) {
             return Response::json([
                         'success' => false,
-                        'errors' => $validator->getMessageBag()->toArray()
-                            ], 400); 
+                        'errors' => $idValidator->getMessageBag()->toArray()
+                            ], 400);
         }
 
         $this->developer->deleteById($id);

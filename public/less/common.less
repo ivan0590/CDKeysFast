@@ -7,9 +7,10 @@
 @import 'fonts.less';
 
 @footerHeight: 120px;
+@top: 56px;
 
 body{
-    padding-top: 54px;
+    padding-top: @top;
     background: @colorGreen0 scroll;
 
     *:not(.glyphicon):not([class*="font-"]) {
@@ -37,9 +38,20 @@ header .dropdown-menu li a,
     color: @colorBlack1 !important;
 }
 
-.navbar-inverse {
-    height: 54px;
+.navbar-inverse,
+#header-hide {
     background: @colorBlack0 !important;
+}
+
+.navbar-inverse {
+    height: @top;
+}
+
+#header-hide {
+    .input-group-btn > .btn-primary {
+        border-top-left-radius: 0px;
+        border-bottom-left-radius: 0px;
+    }
 }
 
 .breadcrumb,
@@ -96,29 +108,37 @@ header .dropdown-menu li a,
 }
 
 
-#platforms .nav-pills {
-    border-right: 1px solid @colorGreen1;
+#platforms {
 
-    &, * {
-        cursor: pointer !important;
+    .navbar-collapse {
+        padding-left: 0px !important;
+        padding-right: 0px !important;
     }
 
-    label {
-        margin-left: 0.5em;
-        font-size: 1.15em;
-        font-weight: normal;
-    }
+    .nav-pills {
+        border-right: 1px solid @colorGreen1;
 
-    & a:hover,
-        & a:focus {
-
-        background: none !important;
-        * {
-            color: @colorGreen0 !important;
+        &, * {
+            cursor: pointer !important;
         }
 
-        .svg path {
-            fill: @colorGreen0 !important;
+        label {
+            margin-left: 0.5em;
+            font-size: 1.15em;
+            font-weight: normal;
+        }
+
+        & a:hover,
+            & a:focus {
+
+            background: none !important;
+            * {
+                color: @colorGreen0 !important;
+            }
+
+            .svg path {
+                fill: @colorGreen0 !important;
+            }
         }
     }
 }
@@ -198,7 +218,9 @@ html, body {
 }
 
 footer {
-    background: @colorGreen5 !important;
+    * {
+        background: @colorGreen5 !important;
+    }
     margin-top: 4em;
     padding-top: 2em !important;
     padding-bottom: 1em !important;
@@ -229,8 +251,8 @@ footer {
         padding: 0em;
     }
 
-    .product-info-content {
-        padding-left: 1em;
+    .product-info-content, .dl-horizontal dd {
+        padding-left: 1em !important;
     }
 }
 

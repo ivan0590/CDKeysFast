@@ -1,8 +1,10 @@
 <?php
 
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException as NotFoundHttpException;
 use Repositories\Platform\PlatformRepositoryInterface as PlatformRepositoryInterface;
 use Repositories\Category\CategoryRepositoryInterface as CategoryRepositoryInterface;
 use Repositories\Product\ProductRepositoryInterface as ProductRepositoryInterface;
+use Services\Validation\Laravel\PlatformValidator as PlatformValidator;
 
 class PlatformController extends \BaseController {
 
@@ -18,42 +20,36 @@ class PlatformController extends \BaseController {
      * @return Response
      */
     public function store() {
+
         //Campos del formulario
         $data = Input::only(['name', 'icon_path', 'description']);
 
-        //Reglas de validación
-        $rules = [
-            'name' => 'required|unique:platforms',
-            'icon_path' => 'mimes:svg',
-            'description' => 'string',
-        ];
+        //Validador de la plataforma
+        $platformValidator = new PlatformValidator(App::make('validator'));
 
+        //Los campos son válidos
+        if ($platformValidator->with($data)->passes()) {
 
+            //Icono
+            $icon = Input::file('icon_path');
 
-        //Validación de los campos del formulario
-        $validator = Validator::make($data, $rules);
+            if ($icon !== null) {
+                $iconDirectory = Config::get('constants.PLATFORM_ICON_DIR') . '/';
+                $iconFileName = "{$data['name']}.{$icon->getClientOriginalExtension()}";
+                $data['icon_path'] = $iconDirectory . $iconFileName;
+            }
 
-        //Los campos no son válidos
-        if ($validator->fails()) {
-            return Redirect::back()
-                            ->withErrors($validator, 'create')
-                            ->withInput($data);
+            $icon === null ? : $icon->move($iconDirectory, $iconFileName);
+
+            $this->platform->create($data);
+
+            return Redirect::back()->with('save_success', 'Plataforma creada correctamente.');
         }
 
-        //Icono
-        $icon = Input::file('icon_path');
-
-        if ($icon !== null) {
-            $iconDirectory = Config::get('constants.PLATFORM_ICON_DIR') . '/';
-            $iconFileName = "{$data['name']}.{$icon->getClientOriginalExtension()}";
-            $data['icon_path'] = $iconDirectory . $iconFileName;
-        }
-
-        $icon === null ? : $icon->move($iconDirectory, $iconFileName);
-
-        $this->platform->create($data);
-
-        return Redirect::back()->with('save_success', 'Plataforma creada correctamente.');
+        //Errores de validación
+        return Redirect::back()
+                        ->withErrors($platformValidator->errors(), 'create')
+                        ->withInput($data);
     }
 
     /**
@@ -63,13 +59,16 @@ class PlatformController extends \BaseController {
      * @return Response
      */
     public function edit($id) {
-        $validator = Validator::make(['id' => $id], ['id' => 'exists:platforms']);
+
+        //Validador del id
+        $idValidator = Validator::make(['id' => $id], ['id' => 'exists:platforms,id']);
 
         //El id no existe
-        if ($validator->fails()) {
-            return Redirect::back();
+        if ($idValidator->fails()) {
+            throw new NotFoundHttpException;
         }
 
+        //Plataforma
         $platform = $this->platform->getById($id);
 
         //Miga de pan
@@ -78,9 +77,9 @@ class PlatformController extends \BaseController {
 
         return View::make('admin.pages.edit')
                         ->with([
-                           'restful' => 'platform',
-                           'model' => $platform,
-                           'header_title' => "Editar plataforma (id: {$platform->id})"])
+                            'restful' => 'platform',
+                            'model' => $platform,
+                            'header_title' => "Editar plataforma (id: {$platform->id})"])
                         ->with('breadcrumbs', Breadcrumb::generate());
     }
 
@@ -92,9 +91,12 @@ class PlatformController extends \BaseController {
      */
     public function show($id) {
 
-        //Plataforma no existente para ese id
-        if (!$this->platform->exists($id)) {
-            return Redirect::route('index');
+        //Validador del id
+        $idValidator = Validator::make(['id' => $id], ['id' => 'exists:platforms,id']);
+
+        //El id no existe
+        if ($idValidator->fails()) {
+            throw new NotFoundHttpException;
         }
 
         //Se añade el id de la plataforma al input
@@ -128,44 +130,47 @@ class PlatformController extends \BaseController {
      */
     public function update($id) {
 
+        //Validador del id
+        $idValidator = Validator::make(['id' => $id], ['id' => 'exists:platforms,id']);
+
+        //El id no existe
+        if ($idValidator->fails()) {
+            throw new NotFoundHttpException;
+        }
+
         //Campos del formulario
         $data = Input::only(['name', 'icon_path', 'description']);
 
-        //Reglas de validación
-        $rules = [
-            'name' => "required|unique:platforms,name,$id",
-            'icon_path' => 'mimes:svg',
-            'description' => 'string',
-        ];
-
-
-        //Validación de los campos del formulario
-        $validator = Validator::make($data, $rules);
+        //Validador de la plataforma
+        $platformValidator = new PlatformValidator(App::make('validator'), $id);
 
         //Los campos no son válidos
-        if ($validator->fails()) {
+        if ($platformValidator->with($data)->passes()) {
 
-            return Redirect::back()
-                            ->withErrors($validator, 'update')
-                            ->withInput($data);
+            //Icono
+            $icon = Input::file('icon_path');
+
+            //Hay un nuevo icono
+            if ($icon !== null) {
+                $iconDirectory = Config::get('constants.PLATFORM_ICON_DIR') . '/';
+                $iconFileName = "{$data['name']}.{$icon->getClientOriginalExtension()}";
+                $data['icon_path'] = $iconDirectory . $iconFileName;
+            //El icono sigue siendo el mismo
+            } else {
+                $data['icon_path'] = $this->platform->getById($id)->icon_path;
+            }
+
+            //Si hay un nuevo icono se procede a reemplazarlo por el anterior
+            $icon === null ? : $icon->move($iconDirectory, $iconFileName);
+
+            $this->platform->updateById($id, $data);
+
+            return Redirect::back()->with('save_success', 'Plataforma modificada correctamente.');
         }
 
-        //Icono
-        $icon = Input::file('icon_path');
-
-        if ($icon !== null) {
-            $iconDirectory = Config::get('constants.PLATFORM_ICON_DIR') . '/';
-            $iconFileName = "{$data['name']}.{$icon->getClientOriginalExtension()}";
-            $data['icon_path'] = $iconDirectory . $iconFileName;
-        } else {
-            $data['icon_path'] = $this->platform->getById($id)->icon_path;
-        }
-
-        $icon === null ? : $icon->move($iconDirectory, $iconFileName);
-
-        $this->platform->updateById($id, $data);
-
-        return Redirect::back()->with('save_success', 'Plataforma modificada correctamente.');
+        return Redirect::back()
+                        ->withErrors($platformValidator->errors(), 'update')
+                        ->withInput($data);
     }
 
     /**
@@ -176,14 +181,15 @@ class PlatformController extends \BaseController {
      */
     public function destroy($id) {
 
-        $validator = Validator::make(['id' => $id], ['id' => 'exists:platforms']);
+        //Validador del id
+        $idValidator = Validator::make(['id' => $id], ['id' => 'exists:platforms']);
 
         //El id no existe
-        if ($validator->fails()) {
+        if ($idValidator->fails()) {
             return Response::json([
                         'success' => false,
-                        'errors' => $validator->getMessageBag()->toArray()
-                            ], 400); 
+                        'errors' => $idValidator->getMessageBag()->toArray()
+                            ], 400);
         }
 
         //Ruta de la imagen para borrarla
@@ -199,8 +205,10 @@ class PlatformController extends \BaseController {
 
     public function index() {
 
+        //Datos de la tabla de edición
         $platforms = $this->platform->paginateForIndexTable('name', 'asc', 20, Input::get('page'));
 
+        //Actualización de la tabla mediante ajax
         if (Request::ajax()) {
             return Response::json(View::make('admin.includes.index_table')
                                     ->with([

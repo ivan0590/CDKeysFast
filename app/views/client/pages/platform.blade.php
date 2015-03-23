@@ -11,7 +11,7 @@
 
             <ul class="nav">
                 @foreach ($categories as $category)
-                <li class=" nav-pills text-left col-md-3">
+                <li class=" nav-pills text-left col-xs-6 col-sm-3">
                     <a href="{{{ URL::route('platform.category.show', ['platform_id' => $platform->id, 'category_id' => $category->id]) }}}" >
                         {{{ $category->name.' ('.$category->products_count.')' }}}
                     </a>

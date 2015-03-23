@@ -1,6 +1,8 @@
 <?php
 
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException as NotFoundHttpException;
 use Repositories\Game\GameRepositoryInterface as GameRepositoryInterface;
+use Services\Validation\Laravel\GameValidator as GameValidator;
 
 class GameController extends \BaseController {
 
@@ -21,52 +23,43 @@ class GameController extends \BaseController {
                     'offer_image_path'
         ]);
 
-        //Reglas de validación
-        $rules = [
-            'name' => 'required|unique:games',
-            'category_id' => 'exists:categories,id',
-            'agerate_id' => 'exists:agerates,id',
-            'description' => 'string',
-            'thumbnail_image_path' => 'mimes:jpeg,jpg,png|image|max:1024|image_size:256,256',
-            'offer_image_path' => 'mimes:jpeg,jpg,png|image|max:2048|image_size:1920,1080'
-        ];
+        //Validador del controlador
+        $gameValidator = new GameValidator(App::make('validator'));
 
-        //Validación de los campos del formulario
-        $validator = Validator::make($data, $rules);
+        //Los campos son válidos
+        if ($gameValidator->with($data)->passes()) {
 
-        //Los campos no son válidos
-        if ($validator->fails()) {
-            return Redirect::back()
-                            ->withErrors($validator, 'create')
-                            ->withInput($data);
+            //Imagenes
+            $thumbnail = Input::file('thumbnail_image_path');
+            $offer = Input::file('offer_image_path');
+
+            //Para el alamacenamiento de la imagen de miniatura
+            if ($thumbnail !== null) {
+                $thumbnailDirectory = Config::get('constants.GAME_THUMBNAIL_IMAGE_DIR') . '/';
+                $thumbnailFileName = "{$data['name']}.{$thumbnail->getClientOriginalExtension()}";
+                $data['thumbnail_image_path'] = $thumbnailDirectory . $thumbnailFileName;
+            }
+
+            //Para el alamacenamiento de la imagen de oferta
+            if ($offer !== null) {
+                $offerDirectory = Config::get('constants.GAME_OFFER_IMAGE_DIR') . '/';
+                $offerFileName = "{$data['name']}.{$offer->getClientOriginalExtension()}";
+                $data['offer_image_path'] = $offerDirectory . $offerFileName;
+            }
+
+            $this->game->create($data);
+
+            //Se guardan las imagenes del juego
+            $thumbnail === null ? : $thumbnail->move($thumbnailDirectory, $thumbnailFileName);
+            $offer === null ? : $offer->move($offerDirectory, $offerFileName);
+
+
+            return Redirect::back()->with('save_success', 'Juego creado correctamente.');
         }
 
-        //Imagenes
-        $thumbnail = Input::file('thumbnail_image_path');
-        $offer = Input::file('offer_image_path');
-
-        //Para el alamacenamiento de la imagen de miniatura
-        if ($thumbnail !== null) {
-            $thumbnailDirectory = Config::get('constants.GAME_THUMBNAIL_IMAGE_DIR') . '/';
-            $thumbnailFileName = "{$data['name']}.{$thumbnail->getClientOriginalExtension()}";
-            $data['thumbnail_image_path'] = $thumbnailDirectory . $thumbnailFileName;
-        }
-
-        //Para el alamacenamiento de la imagen de oferta
-        if ($offer !== null) {
-            $offerDirectory = Config::get('constants.GAME_OFFER_IMAGE_DIR') . '/';
-            $offerFileName = "{$data['name']}.{$offer->getClientOriginalExtension()}";
-            $data['offer_image_path'] = $offerDirectory . $offerFileName;
-        }
-
-        $this->game->create($data);
-
-        //Se guardan las imagenes del juego
-        $thumbnail === null ? : $thumbnail->move($thumbnailDirectory, $thumbnailFileName);
-        $offer === null ? : $offer->move($offerDirectory, $offerFileName);
-
-
-        return Redirect::back()->with('save_success', 'Juego creado correctamente.');
+        return Redirect::back()
+                        ->withErrors($gameValidator->errors(), 'create')
+                        ->withInput($data);
     }
 
     /**
@@ -77,12 +70,14 @@ class GameController extends \BaseController {
      */
     public function edit($id) {
 
-        $validator = Validator::make(['id' => $id], ['id' => 'exists:games']);
+        //Validador del id
+        $idValidator = Validator::make(['id' => $id], ['id' => 'exists:games,id']);
 
         //El id no existe
-        if ($validator->fails()) {
-            return Redirect::back();
+        if ($idValidator->fails()) {
+            throw new NotFoundHttpException;
         }
+
 
         $game = $this->game->getById($id);
 
@@ -106,63 +101,61 @@ class GameController extends \BaseController {
      */
     public function update($id) {
 
+        //Validador del id
+        $idValidator = Validator::make(['id' => $id], ['id' => 'exists:games,id']);
+
+        //El id no existe
+        if ($idValidator->fails()) {
+            throw new NotFoundHttpException;
+        }
+
         //Campos del formulario
         $data = Input::only([
                     'name', 'category_id', 'agerate_id', 'description', 'thumbnail_image_path',
                     'offer_image_path'
         ]);
 
-        //Reglas de validación
-        $rules = [
-            'name' => "required|unique:games,name,$id",
-            'category_id' => 'exists:categories,id',
-            'agerate_id' => 'exists:agerates,id',
-            'description' => 'string',
-            'thumbnail_image_path' => 'mimes:jpeg,jpg,png|image|max:1024|image_size:256,256',
-            'offer_image_path' => 'mimes:jpeg,jpg,png|image|max:2048|image_size:1920,1080'
-        ];
-
-
         //Validación de los campos del formulario
-        $validator = Validator::make($data, $rules);
+        $gameValidator = new GameValidator(App::make('validator'), $id);
 
-        //Los campos no son válidos
-        if ($validator->fails()) {
-            return Redirect::back()
-                            ->withErrors($validator, 'update')
-                            ->withInput($data);
+        //Los campos son válidos
+        if ($gameValidator->with($data)->passes()) {
+            
+            //Imagenes
+            $thumbnail = Input::file('thumbnail_image_path');
+            $offer = Input::file('offer_image_path');
+
+            //Para el alamacenamiento de la imagen de miniatura
+            if ($thumbnail !== null) {
+                $thumbnailDirectory = Config::get('constants.GAME_THUMBNAIL_IMAGE_DIR') . '/';
+                $thumbnailFileName = "{$data['name']}.{$thumbnail->getClientOriginalExtension()}";
+                $data['thumbnail_image_path'] = $thumbnailDirectory . $thumbnailFileName;
+            } else {
+                $data['thumbnail_image_path'] = $this->game->getById($id)->thumbnail_image_path;
+            }
+
+            //Para el alamacenamiento de la imagen de oferta
+            if ($offer !== null) {
+                $offerDirectory = Config::get('constants.GAME_OFFER_IMAGE_DIR') . '/';
+                $offerFileName = "{$data['name']}.{$offer->getClientOriginalExtension()}";
+                $data['offer_image_path'] = $offerDirectory . $offerFileName;
+            } else {
+                $data['offer_image_path'] = $this->game->getById($id)->offer_image_path;
+            }
+
+            $this->game->updateById($id, $data);
+
+            //Se guardan las imagenes del juego
+            $thumbnail === null ? : $thumbnail->move($thumbnailDirectory, $thumbnailFileName);
+            $offer === null ? : $offer->move($offerDirectory, $offerFileName);
+
+
+            return Redirect::back()->with('save_success', 'Juego modificado correctamente.');
         }
 
-        //Imagenes
-        $thumbnail = Input::file('thumbnail_image_path');
-        $offer = Input::file('offer_image_path');
-
-        //Para el alamacenamiento de la imagen de miniatura
-        if ($thumbnail !== null) {
-            $thumbnailDirectory = Config::get('constants.GAME_THUMBNAIL_IMAGE_DIR') . '/';
-            $thumbnailFileName = "{$data['name']}.{$thumbnail->getClientOriginalExtension()}";
-            $data['thumbnail_image_path'] = $thumbnailDirectory . $thumbnailFileName;
-        } else {
-            $data['thumbnail_image_path'] = $this->game->getById($id)->thumbnail_image_path;
-        }
-
-        //Para el alamacenamiento de la imagen de oferta
-        if ($offer !== null) {
-            $offerDirectory = Config::get('constants.GAME_OFFER_IMAGE_DIR') . '/';
-            $offerFileName = "{$data['name']}.{$offer->getClientOriginalExtension()}";
-            $data['offer_image_path'] = $offerDirectory . $offerFileName;
-        } else {
-            $data['offer_image_path'] = $this->game->getById($id)->offer_image_path;
-        }
-
-        $this->game->updateById($id, $data);
-
-        //Se guardan las imagenes del juego
-        $thumbnail === null ? : $thumbnail->move($thumbnailDirectory, $thumbnailFileName);
-        $offer === null ? : $offer->move($offerDirectory, $offerFileName);
-
-
-        return Redirect::back()->with('save_success', 'Juego modificado correctamente.');
+        return Redirect::back()
+                        ->withErrors($gameValidator->errors(), 'update')
+                        ->withInput($data);
     }
 
     /**
@@ -173,14 +166,15 @@ class GameController extends \BaseController {
      */
     public function destroy($id) {
 
-        $validator = Validator::make(['id' => $id], ['id' => 'exists:games']);
+        //Validador del id
+        $idValidator = Validator::make(['id' => $id], ['id' => 'exists:games,id']);
 
         //El id no existe
-        if ($validator->fails()) {
+        if ($idValidator->fails()) {
             return Response::json([
                         'success' => false,
-                        'errors' => $validator->getMessageBag()->toArray()
-                            ], 400); 
+                        'errors' => $idValidator->getMessageBag()->toArray()
+                            ], 400);
         }
 
         //Ruta de la imagen para borrarla
@@ -197,6 +191,7 @@ class GameController extends \BaseController {
     }
 
     public function index() {
+        
         $games = $this->game->paginateForIndexTable('games.name', 'asc', 20, Input::get('page'));
 
         if (Request::ajax()) {
